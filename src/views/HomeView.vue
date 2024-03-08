@@ -1,12 +1,16 @@
 <template>
-	<div class="container">
-		<TheSwiper />
-		<div class="right-box">
-			<div class="items-table">
-				<ItemsTable @row-click="changeItemImage" />
-			</div>
-			<div class="item-img">
-				<img :src="selectedItemImage" alt="" />
+	<div class="modal">
+		<div class="wrapper">
+			<div class="container">
+				<TheSwiper />
+				<div class="right-box">
+					<div class="items-table">
+						<ItemsTable @row-click="changeItemImage" />
+					</div>
+					<!-- <div class="item-img">
+						<img :src="selectedItemImage" alt="" />
+					</div> -->
+				</div>
 			</div>
 		</div>
 	</div>
@@ -44,44 +48,36 @@ export default {
 </script>
 
 <style scoped>
+.modal {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	min-height: 100%;
+	background-color: rgba(0, 0, 0, 0.527);
+}
 .container {
-	margin-top: 10rem;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap: 2rem;
+	justify-content: space-between;
+	gap: 6rem;
+	margin-top: 10rem;
+	width: 100%;
 }
-.item-img {
-	width: 300px;
-	background-color: #fff;
-	border: 5px solid rgb(255, 101, 1);
+
+.right-box {
+	display: flex;
+	flex-direction: column;
 }
 
 .item-img img {
-	width: 100%;
-	padding: 1rem;
-}
-.right-box {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	gap: 4rem;
+	border: 5px solid rgb(255, 101, 1);
+	width: 300px;
 }
 
-.items-table {
-	width: 100%;
-}
-
-@media (min-width: 992px) {
-	.container {
-		flex-direction: row;
-	}
-}
 @media (min-width: 1200px) {
 	.container {
 		flex-direction: row;
-		gap: 12rem;
 	}
 }
 </style>

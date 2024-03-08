@@ -1,35 +1,57 @@
 <template>
-	<div class="hero-img">
-		<div class="hero-text">
-			<h1>Zaloguj się lub zarejestruj, jeśli jeszcze nie posiadasz konta, aby złożyć swoje zamówienie!</h1>
+	<div class="container">
+		<div class="left-section">
+			<img src="../assets/images/auroraLogo.png" alt="Logo AURORA z narzędziami" class="logo" />
+			<ContactList />
+			<div class="login-btn-box">
+				<router-link to="/login">
+					<img src="../assets/images/loginImage.png" alt="" class="login-img" />
+				</router-link>
+			</div>
+		</div>
+		<div class="right-section">
+			<img src="../assets/images/rightMenu.png" alt="Zdjęcia narzędzi oraz loga" />
 		</div>
 	</div>
 </template>
 
 <script>
+import ContactList from '../components/layout/ContactList.vue'
 export default {
 	name: 'WelcomeView',
+	components: { ContactList },
 }
 </script>
 
 <style scoped>
-.hero-img {
-	position: relative;
-	height: 450px;
+.container {
+	margin-top: 6rem;
+	display: flex;
+	justify-content: space-between;
 	width: 100%;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-image: linear-gradient(rgba(92, 72, 9, 0.342), rgba(114, 91, 29, 0.863)), url(../assets/images/heroimg.jpg);
-	border-radius: 20px;
 }
 
-.hero-text {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	text-align: center;
-	color: rgb(255, 101, 1);
+.left-section,
+.right-section {
+	width: 50%;
+}
+
+.logo {
+	width: 90%;
+	max-width: 450px;
+}
+
+.login-btn-box {
+	width: 80%;
+	max-width: 300px;
+}
+
+.login-img {
+	width: 100%;
+}
+
+.right-section img {
+	width: 100%;
+	height: 80vh;
 }
 </style>

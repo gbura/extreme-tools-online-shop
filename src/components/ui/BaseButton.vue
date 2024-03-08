@@ -12,7 +12,7 @@ export default {
 <style scoped>
 button {
 	padding: 2rem 1rem;
-	background: rgb(255, 101, 1);
+	background: rgb(248, 118, 31);
 	border: none;
 	border-radius: 4px;
 	color: #fff;
@@ -22,6 +22,6 @@ button {
 	cursor: pointer;
 }
 button:hover {
-	background-color: rgb(245, 118, 34);
+	background-color: rgb(241, 133, 61);
 }
 </style>

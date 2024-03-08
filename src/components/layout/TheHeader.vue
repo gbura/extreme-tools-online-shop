@@ -49,7 +49,7 @@ export default {
 <style scoped>
 a {
 	text-decoration: none;
-	color: rgb(255, 101, 1);
+	color: rgb(239, 127, 52);
 	transition: color 0.2s ease-in;
 }
 a:hover {
@@ -58,7 +58,7 @@ a:hover {
 .logout-btn {
 	border: none;
 	background: transparent;
-	color: rgb(255, 101, 1);
+	color: rgb(239, 127, 52);
 	font-size: 1.6rem;
 	cursor: pointer;
 }
@@ -69,11 +69,12 @@ a:hover {
 	width: 100%;
 	background: #000;
 	margin-bottom: 10rem;
+	z-index: 100;
 }
 .container {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 2rem 0;
+	padding: 1.5rem 0;
 }
 </style>

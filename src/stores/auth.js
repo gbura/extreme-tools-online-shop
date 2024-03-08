@@ -22,7 +22,7 @@ export const useAuthStore = defineStore('auth', {
 			this.token = null
 		},
 		async register(email, password, name) {
-			const response = await instaceAxios.post('users', {
+			const response = await instaceAxios.post('bo/users', {
 				email,
 				password,
 				name,

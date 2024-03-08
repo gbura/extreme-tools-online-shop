@@ -27,7 +27,7 @@ export default {
 }
 
 html {
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Arial', sans-serif;
 	font-size: 62.5%;
 	scroll-behavior: smooth;
 	scroll-padding-top: 40px;
@@ -47,10 +47,10 @@ body {
 	width: 100%;
 }
 .wrapper {
-	max-width: 1600px;
+	max-width: 1920px;
 	width: 100%;
 	margin: 0 auto;
-	padding: 0 10%;
+	padding: 0 5%;
 	overflow-x: hidden;
 }
 
@@ -58,5 +58,11 @@ body {
 	border: 1px solid orange;
 	padding: 0.5rem;
 	border-radius: 4px;
+}
+
+@media (min-width: 1400px) {
+	.wrapper {
+		padding: 0 10%;
+	}
 }
 </style>

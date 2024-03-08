@@ -2,32 +2,30 @@
 	<table>
 		<thead>
 			<tr>
-				<th>
+				<th class="ean-header">
 					<div>
-						<img src="../../assets/images/icons/search.svg" alt="" /><input
-							type="text"
-							v-model="filters.eanCode"
-							placeholder="Kod EAN" />
+						<input type="text" v-model="filters.eanCode" placeholder="Kod EAN" />
 					</div>
 				</th>
-				<th>
+				<th class="item-name-header">
 					<div>
-						<img src="../../assets/images/icons/search.svg" alt="" /><input
-							type="text"
-							v-model="filters.barCode"
-							placeholder="Nazwa towaru" />
+						<input type="text" v-model="filters.barCode" placeholder="Nazwa towaru" />
 					</div>
 				</th>
-				<th>
+				<th class="product-code-header">
 					<div>
-						<img src="../../assets/images/icons/search.svg" alt="" /><input
-							type="text"
-							v-model="filters.productCode"
-							placeholder="Kod produktu" />
+						<input type="text" v-model="filters.productCode" placeholder="Kod produktu" />
 					</div>
 				</th>
-				<th>Cena PLN</th>
-				<th><img src="../../assets/images/icons/shopping-bag.svg" alt="" /></th>
+				<th class="price-header">
+					Cena<br />
+					PLN
+				</th>
+				<th class="shopping-header">
+					<div>
+						<img src="../../assets/images/icons/shopping-bag.svg" alt="" />
+					</div>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -44,7 +42,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<base-button class="purchase-btn" @click="purchase">Zamów</base-button>
+	<!-- <base-button class="purchase-btn" @click="purchase">Zamów</base-button> -->
 </template>
 
 <script>
@@ -85,6 +83,48 @@ export default {
 					eanCode: '5903332981946',
 					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
 					productCode: 'No.00216',
+					pricePLN: '62,50',
+				},
+				{
+					eanCode: '5903332981946',
+					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
+					productCode: 'No.00217',
+					pricePLN: '62,50',
+				},
+				{
+					eanCode: '5903332981946',
+					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
+					productCode: 'No.00217',
+					pricePLN: '62,50',
+				},
+				{
+					eanCode: '5903332981946',
+					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
+					productCode: 'No.00217',
+					pricePLN: '62,50',
+				},
+				{
+					eanCode: '5903332981946',
+					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
+					productCode: 'No.00217',
+					pricePLN: '62,50',
+				},
+				{
+					eanCode: '5903332981946',
+					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
+					productCode: 'No.00217',
+					pricePLN: '62,50',
+				},
+				{
+					eanCode: '5903332981946',
+					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
+					productCode: 'No.00217',
+					pricePLN: '62,50',
+				},
+				{
+					eanCode: '5903332981946',
+					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
+					productCode: 'No.00217',
 					pricePLN: '62,50',
 				},
 				{
@@ -135,24 +175,55 @@ th,
 td {
 	border: 2px solid black;
 	border-collapse: collapse;
-}
-table {
+	font-family: 'Arial', sans-serif;
+	font-size: 1rem;
 	font-weight: bold;
-	font-size: 1.3rem;
+	padding: 0.5rem;
+}
+
+thead th {
+	font-size: 1.5rem;
+}
+
+.ean-header {
+	width: 100px;
+}
+
+.item-name-header {
+	width: 600px;
+	max-width: 600px;
+}
+
+.product-code-header {
+	width: 150px;
+}
+
+.price-header {
+	padding: 0 1rem;
+}
+
+.shopping-header,
+.quantity {
+	width: 50px;
 }
 
 tbody {
 	background-color: white;
 }
+
 th {
+	padding: 0;
 	background-color: rgb(255, 101, 1);
-	padding: 1rem;
 }
-th div {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+
+th input {
+	width: 100%;
+	height: 35px;
+	padding: 0.5rem;
+}
+input {
+	outline: none;
+	border: none;
 }
 
 tr:not(thead tr) {
@@ -161,27 +232,14 @@ tr:not(thead tr) {
 tr:hover {
 	background-color: rgb(255, 101, 1);
 }
-th img {
-	width: 20px;
+
+.product-code,
+.ean-code,
+.product-price {
+	text-align: center;
 }
-th input {
-	padding: 1rem 1rem;
-	border: none;
-	width: 100%;
-}
-input {
-	outline: none;
-}
-td {
-	padding: 0.5rem;
-}
+
 .selected-row {
 	background-color: rgb(255, 101, 1);
-}
-.purchase-btn {
-	position: absolute;
-	bottom: 0px;
-	right: 0;
-	width: 200px;
 }
 </style>
