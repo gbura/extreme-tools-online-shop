@@ -7,9 +7,9 @@
 					<div class="items-table">
 						<ItemsTable @row-click="changeItemImage" />
 					</div>
-					<!-- <div class="item-img">
+					<div class="item-img">
 						<img :src="selectedItemImage" alt="" />
-					</div> -->
+					</div>
 				</div>
 			</div>
 		</div>
@@ -35,11 +35,12 @@ export default {
 	},
 	methods: {
 		changeItemImage(productCode) {
-			import(`@/assets/images/accessories/${productCode}.png`)
+			import(`@/assets/images/accessories/${productCode.trim()}.png`)
 				.then(image => {
 					this.selectedItemImage = image.default
 				})
 				.catch(error => {
+					this.selectedItemImage = `https://e7.pngegg.com/pngimages/630/805/png-clipart-cats-cats.png`
 					console.error('Error loading image:', error)
 				})
 		},
@@ -73,6 +74,7 @@ export default {
 .item-img img {
 	border: 5px solid rgb(255, 101, 1);
 	width: 300px;
+	margin-top: 4rem;
 }
 
 @media (min-width: 1200px) {

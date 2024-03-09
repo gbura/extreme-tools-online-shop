@@ -1,175 +1,148 @@
 <template>
-	<table>
-		<thead>
-			<tr>
-				<th class="ean-header">
-					<div>
-						<input type="text" v-model="filters.eanCode" placeholder="Kod EAN" />
-					</div>
-				</th>
-				<th class="item-name-header">
-					<div>
-						<input type="text" v-model="filters.barCode" placeholder="Nazwa towaru" />
-					</div>
-				</th>
-				<th class="product-code-header">
-					<div>
-						<input type="text" v-model="filters.productCode" placeholder="Kod produktu" />
-					</div>
-				</th>
-				<th class="price-header">
-					Cena<br />
-					PLN
-				</th>
-				<th class="shopping-header">
-					<div>
-						<img src="../../assets/images/icons/shopping-bag.svg" alt="" />
-					</div>
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr
-				v-for="item in filteredItems"
-				:key="item.eanCode"
-				@click="handleRowClick(item.productCode, item)"
-				:class="{ 'selected-row': selectedItem === item }">
-				<td class="ean-code">{{ item.eanCode }}</td>
-				<td class="bar-code">{{ item.barCode }}</td>
-				<td class="product-code">{{ item.productCode }}</td>
-				<td class="product-price">{{ item.pricePLN }}</td>
-				<td><input type="number" class="quantity" /></td>
-			</tr>
-		</tbody>
-	</table>
-	<!-- <base-button class="purchase-btn" @click="purchase">Zamów</base-button> -->
+	<div class="table-box">
+		<table>
+			<thead>
+				<tr>
+					<th class="ean-header">
+						<div>
+							<input type="text" v-model="filters.ean" placeholder="Kod EAN" />
+							<button class="delete-input-btn" @click="deleteInputValue('ean')">X</button>
+						</div>
+					</th>
+					<th class="item-name-header">
+						<div>
+							<input type="text" v-model="filters.name" placeholder="Nazwa towaru" />
+							<button class="delete-input-btn" @click="deleteInputValue('name')">X</button>
+						</div>
+					</th>
+					<th class="product-code-header">
+						<div>
+							<input type="text" v-model="filters.kod" placeholder="Kod produktu" />
+							<button class="delete-input-btn" @click="deleteInputValue('kod')">X</button>
+						</div>
+					</th>
+					<th class="price-header">Cena<br />PLN</th>
+					<th class="shopping-header">
+						<div>
+							<img src="../../assets/images/icons/shopping-bag.svg" alt="" />
+							<span>Suma netto: {{ cost }}zł</span>
+						</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					v-for="item in filteredItems"
+					@click="handleRowClick(item.kod, item)"
+					@keyup.down="handleKeyDown"
+					:class="{ 'selected-row': selectedItem === item }">
+					<td class="ean-code">{{ item.ean }}</td>
+					<td class="bar-code">{{ item.name }}</td>
+					<td class="product-code">{{ item.kod }}</td>
+					<td class="product-price">{{ Number(item.price).toFixed(2) }}</td>
+					<td><input type="number" class="quantity" v-model="item.quantity" @input="updateCost" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <script>
-import BaseButton from '@/components/ui/BaseButton.vue'
-import Swal from 'sweetalert2'
+import axios from 'axios'
+// import Swal from 'sweetalert2'
+import { useAuthStore } from '@/stores/auth.js'
+
 export default {
 	name: 'ItemsTable',
-	components: { BaseButton },
-	emits: ['row-click'],
 	data() {
 		return {
-			items: [
-				{
-					eanCode: '5903332981120',
-					barCode: 'Pistolet do piany No.00212 SILVER Extremetools',
-					productCode: 'No.00115',
-					pricePLN: '48,36',
-				},
-				{
-					eanCode: '5903332981137',
-					barCode: 'Pistolet do piany No.00213 HOBBY Extremetools',
-					productCode: 'No.00212',
-					pricePLN: '48,36',
-				},
-				{
-					eanCode: '5903332981045',
-					barCode: 'Pistolet do piany No.00214 SMART Extremetools',
-					productCode: 'No.00213',
-					pricePLN: '52,53',
-				},
-				{
-					eanCode: '5903332981052',
-					barCode: 'Pistolet do piany No.00215 COSMO Extremetools',
-					productCode: 'No.00214',
-					pricePLN: '78,99',
-				},
-				{
-					eanCode: '5903332981946',
-					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
-					productCode: 'No.00216',
-					pricePLN: '62,50',
-				},
-				{
-					eanCode: '5903332981946',
-					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
-					productCode: 'No.00217',
-					pricePLN: '62,50',
-				},
-				{
-					eanCode: '5903332981946',
-					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
-					productCode: 'No.00217',
-					pricePLN: '62,50',
-				},
-				{
-					eanCode: '5903332981946',
-					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
-					productCode: 'No.00217',
-					pricePLN: '62,50',
-				},
-				{
-					eanCode: '5903332981946',
-					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
-					productCode: 'No.00217',
-					pricePLN: '62,50',
-				},
-				{
-					eanCode: '5903332981946',
-					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
-					productCode: 'No.00217',
-					pricePLN: '62,50',
-				},
-				{
-					eanCode: '5903332981946',
-					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
-					productCode: 'No.00217',
-					pricePLN: '62,50',
-				},
-				{
-					eanCode: '5903332981946',
-					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
-					productCode: 'No.00217',
-					pricePLN: '62,50',
-				},
-				{
-					eanCode: '5903332981946',
-					barCode: 'Pistolet do piany No.00216 FIN SHARK Extremetools*',
-					productCode: 'No.00217',
-					pricePLN: '62,50',
-				},
-			],
+			items: [],
 			filters: {
-				eanCode: '',
-				barCode: '',
-				productCode: '',
+				ean: '',
+				name: '',
+				kod: '',
 			},
 			selectedItem: null,
+			cost: '0',
 		}
 	},
-	computed: {
-		filteredItems() {
-			return this.items.filter(item => {
-				return (
-					item.eanCode.includes(this.filters.eanCode) &&
-					item.barCode.toLowerCase().includes(this.filters.barCode.toLowerCase()) &&
-					item.productCode.toLowerCase().includes(this.filters.productCode.toLowerCase())
-				)
-			})
-		},
+	mounted() {
+		this.getTableItems()
 	},
 	methods: {
+		async getTableItems() {
+			try {
+				const authStore = useAuthStore()
+				const token = authStore.token
+
+				const res = await axios.get('http://127.0.0.1:8000/api/ad/priceList', {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				if (res.data && res.data.data) {
+					this.items = res.data.data.data
+				}
+			} catch (error) {
+				console.error('Błąd podczas pobierania danych:', error)
+			}
+		},
+		deleteInputValue(filterName) {
+			this.filters[filterName] = ''
+		},
 		handleRowClick(productCode, item) {
 			this.selectedItem = item
 			this.$emit('row-click', productCode)
 		},
-		purchase() {
-			Swal.fire({
-				title: 'Sukces!',
-				text: 'Twoje zamówienie do nas trafiło.',
-				icon: 'success',
+		// handleKeyDown(e) {
+		// 	console.log(e)
+		// },
+		// showEvent(e) {
+		// 	console.log(e.target.value);
+		// },
+		updateCost() {
+			let sum = 0
+
+			this.filteredItems.forEach(item => {
+				const quantity = parseFloat(item.quantity)
+
+				if (!isNaN(quantity) && quantity > 0) {
+					sum += quantity
+				}
 			})
+			this.cost = sum.toString()
+		},
+		// purchase() {
+		// 	Swal.fire({
+		// 		title: 'Sukces!',
+		// 		text: 'Twoje zamówienie do nas trafiło.',
+		// 		icon: 'success',
+		// 	})
+		// },
+	},
+	computed: {
+		filteredItems() {
+			if (this.items && this.items.length > 0) {
+				return this.items.filter(
+					item =>
+						item.ean.includes(this.filters.ean) &&
+						item.name.toLowerCase().includes(this.filters.name.toLowerCase()) &&
+						item.kod.toLowerCase().includes(this.filters.kod.toLowerCase())
+				)
+			} else {
+				return []
+			}
 		},
 	},
 }
 </script>
 
 <style scoped>
+.table-box {
+	max-height: 485px;
+	overflow-y: auto;
+}
+
 table,
 th,
 td {
@@ -178,15 +151,42 @@ td {
 	font-family: 'Arial', sans-serif;
 	font-size: 1rem;
 	font-weight: bold;
-	padding: 0.5rem;
+}
+
+table {
+	width: 100%;
+}
+
+thead {
+	position: sticky;
+	top: -1px;
+	background-color: rgb(255, 101, 1);
+	z-index: 1;
+}
+
+thead tr {
+	border-bottom: 1px solid black;
 }
 
 thead th {
-	font-size: 1.5rem;
+	height: 40px;
+	font-size: 1rem;
+	padding: 0;
+	background-color: rgb(255, 101, 1);
+}
+
+th input {
+	height: 40px;
+	padding: 0 0.5rem;
+}
+input {
+	width: 100%;
+	outline: none;
+	border: none;
 }
 
 .ean-header {
-	width: 100px;
+	width: 120px;
 }
 
 .item-name-header {
@@ -201,29 +201,40 @@ thead th {
 .price-header {
 	padding: 0 1rem;
 }
+.shopping-header {
+	width: 100px;
+	cursor: pointer;
+}
 
-.shopping-header,
+.shopping-header div {
+	display: flex;
+	flex-direction: column;
+	border: none;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
 .quantity {
-	width: 50px;
+	width: 100%;
+}
+
+thead div {
+	position: relative;
+}
+
+thead div .delete-input-btn {
+	position: absolute;
+	top: 50%;
+	right: 2px;
+	transform: translateY(-50%);
+	border: 1px solid red;
+	background: none;
+	cursor: pointer;
 }
 
 tbody {
 	background-color: white;
-}
-
-th {
-	padding: 0;
-	background-color: rgb(255, 101, 1);
-}
-
-th input {
-	width: 100%;
-	height: 35px;
-	padding: 0.5rem;
-}
-input {
-	outline: none;
-	border: none;
 }
 
 tr:not(thead tr) {

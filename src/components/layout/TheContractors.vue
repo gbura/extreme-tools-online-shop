@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h1>Lista kontrahentów:</h1>
-		<p v-if="users.length < 1">Brak kontrahentów na liście!</p>
+		<p v-if="!users.length">Brak kontrahentów na liście!</p>
 		<ul v-else>
 			<li v-for="user in users" :key="user.id">
 				<div>
