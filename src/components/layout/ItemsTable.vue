@@ -34,7 +34,6 @@
 				<tr
 					v-for="item in filteredItems"
 					@click="handleRowClick(item.kod, item)"
-					@keyup.down="handleKeyDown"
 					:class="{ 'selected-row': selectedItem === item }">
 					<td class="ean-code">{{ item.ean }}</td>
 					<td class="bar-code">{{ item.name }}</td>
@@ -49,7 +48,6 @@
 
 <script>
 import axios from 'axios'
-// import Swal from 'sweetalert2'
 import { useAuthStore } from '@/stores/auth.js'
 
 export default {
@@ -87,38 +85,26 @@ export default {
 				console.error('Błąd podczas pobierania danych:', error)
 			}
 		},
-		deleteInputValue(filterName) {
-			this.filters[filterName] = ''
-		},
 		handleRowClick(productCode, item) {
 			this.selectedItem = item
 			this.$emit('row-click', productCode)
 		},
-		// handleKeyDown(e) {
-		// 	console.log(e)
-		// },
-		// showEvent(e) {
-		// 	console.log(e.target.value);
-		// },
+		deleteInputValue(filterName) {
+			this.filters[filterName] = ''
+		},
 		updateCost() {
 			let sum = 0
 
 			this.filteredItems.forEach(item => {
 				const quantity = parseFloat(item.quantity)
+				const price = parseFloat(item.price)
 
-				if (!isNaN(quantity) && quantity > 0) {
-					sum += quantity
+				if (!isNaN(quantity) && quantity > 0 && !isNaN(price) && price > 0) {
+					sum += quantity * price
 				}
 			})
-			this.cost = sum.toString()
+			this.cost = sum.toFixed(2)
 		},
-		// purchase() {
-		// 	Swal.fire({
-		// 		title: 'Sukces!',
-		// 		text: 'Twoje zamówienie do nas trafiło.',
-		// 		icon: 'success',
-		// 	})
-		// },
 	},
 	computed: {
 		filteredItems() {

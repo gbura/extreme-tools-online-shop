@@ -2,15 +2,20 @@
 	<div class="modal">
 		<div class="wrapper">
 			<div class="container">
-				<TheSwiper />
-				<div class="right-box">
-					<div class="items-table">
-						<ItemsTable @row-click="changeItemImage" />
+				<template v-if="!dataLoaded">
+					<SkeletonLoader />
+				</template>
+				<template v-else>
+					<TheSwiper />
+					<div class="right-box">
+						<div class="items-table">
+							<ItemsTable @row-click="changeItemImage" />
+						</div>
+						<div class="item-img">
+							<img :src="selectedItemImage" alt="" />
+						</div>
 					</div>
-					<div class="item-img">
-						<img :src="selectedItemImage" alt="" />
-					</div>
-				</div>
+				</template>
 			</div>
 		</div>
 	</div>
@@ -20,22 +25,30 @@
 import TheSwiper from '@/components/ui/TheSwiper.vue'
 import ItemsTable from '@/components/layout/ItemsTable.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import SkeletonLoader from '@/components/ui/SkeletonLoader.vue'
 
 export default {
 	components: {
 		TheSwiper,
 		ItemsTable,
 		BaseButton,
+		SkeletonLoader,
 	},
 	name: 'HomeView',
 	data() {
 		return {
+			dataLoaded: false,
 			selectedItemImage: null,
 		}
 	},
+	mounted() {
+		setTimeout(() => {
+			this.dataLoaded = true
+		}, 1000)
+	},
 	methods: {
 		changeItemImage(productCode) {
-			import(`@/assets/images/accessories/${productCode.trim()}.png`)
+			import(`@/assets/images/accessories/${productCode.trim()}.jpg`)
 				.then(image => {
 					this.selectedItemImage = image.default
 				})
@@ -73,7 +86,7 @@ export default {
 
 .item-img img {
 	border: 5px solid rgb(255, 101, 1);
-	width: 300px;
+	width: 350px;
 	margin-top: 4rem;
 }
 

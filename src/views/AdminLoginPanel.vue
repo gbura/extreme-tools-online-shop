@@ -31,8 +31,8 @@ export default {
 	},
 	data() {
 		return {
-			adminEmail: 'admin@admin.pl',
-			adminPassword: 'adminADMIN',
+			adminEmail: 'admin@admin.com',
+			adminPassword: 'password',
 		}
 	},
 	methods: {
