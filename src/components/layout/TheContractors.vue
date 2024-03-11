@@ -1,6 +1,6 @@
 <template>
 	<div class="users-box">
-		<!-- <h1>Lista kontrahentów:</h1> -->
+		<h1>Lista kontrahentów:</h1>
 		<p v-if="!usersStore.getUsers.length">Brak kontrahentów na liście!</p>
 		<table v-else>
 			<thead>
@@ -51,6 +51,7 @@ export default {
 .users-box {
 	width: 100%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }

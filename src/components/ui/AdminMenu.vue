@@ -5,7 +5,7 @@
 			<li><RouterLink to="/admin-panel/add-contractor">Dodaj kontrahenta</RouterLink></li>
 			<li><RouterLink to="/admin-panel/contractors">Kontrahent</RouterLink></li>
 			<li><RouterLink to="/admin-panel/catalog">Katalog</RouterLink></li>
-			<li><RouterLink to="/admin-panel/price-list">Cenniki</RouterLink></li>
+			<li><RouterLink to="/admin-panel/price-lists">Cenniki</RouterLink></li>
 			<li><RouterLink to="/admin-panel/items-photos">Zdjęcia towarów</RouterLink></li>
 		</ul>
 	</div>
@@ -26,7 +26,9 @@ ul {
 	justify-content: space-evenly;
 	align-items: center;
 	width: 80%;
-	border-bottom: 2px solid white;
+	background-color: rgb(189, 131, 23);
+	list-style-type: none;
+	border-radius: 15px;
 	transform: translateX(-50%);
 }
 
@@ -38,6 +40,12 @@ a {
 }
 
 a:hover {
-	color: rgb(189, 187, 184);
+	color: rgb(255, 166, 0);
+}
+
+.router-link-active {
+	border: none;
+	padding: 0.5rem;
+	color: rgb(255, 166, 0);
 }
 </style>

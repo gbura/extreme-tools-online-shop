@@ -8,6 +8,7 @@ import AdminPanel from '@/views/AdminPanel.vue'
 import ContractorForm from '@/components/layout/ContractorForm.vue'
 import TheContractors from '@/components/layout/TheContractors.vue'
 import TheCatalog from '@/components/layout/TheCatalog.vue'
+import PriceLists from '@/components/layout/PriceLists.vue'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,9 +54,9 @@ const router = createRouter({
 					component: TheCatalog,
 				},
 				{
-					path: 'price-list',
-					name: 'price-list',
-					component: '',
+					path: 'price-lists',
+					name: 'price-lists',
+					component: PriceLists,
 				},
 				{
 					path: 'items-photos',
