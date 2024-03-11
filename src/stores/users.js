@@ -1,6 +1,5 @@
-// do poprawki
 import { defineStore } from 'pinia'
-import instaceAxios from '@/axios'
+import instanceAxios from '@/axios'
 
 export const useUsersStore = defineStore('users', {
 	state: () => ({
@@ -12,9 +11,9 @@ export const useUsersStore = defineStore('users', {
 	actions: {
 		async fetchUsers() {
 			try {
-				const response = await instaceAxios.get('bo/users')
+				const response = await instanceAxios.get('bo/users')
 				if (response && response.data && response.data.data) {
-					this.users = response.data.data
+					this.users = response.data.data.data
 				}
 			} catch (error) {
 				console.error('Error fetching users:', error)

@@ -125,7 +125,7 @@ export default {
 
 <style scoped>
 .table-box {
-	max-height: 485px;
+	max-height: 495px;
 	overflow-y: auto;
 }
 

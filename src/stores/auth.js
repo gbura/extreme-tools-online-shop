@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import instaceAxios from '@/axios'
+import instanceAxios from '@/axios'
 
 export const useAuthStore = defineStore('auth', {
 	state: () => ({
@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('auth', {
 	},
 	actions: {
 		async login(email, password) {
-			const response = await instaceAxios.post('authenticate', { email, password })
+			const response = await instanceAxios.post('authenticate', { email, password })
 			const token = await response.data.data.token
 			this.token = token
 			localStorage.setItem('BearerToken', token)
@@ -19,11 +19,12 @@ export const useAuthStore = defineStore('auth', {
 			localStorage.removeItem('BearerToken')
 			this.token = null
 		},
-		async register(email, password, name) {
-			const response = await instaceAxios.post('bo/users', {
+		async register(email, password, companyName, companyAddress) {
+			const response = await instanceAxios.post('bo/users', {
 				email,
 				password,
-				name,
+				companyName,
+				companyAddress,
 			})
 			return response.data
 		},

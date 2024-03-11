@@ -1,11 +1,11 @@
 import axios from 'axios'
 import { useAuthStore } from '@/stores/auth.js'
 
-const instaceAxios = axios.create({
+const instanceAxios = axios.create({
 	baseURL: 'http://127.0.0.1:8000/api/',
 })
 
-instaceAxios.interceptors.request.use(
+instanceAxios.interceptors.request.use(
 	config => {
 		const authStore = useAuthStore()
 		const token = authStore.token
@@ -19,4 +19,4 @@ instaceAxios.interceptors.request.use(
 	}
 )
 
-export default instaceAxios
+export default instanceAxios

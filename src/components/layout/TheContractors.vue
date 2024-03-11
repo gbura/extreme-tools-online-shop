@@ -1,50 +1,87 @@
 <template>
-	<div>
-		<h1>Lista kontrahentów:</h1>
-		<p v-if="!users.length">Brak kontrahentów na liście!</p>
-		<ul v-else>
-			<li v-for="user in users" :key="user.id">
-				<div>
-					<span>{{ user.id }}.</span>
-					<span>{{ user.email }}</span>
-				</div>
-			</li>
-		</ul>
+	<div class="users-box">
+		<!-- <h1>Lista kontrahentów:</h1> -->
+		<p v-if="!usersStore.getUsers.length">Brak kontrahentów na liście!</p>
+		<table v-else>
+			<thead>
+				<th>ID</th>
+				<th>EMAIL</th>
+				<th>NAZWA FIRMY</th>
+				<th>ADRES FIRMY</th>
+				<th>CENNIK</th>
+			</thead>
+			<tbody>
+				<tr v-for="user in usersStore.getUsers" :key="user.id">
+					<td>{{ user.id }}.</td>
+					<td>{{ user.email }}</td>
+					<td>{{ user.companyName }}</td>
+					<td>{{ user.companyAddress }}</td>
+					<td>{{ user.priceList }}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </template>
 
 <script>
+import { useUsersStore } from '@/stores/users.js'
+
 export default {
 	name: 'TheContractors',
-	props: {
-		users: {
-			type: Array,
-			default: [],
+	setup() {
+		const usersStore = useUsersStore()
+		return { usersStore }
+	},
+	mounted() {
+		this.showUsers()
+	},
+	methods: {
+		async showUsers() {
+			try {
+				await this.usersStore.fetchUsers()
+			} catch (error) {
+				console.error('Error fetching users:', error)
+			}
 		},
 	},
 }
 </script>
 
 <style scoped>
-ul {
+.users-box {
+	width: 100%;
 	display: flex;
-	flex-direction: column-reverse;
+	justify-content: center;
+	align-items: center;
 }
-li {
-	padding: 1rem;
-	border: 1px solid white;
+
+table,
+th,
+td {
+	border: 3px solid rgb(175, 106, 15);
+	border-collapse: collapse;
+	font-family: 'Arial', sans-serif;
+	font-size: 1.4rem;
+	font-weight: bold;
+	text-align: center;
+	padding: 1.5rem;
+}
+
+th {
 	background-color: orange;
-	list-style-type: none;
-	cursor: pointer;
+	color: rgb(255, 255, 255);
+	font-size: 1.8rem;
 }
-li:hover {
-	background-color: rgb(192, 126, 4);
+
+table {
+	width: 1200px;
 }
-span {
-	margin-right: 1rem;
-}
+
 h1 {
 	border-bottom: 1px solid white;
 	margin-bottom: 1rem;
+}
+p {
+	font-size: 3rem;
 }
 </style>
