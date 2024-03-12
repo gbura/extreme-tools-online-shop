@@ -32,14 +32,25 @@
 			</thead>
 			<tbody>
 				<tr
-					v-for="item in filteredItems"
-					@click="handleRowClick(item.kod, item)"
-					:class="{ 'selected-row': selectedItem === item }">
+					v-for="(item, index) in filteredItems"
+					@keydown.tab.prevent="handleRowClick(item.kod, index)"
+					@click="handleRowClick(item.kod, index)"
+					:class="{ 'selected-row': activeRowIndex === index }"
+					:key="index"
+					:tabindex="index">
 					<td class="ean-code">{{ item.ean }}</td>
 					<td class="bar-code">{{ item.name }}</td>
 					<td class="product-code">{{ item.kod }}</td>
 					<td class="product-price">{{ Number(item.price).toFixed(2) }}</td>
-					<td><input type="number" class="quantity" v-model="item.quantity" @input="updateCost" /></td>
+					<td>
+						<input
+							type="number"
+							class="quantity"
+							v-model="item.quantity"
+							@input="updateCost"
+							min="1"
+							@keydown.tab.prevent="focusNextRow(index)" />
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -62,6 +73,7 @@ export default {
 			},
 			selectedItem: null,
 			cost: '0',
+			activeRowIndex: null,
 		}
 	},
 	mounted() {
@@ -82,12 +94,13 @@ export default {
 					this.items = res.data.data.data
 				}
 			} catch (error) {
-				console.error('Błąd podczas pobierania danych:', error)
+				// console.error('Błąd podczas pobierania danych:', error)
 			}
 		},
-		handleRowClick(productCode, item) {
-			this.selectedItem = item
+		handleRowClick(productCode, index) {
+			this.activeRowIndex = index
 			this.$emit('row-click', productCode)
+			console.log(index)
 		},
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
@@ -104,6 +117,10 @@ export default {
 				}
 			})
 			this.cost = sum.toFixed(2)
+		},
+		focusNextRow(index) {
+			this.activeRowIndex = index + 1
+			console.log(index)
 		},
 	},
 	computed: {
