@@ -1,13 +1,13 @@
 <template>
 	<div class="slider-box">
-		<swiper ref="mainSwiper" :loop="true" :modules="modules" :navigation="true" @slideChange="updateCurrentSlide">
+		<swiper :loop="true" :modules="modules" :navigation="true" @slideChange="updateCurrentSlide">
 			<swiper-slide v-for="(image, index) in images" :key="index">
 				<img :src="getImageUrl(image.filename)" alt="" />
 			</swiper-slide>
 		</swiper>
 
 		<div class="thumbnail-carousel">
-			<swiper :slides-per-view="7" class="thumbnail-swiper" ref="thumbnailSwiper">
+			<swiper :slides-per-view="7" class="thumbnail-swiper">
 				<swiper-slide v-for="(image, index) in images" :key="index" :class="{ active: currentSlideIndex === index }">
 					<img :src="getImageUrl(image.filename)" alt="" />
 				</swiper-slide>

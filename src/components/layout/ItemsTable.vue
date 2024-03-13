@@ -93,7 +93,7 @@ export default {
 					this.items = res.data.data.data
 				}
 			} catch (error) {
-				// console.error('Błąd podczas pobierania danych:', error)
+				console.error('Błąd podczas pobierania danych:', error)
 			}
 		},
 		handleRowClick(productCode, index) {
