@@ -33,23 +33,22 @@
 			<tbody>
 				<tr
 					v-for="(item, index) in filteredItems"
-					@keydown.tab.prevent="handleRowClick(item.kod, index)"
+					@keydown.tab.prevent="focusNextRow(item.kod, index)"
 					@click="handleRowClick(item.kod, index)"
 					:class="{ 'selected-row': activeRowIndex === index }"
-					:key="index"
-					:tabindex="index">
+					:key="index">
 					<td class="ean-code">{{ item.ean }}</td>
 					<td class="bar-code">{{ item.name }}</td>
 					<td class="product-code">{{ item.kod }}</td>
 					<td class="product-price">{{ Number(item.price).toFixed(2) }}</td>
 					<td>
 						<input
+							v-if="activeRowIndex === index"
 							type="number"
 							class="quantity"
 							v-model="item.quantity"
 							@input="updateCost"
-							min="1"
-							@keydown.tab.prevent="focusNextRow(index)" />
+							min="1" />
 					</td>
 				</tr>
 			</tbody>
@@ -102,6 +101,10 @@ export default {
 			this.$emit('row-click', productCode)
 			console.log(index)
 		},
+		focusNextRow(productCode, index) {
+			this.activeRowIndex = index + 1
+			this.$emit('next-tab-click', productCode)
+		},
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
 		},
@@ -117,10 +120,6 @@ export default {
 				}
 			})
 			this.cost = sum.toFixed(2)
-		},
-		focusNextRow(index) {
-			this.activeRowIndex = index + 1
-			console.log(index)
 		},
 	},
 	computed: {

@@ -9,7 +9,7 @@
 					<TheSwiper />
 					<div class="right-box">
 						<div class="items-table">
-							<ItemsTable @row-click="changeItemImage" />
+							<ItemsTable @row-click="changeItemImage" @next-tab-click="changeItemImage" />
 						</div>
 						<div class="item-img">
 							<img :src="selectedItemImage" alt="" />

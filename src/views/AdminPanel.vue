@@ -16,10 +16,8 @@ export default {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
 	gap: 4rem;
 	color: white;
-	margin-top: 5rem;
 }
 
 @media (min-width: 768px) {

@@ -9,6 +9,8 @@ import ContractorForm from '@/components/layout/ContractorForm.vue'
 import TheContractors from '@/components/layout/TheContractors.vue'
 import TheCatalog from '@/components/layout/TheCatalog.vue'
 import PriceLists from '@/components/layout/PriceLists.vue'
+import MailConfiguration from '@/components/layout/MailConfiguration.vue'
+import ChangeMainSite from '@/components/layout/ChangeMainSite.vue'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +40,16 @@ const router = createRouter({
 			name: 'admin-panel',
 			component: AdminPanel,
 			children: [
+				{
+					path: 'mail-configuration',
+					name: 'mail-configuration',
+					component: MailConfiguration,
+				},
+				{
+					path: 'change-main-site',
+					name: 'change-main-site',
+					component: ChangeMainSite,
+				},
 				{
 					path: 'add-contractor',
 					name: 'add-contractor',

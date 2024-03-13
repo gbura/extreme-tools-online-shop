@@ -38,12 +38,20 @@ export default {
 	methods: {
 		async handleLogin() {
 			if (this.email && this.password) {
-				await this.authstore.login(this.email, this.password)
-				this.$router.push('/home')
+				try {
+					await this.authstore.login(this.email, this.password)
+					this.$router.push('/home')
+				} catch {
+					Swal.fire({
+						title: 'Błąd!',
+						text: 'Wystąpił błąd podczas logowania!',
+						icon: 'error',
+					})
+				}
 			} else {
 				Swal.fire({
 					title: 'Błąd!',
-					text: 'Podałeś błędne dane!',
+					text: 'Pola email i hasło są wymagane!',
 					icon: 'error',
 				})
 			}
