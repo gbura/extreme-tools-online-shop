@@ -6,7 +6,8 @@
 					<SkeletonLoader />
 				</template>
 				<template v-else>
-					<TheSwiper />
+					<button @click="toggleSlider">{{ isOpenSlider ? 'Ukryj' : 'Pokaż' }}</button>
+					<TheSwiper v-if="isOpenSlider" ref="theSwiper" />
 					<div class="right-box">
 						<div class="items-table">
 							<ItemsTable @row-click="changeItemImage" @next-tab-click="changeItemImage" />
@@ -20,7 +21,6 @@
 		</div>
 	</div>
 </template>
-
 <script>
 import TheSwiper from '@/components/ui/TheSwiper.vue'
 import ItemsTable from '@/components/layout/ItemsTable.vue'
@@ -39,6 +39,7 @@ export default {
 		return {
 			dataLoaded: false,
 			selectedItemImage: null,
+			isOpenSlider: false,
 		}
 	},
 	mounted() {
@@ -56,6 +57,9 @@ export default {
 					this.selectedItemImage = `https://e7.pngegg.com/pngimages/630/805/png-clipart-cats-cats.png`
 					console.error('Error loading image:', error)
 				})
+		},
+		toggleSlider() {
+			this.isOpenSlider = !this.isOpenSlider
 		},
 	},
 }

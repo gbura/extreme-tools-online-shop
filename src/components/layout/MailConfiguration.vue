@@ -2,7 +2,8 @@
 	<h1>KONFIGURUJ ADRES E-MAIL:</h1>
 	<div class="content">
 		<div class="box box-left">
-			<input type="email" placeholder="Wprowadź adres e-mail" v-model="email" @keyup.enter="addNewEmail" />
+			<input type="email" placeholder="Wprowadź adres e-mail" v-model="email" />
+			<button class="add-btn" @click="addNewEmail">Dodaj</button>
 		</div>
 		<div class="box box-right">
 			<ul class="email-list">
@@ -37,6 +38,11 @@ export default {
 				this.email = ''
 				this.enterPressed = false
 				localStorage.setItem('emails', JSON.stringify(this.emails))
+				Swal.fire({
+					title: 'Sukces!',
+					text: 'Dodałeś nowego kontrahenta!',
+					icon: 'success',
+				})
 			} else {
 				Swal.fire({
 					title: 'Błąd!',
@@ -78,6 +84,18 @@ input {
 	padding: 2rem;
 	font-size: 2rem;
 	outline: none;
+}
+.add-btn {
+	padding: 2rem 4rem;
+	margin-top: 1rem;
+	border: none;
+	background-color: orange;
+	color: white;
+	font-size: 2rem;
+	cursor: pointer;
+}
+.add-btn:hover {
+	background-color: rgb(226, 152, 15);
 }
 h1 {
 	position: absolute;

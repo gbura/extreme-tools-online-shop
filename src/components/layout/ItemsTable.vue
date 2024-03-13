@@ -22,10 +22,10 @@
 						</div>
 					</th>
 					<th class="price-header">Cena<br />PLN</th>
-					<th class="shopping-header">
+					<th class="shopping-header" @click="showShoppingCart">
 						<div>
 							<img src="../../assets/images/icons/shopping-bag.svg" alt="" />
-							<span>Suma netto: {{ cost }}zł</span>
+							<span>Suma netto: {{ this.shoppingCartStore.sumCartPrice.toFixed(2) }}zł</span>
 						</div>
 					</th>
 				</tr>
@@ -53,15 +53,33 @@
 				</tr>
 			</tbody>
 		</table>
+		<shopping-cart :open="this.isOpenShoppingCart" @close="closeShoppingCart">
+			<ul>
+				<li v-for="card in this.shoppingCartStore.items">
+					<div>{{ card.name }}</div>
+					<div>Sztuk:{{ card.quantity }}</div>
+					<div>Cena netto:{{ card.price }}zł</div>
+					<div>Suma: {{ card.price * card.quantity }}zł</div>
+				</li>
+			</ul>
+			<button @click="this.shoppingCartStore.removeAllItems">usun wszystko</button>
+		</shopping-cart>
 	</div>
 </template>
 
 <script>
 import axios from 'axios'
 import { useAuthStore } from '@/stores/auth.js'
+import { useShoppingCartStore } from '@/stores/shoppingcart.js'
+import ShoppingCart from './ShoppingCart.vue'
 
 export default {
 	name: 'ItemsTable',
+	components: { ShoppingCart },
+	setup() {
+		const shoppingCartStore = useShoppingCartStore()
+		return { shoppingCartStore }
+	},
 	data() {
 		return {
 			items: [],
@@ -71,8 +89,9 @@ export default {
 				kod: '',
 			},
 			selectedItem: null,
-			cost: '0',
 			activeRowIndex: null,
+			cost: 0,
+			isOpenShoppingCart: false,
 		}
 	},
 	mounted() {
@@ -99,7 +118,6 @@ export default {
 		handleRowClick(productCode, index) {
 			this.activeRowIndex = index
 			this.$emit('row-click', productCode)
-			console.log(index)
 		},
 		focusNextRow(productCode, index) {
 			this.activeRowIndex = index + 1
@@ -109,17 +127,19 @@ export default {
 			this.filters[filterName] = ''
 		},
 		updateCost() {
-			let sum = 0
-
 			this.filteredItems.forEach(item => {
-				const quantity = parseFloat(item.quantity)
-				const price = parseFloat(item.price)
-
-				if (!isNaN(quantity) && quantity > 0 && !isNaN(price) && price > 0) {
-					sum += quantity * price
+				if (!isNaN(item.quantity) && item.quantity > 0 && !isNaN(item.price) && item.price > 0) {
+					if (!this.shoppingCartStore.items.includes(item)) {
+						this.shoppingCartStore.addItem(item)
+					}
 				}
 			})
-			this.cost = sum.toFixed(2)
+		},
+		showShoppingCart() {
+			this.isOpenShoppingCart = true
+		},
+		closeShoppingCart() {
+			this.isOpenShoppingCart = false
 		},
 	},
 	computed: {
@@ -242,9 +262,9 @@ tbody {
 tr:not(thead tr) {
 	cursor: pointer;
 }
-tr:hover {
+/* tr:hover {
 	background-color: rgb(255, 101, 1);
-}
+} */
 
 .product-code,
 .ean-code,

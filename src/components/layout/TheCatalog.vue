@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<label for="price-list">Zaaktualizuj nowe zdjęcia:</label>
+		<label for="price-list">Dodaj nowe zdjęcia:</label>
 		<input type="file" id="price-list" name="price-list" accept="image/png, image/jpeg" multiple />
-		<button>Załaduj</button>
+		<button>Wrzuć</button>
 	</div>
 </template>
 

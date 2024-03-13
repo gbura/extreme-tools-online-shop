@@ -1,7 +1,7 @@
 <template>
 	<div class="users-box">
 		<h1>Lista kontrahentów:</h1>
-		<p v-if="!usersStore.getUsers.length">Brak kontrahentów na liście!</p>
+		<p v-if="!usersStore.users.length">Brak kontrahentów na liście!</p>
 		<table v-else>
 			<thead>
 				<th>ID</th>
@@ -11,7 +11,7 @@
 				<th>CENNIK</th>
 			</thead>
 			<tbody>
-				<tr v-for="user in usersStore.getUsers" :key="user.id">
+				<tr v-for="user in usersStore.users" :key="user.id">
 					<td>{{ user.id }}.</td>
 					<td>{{ user.email }}</td>
 					<td>{{ user.companyName }}</td>
