@@ -70,9 +70,7 @@
 				<button class="shopping-cart-btn delete-all-items-btn" @click="this.shoppingCartStore.removeAllItems">
 					Usuń wszystko z koszyka
 				</button>
-				<button class="shopping-cart-btn purchase-items-btn" @click="purchase">
-					Złóż zamówienie
-				</button>
+				<button class="shopping-cart-btn purchase-items-btn" @click="purchase">Złóż zamówienie</button>
 			</div>
 		</shopping-cart>
 	</div>
@@ -155,7 +153,7 @@ export default {
 		purchase() {
 			this.shoppingCartStore.purchase()
 			this.closeShoppingCart()
-		}
+		},
 	},
 	computed: {
 		filteredItems() {

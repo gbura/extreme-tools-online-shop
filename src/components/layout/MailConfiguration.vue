@@ -15,14 +15,18 @@
 
 <script>
 import Swal from 'sweetalert2'
+import { useEmailsStore } from '@/stores/emails.js'
 export default {
 	name: 'MailConfiguration',
 	data() {
 		return {
 			emails: [],
 			email: '',
-			enterPressed: false,
 		}
+	},
+	setup() {
+		const emailsStore = useEmailsStore()
+		return { emailsStore }
 	},
 	created() {
 		const storedEmails = localStorage.getItem('emails')
@@ -32,11 +36,9 @@ export default {
 	},
 	methods: {
 		addNewEmail() {
-			this.enterPressed = true
 			if (this.validateEmail(this.email)) {
 				this.emails.push(this.email)
 				this.email = ''
-				this.enterPressed = false
 				localStorage.setItem('emails', JSON.stringify(this.emails))
 				Swal.fire({
 					title: 'Sukces!',
