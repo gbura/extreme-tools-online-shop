@@ -15,7 +15,6 @@
 
 <script>
 import Swal from 'sweetalert2'
-import { useEmailsStore } from '@/stores/emails.js'
 export default {
 	name: 'MailConfiguration',
 	data() {
@@ -23,10 +22,6 @@ export default {
 			emails: [],
 			email: '',
 		}
-	},
-	setup() {
-		const emailsStore = useEmailsStore()
-		return { emailsStore }
 	},
 	created() {
 		const storedEmails = localStorage.getItem('emails')
