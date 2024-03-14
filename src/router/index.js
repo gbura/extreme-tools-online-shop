@@ -11,6 +11,7 @@ import TheCatalog from '@/components/layout/TheCatalog.vue'
 import PriceLists from '@/components/layout/PriceLists.vue'
 import MailConfiguration from '@/components/layout/MailConfiguration.vue'
 import ChangeMainSite from '@/components/layout/ChangeMainSite.vue'
+import ItemsPhotos from '@/components/layout/ItemsPhotos.vue'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,7 +74,7 @@ const router = createRouter({
 				{
 					path: 'items-photos',
 					name: 'items-photos',
-					component: '',
+					component: ItemsPhotos,
 				},
 			],
 		},

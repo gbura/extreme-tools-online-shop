@@ -10,17 +10,30 @@
 			</div>
 		</div>
 		<div class="right-section">
-			<img src="../assets/images/rightMenu.png" alt="Zdjęcia narzędzi oraz loga" />
+			<img :src="imageUrl" alt="Zdjęcia narzędzi oraz loga" />
 		</div>
 	</div>
 </template>
 
 <script>
-import ContactList from '../components/layout/ContactList.vue'
+import axios from 'axios';
+
 export default {
-	name: 'WelcomeView',
-	components: { ContactList },
-}
+  name: 'WelcomeView',
+  data() {
+    return {
+      imageUrl: ''
+    };
+  },
+  mounted() {
+	// do poprawy, brak autoryzacji
+    axios.get('http://127.0.0.1:8000/api/bo/mainPhotos').then(response => {
+      this.imageUrl = response.data.data.url;
+    }).catch(error => {
+      console.error('Błąd pobierania obrazka z API:', error);
+    });
+  }
+};
 </script>
 
 <style scoped>

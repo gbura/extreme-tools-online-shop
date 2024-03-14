@@ -6,8 +6,10 @@
 					<SkeletonLoader />
 				</template>
 				<template v-else>
-					<button @click="toggleSlider">{{ isOpenSlider ? 'Ukryj' : 'Pokaż' }}</button>
-					<TheSwiper v-if="isOpenSlider" ref="theSwiper" />
+					<button class="toggle-slider-btn" @click="toggleSlider">
+						{{ !isOpenSlider ? '<--- Ukryj katalog zdjęć --->' : '<--- Pokaż katalog zdjęć --->' }}
+					</button>
+					<TheSwiper v-if="!isOpenSlider" />
 					<div class="right-box">
 						<div class="items-table">
 							<ItemsTable @row-click="changeItemImage" @next-tab-click="changeItemImage" />
@@ -77,10 +79,25 @@ export default {
 .container {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: center;
+	align-items: start;
 	gap: 6rem;
 	margin-top: 10rem;
 	width: 100%;
+	height: 100%;
+}
+
+.toggle-slider-btn {
+	font-size: 2.5rem;
+	writing-mode: vertical-lr;
+	transform: rotate(180deg);
+	background: none;
+	border: none;
+	color: #b9b5b5;
+	cursor: pointer;
+}
+.toggle-slider-btn:hover {
+	color: #cfcbcb;
 }
 
 .right-box {

@@ -29,17 +29,17 @@ export default {
 dialog {
 	position: fixed;
 	top: 50%;
-	width: 50%;
+	width: 60%;
+	height: 80%;
 	left: 50%;
 	margin: 0;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 	border-radius: 12px;
 	padding: 1rem;
-	background-color: orange;
 	z-index: 100;
+	background-color: orange;
 	border: none;
 	transform: translate(-50%, -50%);
-	/* animation: modal .5s ease-in forwards; */
 }
 
 .modal-enter-active {
@@ -53,12 +53,10 @@ dialog {
 @keyframes modal {
 	0% {
 		opacity: 0;
-		transform: translateY(-50%) scale(0.9);
 	}
 
 	100% {
 		opacity: 1;
-		transform: translateY(0) scale(1);
 	}
 }
 </style>

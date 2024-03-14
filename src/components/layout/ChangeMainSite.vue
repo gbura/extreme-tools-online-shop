@@ -1,14 +1,40 @@
 <template>
 	<div>
-		<label for="price-list">Zmień zdjęcie na stronie głównej:</label>
-		<input type="file" id="price-list" name="price-list" accept="image/png, image/jpeg" multiple />
-		<button>Zaaktualizuj</button>
+		<label for="main-image">Zmień zdjęcie na stronie głównej:</label>
+		<input
+			type="file"
+			id="main-image"
+			name="main-image"
+			accept="image/png, image/jpeg"
+			multiple
+			@change="onFileSelected" />
+		<button @click="onUpload">Zaaktualizuj</button>
 	</div>
 </template>
 
 <script>
+import instanceAxios from '../../axios.js'
 export default {
 	name: 'ChangeMainSite',
+	data() {
+		return {
+			selectedFile: null,
+		}
+	},
+	methods: {
+		onFileSelected(event) {
+			this.selectedFile = event.target.files[0]
+			console.log(event)
+		},
+		onUpload() {
+			// do poprawy, error 422
+			const fd = new FormData()
+			fd.append('mainImage', this.selectedFile)
+			instanceAxios.post('bo/mainPhotos', fd).then(res => {
+				console.log(res)
+			})
+		},
+	},
 }
 </script>
 
