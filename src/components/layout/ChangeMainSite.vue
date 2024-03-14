@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import instanceAxios from '../../axios.js'
+import axios from 'axios'
 export default {
 	name: 'ChangeMainSite',
 	data() {
@@ -29,8 +29,9 @@ export default {
 		onUpload() {
 			// do poprawy, error 422
 			const fd = new FormData()
+			console.log(fd);
 			fd.append('mainImage', this.selectedFile)
-			instanceAxios.post('bo/mainPhotos', fd).then(res => {
+			axios.post('http://127.0.0.1:8000/api/bo/mainPhotos', fd).then(res => {
 				console.log(res)
 			})
 		},

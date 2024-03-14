@@ -16,24 +16,47 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import axios from 'axios'
+import { useAuthStore } from '@/stores/auth.js'
+import ContactList from '@/components/layout/ContactList.vue'
 export default {
-  name: 'WelcomeView',
-  data() {
-    return {
-      imageUrl: ''
-    };
-  },
-  mounted() {
-	// do poprawy, brak autoryzacji
-    axios.get('http://127.0.0.1:8000/api/bo/mainPhotos').then(response => {
-      this.imageUrl = response.data.data.url;
-    }).catch(error => {
-      console.error('Błąd pobierania obrazka z API:', error);
-    });
-  }
-};
+	name: 'WelcomeView',
+	components: { ContactList },
+	data() {
+		return {
+			imageUrl: '',
+		}
+	},
+	// mounted() {
+	// 	// do poprawy, brak autoryzacji
+	// 	axios
+	// 		.get('http://127.0.0.1:8000/api/bo/mainPhotos')
+	// 		.then(response => {
+	// 			this.imageUrl = response.data.data.url
+	// 		})
+	// 		.catch(error => {
+	// 			console.error('Błąd pobierania obrazka z API:', error)
+	// 		})
+	// },
+	mounted() {
+		const authStore = useAuthStore()
+		const token = authStore.token
+		// do poprawy, nie ma dostepu do lok. pliku
+		axios
+			.get('http://127.0.0.1:8000/api/bo/mainPhotos', {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then(response => {
+				this.imageUrl = response.data.data.url
+				console.log(this.imageUrl)
+			})
+			.catch(error => {
+				console.error('Błąd pobierania obrazka z API:', error)
+			})
+	},
+}
 </script>
 
 <style scoped>
