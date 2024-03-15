@@ -1,5 +1,5 @@
 <template>
-	<h1>KONFIGURUJ ADRES E-MAIL:</h1>
+	<h1>DODAJ ADRES E-MAIL:</h1>
 	<div class="content">
 		<div class="box box-left">
 			<input type="email" placeholder="Wprowadź adres e-mail" v-model="email" />
@@ -7,7 +7,11 @@
 		</div>
 		<div class="box box-right">
 			<ul class="email-list">
-				<li v-for="email in emails" :key="email">{{ email }}<button @click="removeEmail(email)">X</button></li>
+				<li v-for="email in emailsStore.emails" :key="email.id">
+					<span>{{ email.id }}. </span>
+					<span> {{ email.email }}</span>
+					<button @click="removeEmail(email.id)">X</button>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -15,31 +19,34 @@
 
 <script>
 import Swal from 'sweetalert2'
+import { useEmailsStore } from '@/stores/emails.js'
 export default {
 	name: 'MailConfiguration',
+	setup() {
+		const emailsStore = useEmailsStore()
+		return { emailsStore }
+	},
 	data() {
 		return {
-			emails: [],
 			email: '',
 		}
 	},
-	created() {
-		const storedEmails = localStorage.getItem('emails')
-		if (storedEmails) {
-			this.emails = JSON.parse(storedEmails)
-		}
+	mounted() {
+		this.getEmails()
 	},
 	methods: {
-		addNewEmail() {
+		async getEmails() {
+			try {
+				await this.emailsStore.fetchEmails()
+			} catch (error) {
+				console.error('Error fetching users:', error)
+			}
+		},
+		async addNewEmail() {
 			if (this.validateEmail(this.email)) {
-				this.emails.push(this.email)
+				await this.emailsStore.addEmail(this.email)
 				this.email = ''
-				localStorage.setItem('emails', JSON.stringify(this.emails))
-				Swal.fire({
-					title: 'Sukces!',
-					text: 'Dodałeś nowego kontrahenta!',
-					icon: 'success',
-				})
+				await this.getEmails()
 			} else {
 				Swal.fire({
 					title: 'Błąd!',
@@ -48,16 +55,13 @@ export default {
 				})
 			}
 		},
-		removeEmail(email) {
-			const index = this.emails.indexOf(email)
-			if (index !== -1) {
-				this.emails.splice(index, 1)
-				localStorage.setItem('emails', JSON.stringify(this.emails))
-			}
-		},
 		validateEmail(email) {
 			const re = /\S+@\S+\.\S+/
 			return re.test(email)
+		},
+		removeEmail(emailId) {
+			this.emailsStore.removeEmail(emailId)
+			this.getEmails()
 		},
 	},
 }

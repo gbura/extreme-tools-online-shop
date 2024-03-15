@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import instaceAxios from '@/axios'
+import instanceAxios from '@/axios'
 import Swal from 'sweetalert2'
 
 export const useShoppingCartStore = defineStore('shoppingCartStore', {

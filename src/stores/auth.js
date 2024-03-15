@@ -5,6 +5,7 @@ export const useAuthStore = defineStore('auth', {
 	state: () => ({
 		token: localStorage.getItem('BearerToken') || null,
 		userId: localStorage.getItem('userId') || null,
+		isAdmin: localStorage.getItem('admin') || null,
 	}),
 	getters: {
 		isAuthenticated: state => !!state.token,
@@ -14,14 +15,18 @@ export const useAuthStore = defineStore('auth', {
 			const response = await instanceAxios.post('authenticate', { email, password })
 			const token = await response.data.data.token
 			const userId = await response.data.data.user.id
+			const admin = await response.data.data.user.isAdmin
 			this.token = token
 			this.userId = userId
+			this.isAdmin = admin
 			localStorage.setItem('BearerToken', token)
 			localStorage.setItem('userId', userId)
+			localStorage.setItem('admin', admin)
 		},
 		async logout() {
 			localStorage.removeItem('BearerToken')
 			localStorage.removeItem('userId')
+			localStorage.removeItem('admin')
 			this.token = null
 			this.userId = null
 		},

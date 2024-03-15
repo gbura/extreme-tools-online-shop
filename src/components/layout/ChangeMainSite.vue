@@ -14,8 +14,13 @@
 
 <script>
 import axios from 'axios'
+import { useAuthStore } from '@/stores/auth.js'
 export default {
 	name: 'ChangeMainSite',
+	setup() {
+		const authStore = useAuthStore()
+		return { authStore }
+	},
 	data() {
 		return {
 			selectedFile: null,
@@ -24,16 +29,23 @@ export default {
 	methods: {
 		onFileSelected(event) {
 			this.selectedFile = event.target.files[0]
-			console.log(event)
+			console.log(this.selectedFile)
 		},
 		onUpload() {
 			// do poprawy, error 422
 			const fd = new FormData()
-			console.log(fd);
+			const token = this.authStore.token
 			fd.append('mainImage', this.selectedFile)
-			axios.post('http://127.0.0.1:8000/api/bo/mainPhotos', fd).then(res => {
-				console.log(res)
-			})
+			axios
+				.post('http://127.0.0.1:8000/api/bo/mainPhotos', fd, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'multipart/form-data',
+					},
+				})
+				.then(res => {
+					console.log(res)
+				})
 		},
 	},
 }

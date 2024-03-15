@@ -40,7 +40,11 @@ export default {
 			if (this.email && this.password) {
 				try {
 					await this.authstore.login(this.email, this.password)
-					this.$router.push('/home')
+					if (this.authstore.isAdmin) {
+						this.$router.push('/admin-panel')
+					} else {
+						this.$router.push('/home')
+					}
 				} catch {
 					Swal.fire({
 						title: 'Błąd!',
