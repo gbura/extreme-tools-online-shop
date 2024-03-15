@@ -54,7 +54,8 @@
 			</tbody>
 		</table>
 		<shopping-cart :open="this.isOpenShoppingCart" @close="closeShoppingCart">
-			<h1 class="shopping-cart-header">Koszyk</h1>
+			<h2 class="shopping-cart-header" v-if="!this.shoppingCartStore.items.length">Twój koszyk jest pusty!</h2>
+			<h2 v-else>koszyk</h2>
 			<ul class="shopping-items-container">
 				<li v-for="card in this.shoppingCartStore.items" :key="card.code">
 					<div class="item-container">
@@ -231,6 +232,10 @@ export default {
 	border: 2px solid rgb(255, 145, 0);
 	border-radius: 8px;
 	font-size: 1.5rem;
+	transition: background-color 0.1s ease-in;
+}
+.item-container:hover {
+	background-color: rgb(199, 194, 194);
 }
 
 .delete-item-btn {
@@ -246,6 +251,15 @@ export default {
 .table-box {
 	max-height: 495px;
 	overflow-y: auto;
+}
+
+h2 {
+	font-size: 3rem;
+	text-align: center;
+	text-transform: uppercase;
+	color: white;
+	border-bottom: 2px solid white;
+	margin-bottom: 0.5rem;
 }
 
 table,
