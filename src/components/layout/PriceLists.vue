@@ -6,9 +6,12 @@
 				<p v-if="!priceLists.length">Brak dostępnych cenników!</p>
 				<ul v-else>
 					<li v-for="priceList in priceLists" :key="priceList.id">
-						<span>{{ priceList.id }}.</span>
 						<span>{{ priceList.name }}</span>
 						<button class="remove-item-btn" @click="removePriceList(priceList.id)">X</button>
+						<router-link 
+						:to="'/admin-panel/price-lists/edit/' + priceList.id">
+						EDYTUJ
+					</router-link>
 					</li>
 				</ul>
 			</div>
@@ -59,7 +62,11 @@ export default {
 		async removePriceList(id) {
 			try {
 				await instanceAxios.delete(`bo/priceLists/${id}`)
-				this.priceLists = this.priceLists.filter(priceList => priceList.id !== id)
+				Swal.fire({
+					title: 'Sukces!',
+					text: 'Ceny z cennika zostały wyzerowane!',
+					icon: 'success',
+				})
 			} catch (error) {
 				console.error('Błąd podczas usuwania cennika:', error)
 			}
@@ -159,6 +166,16 @@ li:hover {
 }
 span {
 	font-size: 2rem;
+}
+a {
+	position: absolute;
+	top: 2px;
+	right: 30px;
+	padding: 0.5rem;
+	text-decoration: none;
+	color: white;
+	background-color: rgb(141, 165, 8);
+	border-radius: 8px;
 }
 .remove-item-btn {
 	position: absolute;

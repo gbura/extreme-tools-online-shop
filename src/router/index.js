@@ -9,6 +9,7 @@ import ContractorForm from '@/components/layout/ContractorForm.vue'
 import TheContractors from '@/components/layout/TheContractors.vue'
 import TheCatalog from '@/components/layout/TheCatalog.vue'
 import PriceLists from '@/components/layout/PriceLists.vue'
+import EditPriceList from '@/components/layout/EditPriceList.vue'
 import MailConfiguration from '@/components/layout/MailConfiguration.vue'
 import ChangeMainSite from '@/components/layout/ChangeMainSite.vue'
 import ItemsPhotos from '@/components/layout/ItemsPhotos.vue'
@@ -70,6 +71,11 @@ const router = createRouter({
 					path: 'price-lists',
 					name: 'price-lists',
 					component: PriceLists,
+				},
+				{
+					path: '/admin-panel/price-lists/edit/:id',
+					name: 'edit-price-list',
+					component: EditPriceList,
 				},
 				{
 					path: 'items-photos',

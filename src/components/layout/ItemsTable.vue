@@ -60,7 +60,9 @@
 				<li v-for="card in this.shoppingCartStore.items" :key="card.code">
 					<div class="item-container">
 						<button class="delete-item-btn" @click="this.shoppingCartStore.removeItem(card.code)">X</button>
-						<div>{{ card.name }}</div>
+						<div>
+							<b>{{ card.name }}</b>
+						</div>
 						<div>Sztuk: {{ card.quantity }}</div>
 						<div>Cena netto: {{ card.price }}zł</div>
 						<div>Suma: {{ (card.price * card.quantity).toFixed(2) }}zł</div>

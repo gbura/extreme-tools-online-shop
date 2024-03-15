@@ -32,17 +32,21 @@ export default {
 			console.log(this.selectedFile)
 		},
 		onUpload() {
-			// do poprawy, error 422
+			// do poprawy, error 401 (auth)
 			const fd = new FormData()
 			const token = this.authStore.token
 			fd.append('mainImage', this.selectedFile)
 			axios
-				.post('http://127.0.0.1:8000/api/bo/mainPhotos', fd, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-Type': 'multipart/form-data',
-					},
-				})
+				.post(
+					'http://127.0.0.1:8000/api/bo/mainPhotos',
+					{ fd },
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+							'Content-Type': 'multipart/form-data',
+						},
+					}
+				)
 				.then(res => {
 					console.log(res)
 				})

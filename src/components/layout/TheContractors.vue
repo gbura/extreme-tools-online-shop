@@ -4,33 +4,41 @@
 		<p v-if="!usersStore.users.length">Brak kontrahentów na liście!</p>
 		<table v-else>
 			<thead>
-				<th>ID</th>
 				<th>EMAIL</th>
 				<th>NAZWA FIRMY</th>
 				<th>ADRES FIRMY</th>
 				<th>CENNIK</th>
+				<th>AKCJE</th>
 			</thead>
 			<tbody>
 				<tr v-for="user in usersStore.users" :key="user.id">
-					<td>{{ user.id }}.</td>
 					<td>{{ user.email }}</td>
 					<td>{{ user.companyName }}</td>
 					<td>{{ user.companyAddress }}</td>
 					<td>{{ user.priceList }}</td>
+					<td><button class="pass-reset-btn" @click="openModal">Resetuj hasło</button></td>
 				</tr>
 			</tbody>
 		</table>
+		<ResetPassword :open="isResetOpen" @close="closeModal" />
 	</div>
 </template>
 
 <script>
 import { useUsersStore } from '@/stores/users.js'
+import ResetPassword from '@/components/layout/ResetPassword.vue'
 
 export default {
 	name: 'TheContractors',
+	components: { ResetPassword },
 	setup() {
 		const usersStore = useUsersStore()
 		return { usersStore }
+	},
+	data() {
+		return {
+			isResetOpen: false,
+		}
 	},
 	mounted() {
 		this.showUsers()
@@ -42,6 +50,12 @@ export default {
 			} catch (error) {
 				console.error('Error fetching users:', error)
 			}
+		},
+		openModal() {
+			this.isResetOpen = true
+		},
+		closeModal() {
+			this.isResetOpen = false
 		},
 	},
 }
@@ -84,5 +98,15 @@ h1 {
 }
 p {
 	font-size: 3rem;
+}
+.pass-reset-btn {
+	padding: 0.8rem;
+	border: none;
+	border-radius: 5px;
+	background-color: orange;
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: white;
+	cursor: pointer;
 }
 </style>

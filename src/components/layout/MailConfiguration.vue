@@ -2,17 +2,17 @@
 	<h1>DODAJ ADRES E-MAIL:</h1>
 	<div class="content">
 		<div class="box box-left">
-			<input type="email" placeholder="Wprowadź adres e-mail" v-model="email" />
-			<button class="add-btn" @click="addNewEmail">Dodaj</button>
-		</div>
-		<div class="box box-right">
-			<ul class="email-list">
+			<p class="no-emails-text" v-if="!emailsStore.emails.length">Brak dostępnych e-maili!</p>
+			<ul class="email-list" v-else>
 				<li v-for="email in emailsStore.emails" :key="email.id">
-					<span>{{ email.id }}. </span>
 					<span> {{ email.email }}</span>
 					<button @click="removeEmail(email.id)">X</button>
 				</li>
 			</ul>
+		</div>
+		<div class="box box-right">
+			<input type="email" placeholder="Wprowadź adres e-mail" v-model="email" />
+			<button class="add-btn" @click="addNewEmail">Dodaj</button>
 		</div>
 	</div>
 </template>
@@ -75,10 +75,16 @@ export default {
 }
 .box {
 	display: flex;
-	justify-content: center;
+	justify-content: start;
 	align-items: center;
 	flex-direction: column;
 	width: 100%;
+}
+.no-emails-text {
+	font-size: 2.4rem;
+	text-align: center;
+	background-color: orange;
+	padding: 2rem;
 }
 input {
 	width: 90%;
@@ -126,9 +132,10 @@ li button {
 	right: 5px;
 	top: 0;
 	padding: 0.5rem;
+	font-size: 1.8rem;
 	background: transparent;
 	color: red;
-	border-color: red;
+	border: none;
 	cursor: pointer;
 }
 </style>
