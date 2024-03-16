@@ -29,6 +29,7 @@ export const useAuthStore = defineStore('auth', {
 			localStorage.removeItem('admin')
 			this.token = null
 			this.userId = null
+			this.isAdmin = null
 		},
 		async register(email, password, companyName, companyAddress) {
 			const response = await instanceAxios.post('bo/users', {

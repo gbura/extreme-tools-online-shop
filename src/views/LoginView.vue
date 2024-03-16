@@ -43,7 +43,7 @@ export default {
 					if (this.authstore.isAdmin) {
 						this.$router.push('/admin-panel')
 					} else {
-						this.$router.push('/home')
+						this.$router.push('/dashboard')
 					}
 				} catch {
 					Swal.fire({

@@ -1,13 +1,19 @@
 <template>
 	<div>
-		<h1>TEST</h1>
-		<!-- 50 fotek na strone? -->
+		<ul>
+			<li>TEXT</li>
+		</ul>
 	</div>
 </template>
 
 <script>
 export default {
 	name: 'ItemsPhotos',
+	data() {
+		return {
+			imageUrl: '',
+		}
+	},
 }
 </script>
 

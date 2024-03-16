@@ -5,7 +5,7 @@
 			type="file"
 			id="main-image"
 			name="main-image"
-			accept="image/png, image/jpeg"
+			accept="image/png, image/jpeg, image/jpg"
 			multiple
 			@change="onFileSelected" />
 		<button @click="onUpload">Zaaktualizuj</button>
@@ -35,18 +35,16 @@ export default {
 			// do poprawy, error 401 (auth)
 			const fd = new FormData()
 			const token = this.authStore.token
-			fd.append('mainImage', this.selectedFile)
+			fd.append('file', this.selectedFile)
+			// 422
+			console.log(fd)
 			axios
-				.post(
-					'http://127.0.0.1:8000/api/bo/mainPhotos',
-					{ fd },
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-							'Content-Type': 'multipart/form-data',
-						},
-					}
-				)
+				.post('http://127.0.0.1:8000/api/bo/mainPhotos', fd, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'multipart/form-data',
+					},
+				})
 				.then(res => {
 					console.log(res)
 				})

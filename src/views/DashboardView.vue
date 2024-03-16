@@ -60,6 +60,13 @@ export default {
 					console.error('Error loading image:', error)
 				})
 		},
+		// changeItemImage(productImage) {
+		// 	if (productImage) {
+		// 		this.selectedItemImage = productImage.url
+		// 	} else {
+		// 		this.selectedItemImage = `https://e7.pngegg.com/pngimages/630/805/png-clipart-cats-cats.png`
+		// 	}
+		// },
 		toggleSlider() {
 			this.isOpenSlider = !this.isOpenSlider
 		},

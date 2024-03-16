@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import WelcomeView from '../views/WelcomeView.vue'
-import HomeView from '../views/HomeView.vue'
+import DashboardView from '../views/DashboardView.vue'
 import LoginView from '../views/LoginView.vue'
-import AdminLoginPanel from '../views/AdminLoginPanel.vue'
 import AdminPanel from '@/views/AdminPanel.vue'
 import ContractorForm from '@/components/layout/ContractorForm.vue'
 import TheContractors from '@/components/layout/TheContractors.vue'
@@ -23,19 +22,14 @@ const router = createRouter({
 			component: WelcomeView,
 		},
 		{
-			path: '/home',
-			name: 'home',
-			component: HomeView,
+			path: '/dashboard',
+			name: 'dashboard',
+			component: DashboardView,
 		},
 		{
 			path: '/login',
 			name: 'login',
 			component: LoginView,
-		},
-		{
-			path: '/admin-login-panel',
-			name: 'admin-login-panel',
-			component: AdminLoginPanel,
 		},
 		{
 			path: '/admin-panel',

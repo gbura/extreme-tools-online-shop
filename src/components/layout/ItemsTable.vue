@@ -135,6 +135,18 @@ export default {
 			this.activeRowIndex = index + 1
 			this.$emit('next-tab-click', productCode)
 		},
+		// handleRowClick(productImage, index) {
+		// 	this.activeRowIndex = index
+		// 	this.$emit('row-click', productImage)
+		// },
+		// focusNextRow(productImage, index) {
+		// 	this.activeRowIndex = index + 1
+		// 	this.$emit('next-tab-click', productImage)
+		// },
+
+		// TODO w tbody -> tr do zdjęć
+		// @keydown.tab.prevent="focusNextRow(item.image, index)"
+		// @click="handleRowClick(item.image, index)"
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
 		},

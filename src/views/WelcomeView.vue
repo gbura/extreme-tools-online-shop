@@ -27,21 +27,11 @@ export default {
 			imageUrl: '',
 		}
 	},
-	// mounted() {
-	// 	// do poprawy, brak autoryzacji
-	// 	axios
-	// 		.get('http://127.0.0.1:8000/api/bo/mainPhotos')
-	// 		.then(response => {
-	// 			this.imageUrl = response.data.data.url
-	// 		})
-	// 		.catch(error => {
-	// 			console.error('Błąd pobierania obrazka z API:', error)
-	// 		})
-	// },
 	mounted() {
 		const authStore = useAuthStore()
 		const token = authStore.token
 		// do poprawy, nie ma dostepu do lok. pliku
+		// wrzucic w public zdjecie i dziala
 		axios
 			.get('http://127.0.0.1:8000/api/bo/mainPhotos', {
 				headers: {
