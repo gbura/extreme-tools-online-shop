@@ -14,6 +14,7 @@
 
 <script>
 import axios from 'axios'
+import Swal from 'sweetalert2'
 import { useAuthStore } from '@/stores/auth.js'
 export default {
 	name: 'ChangeMainSite',
@@ -32,11 +33,9 @@ export default {
 			console.log(this.selectedFile)
 		},
 		onUpload() {
-			// do poprawy, error 401 (auth)
 			const fd = new FormData()
 			const token = this.authStore.token
 			fd.append('file', this.selectedFile)
-			// 422
 			console.log(fd)
 			axios
 				.post('http://127.0.0.1:8000/api/bo/mainPhotos', fd, {
@@ -47,6 +46,13 @@ export default {
 				})
 				.then(res => {
 					console.log(res)
+					this.selectedFile = null
+					document.getElementById('main-image').value = ''
+					Swal.fire({
+						title: 'Sukces!',
+						text: 'Ustawiono nowe zdjęcie!',
+						icon: 'success',
+					})
 				})
 		},
 	},

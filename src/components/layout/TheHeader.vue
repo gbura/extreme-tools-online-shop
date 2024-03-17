@@ -6,7 +6,7 @@
 					<router-link to="/" class="navbar-brand">Strona główna</router-link>
 				</template>
 				<template v-else>
-					<router-link to="/home" class="navbar-brand">Panel zakupowy</router-link>
+					<router-link to="/dashboard" class="navbar-brand">Panel zakupowy</router-link>
 				</template>
 				<ul class="navbar-nav">
 					<template v-if="isAuthenticated()">

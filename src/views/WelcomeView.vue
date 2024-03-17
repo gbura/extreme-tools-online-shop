@@ -10,7 +10,8 @@
 			</div>
 		</div>
 		<div class="right-section">
-			<img :src="imageUrl" alt="Zdjęcia narzędzi oraz loga" />
+			<!-- <img :src="imageUrl" alt="Zdjęcia narzędzi oraz loga" /> -->
+			<img :src="`http://127.0.0.1:8000/app/public/` + imageUrl" alt="" />
 		</div>
 	</div>
 </template>
@@ -30,10 +31,8 @@ export default {
 	mounted() {
 		const authStore = useAuthStore()
 		const token = authStore.token
-		// do poprawy, nie ma dostepu do lok. pliku
-		// wrzucic w public zdjecie i dziala
 		axios
-			.get('http://127.0.0.1:8000/api/bo/mainPhotos', {
+			.get('http://127.0.0.1:8000/api/mainPhotos', {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
