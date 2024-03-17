@@ -25,6 +25,9 @@ const router = createRouter({
 			path: '/dashboard',
 			name: 'dashboard',
 			component: DashboardView,
+			meta: {
+				requiresAuth: true,
+			},
 		},
 		{
 			path: '/login',
@@ -35,6 +38,10 @@ const router = createRouter({
 			path: '/admin-panel',
 			name: 'admin-panel',
 			component: AdminPanel,
+			meta: {
+				requiresAuth: true,
+				requiresAdmin: true,
+			},
 			children: [
 				{
 					path: 'mail-configuration',
@@ -84,14 +91,33 @@ const router = createRouter({
 		},
 	],
 })
-function checkAuthentication(to, _, next) {
-	const authstore = useAuthStore()
+async function checkAuthentication(to, _, next) {
+	const authStore = useAuthStore()
+	const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+	const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
 
-	if (!authstore.isAuthenticated && to.name !== 'login' && to.name !== 'welcome' && to.name !== 'admin-login-panel') {
-		next({ name: 'login' })
-	} else {
-		next()
+	// Sprawdzanie stanu logowania tylko dla ścieżek, które tego wymagają
+	if (requiresAuth && !authStore.isAuthenticated) {
+		console.log('Sprawdzam status logowania...')
+		await authStore.fetchUser()
 	}
+
+	// Obsługa ścieżek, które wymagają autoryzacji
+	if (requiresAuth && !authStore.isAuthenticated) {
+		console.log('Użytkownik nie jest zalogowany, przekierowuję do logowania...')
+		return next({ name: 'login' })
+	}
+
+	console.log({ isAdmin: authStore.isLoggedAdmin })
+	// Obsługa ścieżek, które wymagają roli admina
+	if (requiresAdmin && !authStore.isLoggedAdmin) {
+		console.log('Użytkownik nie jest adminem, przekierowuję do dashboard...')
+		return next({ name: 'dashboard' })
+	}
+
+	// Jeśli dotarliśmy tutaj, użytkownik jest zalogowany lub strona nie wymaga logowania
+	console.log('Kontynuuję nawigację...')
+	next()
 }
 
 router.beforeEach(checkAuthentication)

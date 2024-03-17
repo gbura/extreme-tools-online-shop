@@ -44,6 +44,7 @@
 					<td>
 						<input
 							v-if="activeRowIndex === index"
+							:id="item.id"
 							type="number"
 							class="quantity"
 							v-model="item.quantity"
@@ -161,6 +162,8 @@ export default {
 		},
 		showShoppingCart() {
 			this.isOpenShoppingCart = true
+			// console.log(document.getElementsByClassName('quantity'))
+			// document.getElementsByClassName('quantity').value = ''
 		},
 		closeShoppingCart() {
 			this.isOpenShoppingCart = false
