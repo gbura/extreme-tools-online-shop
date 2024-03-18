@@ -13,7 +13,9 @@
 				</div>
 				<base-button>Logowanie</base-button>
 			</form>
+			<button class="forgot-pass-btn" @click="openPopup">Zapomniałem hasła</button>
 		</div>
+		<ForgotPassword :open="isPopupOpen" @close="closePopup" />
 	</div>
 </template>
 
@@ -21,14 +23,16 @@
 import { useAuthStore } from '@/stores/auth.js'
 import BaseButton from '../components/ui/BaseButton.vue'
 import Swal from 'sweetalert2'
+import ForgotPassword from '@/components/layout/ForgotPassword.vue'
 
 export default {
 	name: 'LoginView',
-	components: { BaseButton },
+	components: { BaseButton, ForgotPassword },
 	data() {
 		return {
 			email: '',
 			password: '',
+			isPopupOpen: false,
 		}
 	},
 	setup() {
@@ -59,6 +63,12 @@ export default {
 					icon: 'error',
 				})
 			}
+		},
+		openPopup() {
+			this.isPopupOpen = true
+		},
+		closePopup() {
+			this.isPopupOpen = false
 		},
 	},
 }
@@ -107,5 +117,17 @@ form {
 	border: none;
 	border-radius: 4px;
 	font-size: 1.8rem;
+}
+.forgot-pass-btn {
+	border: none;
+	background: none;
+	font-size: 1.6rem;
+	color: white;
+	cursor: pointer;
+	margin-top: 0.5rem;
+	transition: color 0.3s ease;
+}
+.forgot-pass-btn:hover {
+	color: rgb(219, 218, 218);
 }
 </style>

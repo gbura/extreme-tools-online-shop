@@ -21,7 +21,6 @@ export const useAuthStore = defineStore('auth', {
 			this.token = token
 			this.userId = userId
 			this.isAdmin = admin
-			// console.log(admin)
 			this.isLoggedIn = true
 			localStorage.setItem('BearerToken', token)
 			localStorage.setItem('userId', userId)
@@ -47,7 +46,6 @@ export const useAuthStore = defineStore('auth', {
 		},
 		async fetchUser() {
 			const response = await instanceAxios.get('bo/users')
-			// console.log('Fetch user:', { isAdmin: this.isAdmin })
 			if (response.status === 200) {
 				this.isLoggedIn = true
 			}

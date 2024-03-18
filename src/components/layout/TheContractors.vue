@@ -16,11 +16,11 @@
 					<td>{{ user.companyName }}</td>
 					<td>{{ user.companyAddress }}</td>
 					<td>{{ user.priceList }}</td>
-					<td><button class="pass-reset-btn" @click="openModal">Resetuj hasło</button></td>
+					<td><button class="pass-reset-btn" @click="openModal(user.id)">Resetuj hasło</button></td>
 				</tr>
 			</tbody>
 		</table>
-		<ResetPassword :open="isResetOpen" @close="closeModal" />
+		<ResetPassword :open="isResetOpen" :userId="resetUserId" @close="closeModal" />
 	</div>
 </template>
 
@@ -38,6 +38,7 @@ export default {
 	data() {
 		return {
 			isResetOpen: false,
+			resetUserId: null,
 		}
 	},
 	mounted() {
@@ -51,11 +52,13 @@ export default {
 				console.error('Error fetching users:', error)
 			}
 		},
-		openModal() {
+		async openModal(userId) {
 			this.isResetOpen = true
+			this.resetUserId = userId
 		},
 		closeModal() {
 			this.isResetOpen = false
+			this.resetUserId = null
 		},
 	},
 }

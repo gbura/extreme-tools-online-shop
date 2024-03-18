@@ -1,16 +1,12 @@
 <template>
 	<div v-if="open" class="backdrop" @click="$emit('close')"></div>
 	<transition name="modal">
-		<form v-if="open" @submit.prevent="resetPassword" class="reset-pass-form">
+		<form v-if="open" @submit.prevent="forgotPassword" class="forgot-pass-form">
 			<div class="form-item">
-				<label for="pass">Podaj nowe hasło:</label>
-				<input type="text" id="pass" name="pass" v-model="password" />
+				<label for="email">Podaj adres e-mail:</label>
+				<input type="text" id="email" name="email" v-model="email" autocomplete="off" />
 			</div>
-			<div class="form-item">
-				<label for="confirm-pass">Potwierdź hasło:</label>
-				<input type="text" id="confirm-pass" name="confirm-pass" v-model="passwordConfirm" />
-			</div>
-			<button class="confirm-changes-btn">Potwierdź zmiany</button>
+			<button class="confirm-changes-btn">Wyślij nowe hasło</button>
 		</form>
 	</transition>
 </template>
@@ -19,45 +15,43 @@
 import instanceAxios from '@/axios'
 import Swal from 'sweetalert2'
 export default {
-	name: 'ResetPassword',
-	props: ['open', 'userId'],
+	name: 'ForgotPassword',
+	props: ['open'],
 	emits: ['close'],
 	data() {
 		return {
-			password: '',
-			passwordConfirm: '',
+			email: '',
 		}
 	},
 	methods: {
-		async resetPassword() {
-			if (!this.password || !this.passwordConfirm || this.password !== this.passwordConfirm) {
+		async forgotPassword() {
+			if (!this.email || !this.validateEmail(this.email)) {
 				Swal.fire({
 					title: 'Błąd!',
-					text: 'Uzupełnij pola w poprawny sposób!',
+					text: 'Podaj poprawny adres e-mail!',
 					icon: 'error',
 				})
-			} else {
-				try {
-					await instanceAxios.post(`bo/users/${this.userId}/setNewPassword`, {
-						password: this.password,
-						newPassword: this.passwordConfirm,
-					})
-					Swal.fire({
-						title: 'Sukces!',
-						text: 'Hasło zresetowane!',
-						icon: 'success',
-					})
-					this.password = ''
-					this.passwordConfirm = ''
-				} catch (error) {
-					console.error('Błąd resetowania hasła:', error)
-					Swal.fire({
-						title: 'Błąd!',
-						text: 'Wystąpił błąd podczas resetowania hasła. Spróbuj ponownie później.',
-						icon: 'error',
-					})
-				}
+				return
 			}
+
+			try {
+				await instanceAxios.post('sciezka', { email: this.email })
+				Swal.fire({
+					title: 'Sukces!',
+					text: 'Wiadomość z resetem hasła została wysłana!',
+					icon: 'success',
+				})
+			} catch (error) {
+				Swal.fire({
+					title: 'Błąd!',
+					text: 'Wystąpił błąd podczas wysyłania wiadomości resetującej hasło!',
+					icon: 'error',
+				})
+			}
+		},
+		validateEmail(email) {
+			const re = /\S+@\S+\.\S+/
+			return re.test(email)
 		},
 	},
 }
@@ -74,7 +68,7 @@ export default {
 	background-color: rgba(0, 0, 0, 0.75);
 }
 
-.reset-pass-form {
+.forgot-pass-form {
 	position: fixed;
 	top: 50%;
 	width: 30%;
@@ -89,7 +83,7 @@ export default {
 	transform: translate(-50%, -50%);
 	z-index: 100;
 }
-.reset-pass-form .form-item {
+.forgot-pass-form .form-item {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
