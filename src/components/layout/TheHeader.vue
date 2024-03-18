@@ -8,6 +8,7 @@
 				<template v-else>
 					<router-link to="/dashboard" class="navbar-brand">Panel zakupowy</router-link>
 				</template>
+
 				<ul class="navbar-nav">
 					<template v-if="isAuthenticated()">
 						<li class="nav-item">
@@ -15,8 +16,11 @@
 						</li>
 					</template>
 					<template v-else>
-						<li class="nav-item">
+						<li class="nav-item logout-wrapper">
 							<button @click="handleLogOut" class="logout-btn">Wyloguj się</button>
+							<template v-if="isAdmin">
+								<router-link to="/admin-panel" class="nav-link admin-link">Panel admina</router-link>
+							</template>
 						</li>
 					</template>
 				</ul>
@@ -41,6 +45,11 @@ export default {
 		handleLogOut() {
 			this.authstore.logout()
 			this.$router.push('/')
+		},
+	},
+	computed: {
+		isAdmin() {
+			return this.authstore.isLoggedAdmin
 		},
 	},
 }
@@ -76,5 +85,13 @@ a:hover {
 	justify-content: space-between;
 	align-items: center;
 	padding: 1.5rem 0;
+}
+.logout-wrapper {
+	display: flex;
+	align-items: center;
+	flex-direction: row-reverse;
+}
+.admin-link {
+	margin-right: 2rem;
 }
 </style>

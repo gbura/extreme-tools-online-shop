@@ -5,7 +5,7 @@ export const useAuthStore = defineStore('auth', {
 	state: () => ({
 		token: localStorage.getItem('BearerToken') || null,
 		userId: localStorage.getItem('userId') || null,
-		isAdmin: JSON.parse(localStorage.getItem('admin')) || null,
+		isAdmin: JSON.parse(sessionStorage.getItem('admin')) || null,
 		isLoggedIn: false,
 	}),
 	getters: {
@@ -24,12 +24,12 @@ export const useAuthStore = defineStore('auth', {
 			this.isLoggedIn = true
 			localStorage.setItem('BearerToken', token)
 			localStorage.setItem('userId', userId)
-			localStorage.setItem('admin', admin)
+			sessionStorage.setItem('admin', admin)
 		},
 		async logout() {
 			localStorage.removeItem('BearerToken')
 			localStorage.removeItem('userId')
-			localStorage.removeItem('admin')
+			sessionStorage.removeItem('admin')
 			this.token = null
 			this.userId = null
 			this.isAdmin = null

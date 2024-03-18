@@ -39,7 +39,6 @@ export default {
 			})
 			.then(response => {
 				this.imageUrl = response.data.data.url
-				console.log(this.imageUrl)
 			})
 			.catch(error => {
 				console.error('Błąd pobierania obrazka z API:', error)
