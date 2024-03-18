@@ -15,7 +15,14 @@
 					<td>{{ user.email }}</td>
 					<td>{{ user.companyName }}</td>
 					<td>{{ user.companyAddress }}</td>
-					<td>{{ user.priceList }}</td>
+					<td>
+						{{ user.priceList }}
+						<select v-model="user.priceList" @change="updatePriceList(user.id, user.priceList)">
+							<option v-for="priceList in usersStore.priceLists" :key="priceList.id" :value="priceList.id">
+								{{ priceList.name }}
+							</option>
+						</select>
+					</td>
 					<td><button class="pass-reset-btn" @click="openModal(user.id)">Resetuj hasło</button></td>
 				</tr>
 			</tbody>
@@ -25,6 +32,7 @@
 </template>
 
 <script>
+import instanceAxios from '@/axios'
 import { useUsersStore } from '@/stores/users.js'
 import ResetPassword from '@/components/layout/ResetPassword.vue'
 
@@ -48,6 +56,7 @@ export default {
 		async showUsers() {
 			try {
 				await this.usersStore.fetchUsers()
+				await this.usersStore.fetchPriceLists()
 			} catch (error) {
 				console.error('Error fetching users:', error)
 			}
@@ -59,6 +68,16 @@ export default {
 		closeModal() {
 			this.isResetOpen = false
 			this.resetUserId = null
+		},
+		async updatePriceList(userId, priceListId) {
+			try {
+				const response = await instanceAxios.post(`bo/priceLists/${priceListId}/attachUser/${userId}`)
+				if (response.data.success) {
+					this.$emit('priceListUpdated')
+				}
+			} catch (error) {
+				console.error('Error updating price list:', error)
+			}
 		},
 	},
 }

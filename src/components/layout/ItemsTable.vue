@@ -84,6 +84,7 @@
 import axios from 'axios'
 import { useAuthStore } from '@/stores/auth.js'
 import { useShoppingCartStore } from '@/stores/shoppingcart.js'
+import { useUsersStore } from '@/stores/users.js'
 import ShoppingCart from './ShoppingCart.vue'
 
 export default {
@@ -91,7 +92,8 @@ export default {
 	components: { ShoppingCart },
 	setup() {
 		const shoppingCartStore = useShoppingCartStore()
-		return { shoppingCartStore }
+		const usersStore = useUsersStore()
+		return { shoppingCartStore, usersStore }
 	},
 	data() {
 		return {
@@ -108,15 +110,22 @@ export default {
 		}
 	},
 	mounted() {
-		this.getTableItems()
+		this.init()
 	},
 	methods: {
+		async init() {
+			await this.usersStore.fetchUsers()
+			await this.usersStore.fetchPriceLists()
+			if(typeof this.getTableItems === 'function') {
+				this.getTableItems()
+			}
+		},
 		async getTableItems() {
 			try {
 				const authStore = useAuthStore()
 				const token = authStore.token
-
-				const res = await axios.get('http://127.0.0.1:8000/api/bo/priceLists/1', {
+				const selectedPriceListId = this.usersStore.selectedPriceListId
+				const res = await axios.get(`http://127.0.0.1:8000/api/bo/priceLists/${selectedPriceListId}`, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
