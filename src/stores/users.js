@@ -5,7 +5,6 @@ export const useUsersStore = defineStore('users', {
 	state: () => ({
 		users: [],
 		priceLists: [],
-		selectedPriceListId: null,
 	}),
 	// getters: {
 	// 	getUsers: state => state.users,
@@ -29,17 +28,6 @@ export const useUsersStore = defineStore('users', {
 				}
 			} catch (error) {
 				console.error('Error fetching price lists:', error)
-			}
-		},
-		async updatePriceList(userId, priceListId) {
-			try {
-				const response = await instanceAxios.post(`bo/priceLists/${priceListId}/attachUser/${userId}`)
-				if (response.data.success) {
-					// Aktualizacja magazynu po poprawnym przypisaniu cennika do użytkownika
-					this.users.find(user => user.id === userId).priceList = priceListId
-				}
-			} catch (error) {
-				console.error('Error updating price list:', error)
 			}
 		},
 	},

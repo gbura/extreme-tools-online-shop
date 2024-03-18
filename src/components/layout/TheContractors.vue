@@ -16,7 +16,6 @@
 					<td>{{ user.companyName }}</td>
 					<td>{{ user.companyAddress }}</td>
 					<td>
-						{{ user.priceList }}
 						<select v-model="user.priceList" @change="updatePriceList(user.id, user.priceList)">
 							<option v-for="priceList in usersStore.priceLists" :key="priceList.id" :value="priceList.id">
 								{{ priceList.name }}
@@ -33,6 +32,7 @@
 
 <script>
 import instanceAxios from '@/axios'
+import Swal from 'sweetalert2'
 import { useUsersStore } from '@/stores/users.js'
 import ResetPassword from '@/components/layout/ResetPassword.vue'
 
@@ -71,10 +71,12 @@ export default {
 		},
 		async updatePriceList(userId, priceListId) {
 			try {
-				const response = await instanceAxios.post(`bo/priceLists/${priceListId}/attachUser/${userId}`)
-				if (response.data.success) {
-					this.$emit('priceListUpdated')
-				}
+				await instanceAxios.post(`bo/priceLists/${priceListId}/attachUser/${userId}`)
+				Swal.fire({
+					title: 'Sukces!',
+					text: 'Ustawiono nowy cennik!',
+					icon: 'success',
+				})
 			} catch (error) {
 				console.error('Error updating price list:', error)
 			}
@@ -130,5 +132,15 @@ p {
 	font-weight: bold;
 	color: white;
 	cursor: pointer;
+}
+select {
+	width: 100%;
+	border: none;
+	outline: none;
+	background-color: orange;
+	padding: 0.5rem;
+	border-radius: 8px;
+	color: #fff;
+	font-size: 1.6rem;
 }
 </style>

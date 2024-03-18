@@ -2,6 +2,11 @@
 	<div class="table-box">
 		<table>
 			<thead>
+				<th class="search-header">
+					<div class="search-header-box">
+						<input type="text" class="input-searchbar" placeholder="Wyszukaj produkt" />
+					</div>
+				</th>
 				<tr>
 					<th class="ean-header">
 						<div>
@@ -84,7 +89,6 @@
 import axios from 'axios'
 import { useAuthStore } from '@/stores/auth.js'
 import { useShoppingCartStore } from '@/stores/shoppingcart.js'
-import { useUsersStore } from '@/stores/users.js'
 import ShoppingCart from './ShoppingCart.vue'
 
 export default {
@@ -92,8 +96,7 @@ export default {
 	components: { ShoppingCart },
 	setup() {
 		const shoppingCartStore = useShoppingCartStore()
-		const usersStore = useUsersStore()
-		return { shoppingCartStore, usersStore }
+		return { shoppingCartStore }
 	},
 	data() {
 		return {
@@ -110,22 +113,14 @@ export default {
 		}
 	},
 	mounted() {
-		this.init()
+		this.getTableItems()
 	},
 	methods: {
-		async init() {
-			await this.usersStore.fetchUsers()
-			await this.usersStore.fetchPriceLists()
-			if(typeof this.getTableItems === 'function') {
-				this.getTableItems()
-			}
-		},
 		async getTableItems() {
 			try {
 				const authStore = useAuthStore()
 				const token = authStore.token
-				const selectedPriceListId = this.usersStore.selectedPriceListId
-				const res = await axios.get(`http://127.0.0.1:8000/api/bo/priceLists/${selectedPriceListId}`, {
+				const res = await axios.get('http://127.0.0.1:8000/api/ad/priceList/', {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
@@ -200,6 +195,21 @@ export default {
 </script>
 
 <style scoped>
+th.search-header {
+	height: 42px;
+}
+.search-header-box {
+	position: absolute;
+	top: -5px;
+	left: 0;
+	width: 100%;
+	z-index: 2;
+	border: 1px solid black;
+}
+.search-header input {
+	width: 100%;
+}
+
 .shopping-items-container {
 	display: flex;
 	flex-direction: column;
@@ -304,7 +314,8 @@ table {
 
 thead {
 	position: sticky;
-	top: -1px;
+	top: 0px;
+	width: 100%;
 	background-color: rgb(255, 101, 1);
 	z-index: 1;
 }
@@ -321,8 +332,9 @@ thead th {
 }
 
 th input {
-	height: 40px;
+	height: 48px;
 	padding: 0 0.5rem;
+	box-shadow: 0px 1px 2px rgb(0, 0, 0);
 }
 input {
 	width: 100%;
@@ -385,9 +397,6 @@ tbody {
 tr:not(thead tr) {
 	cursor: pointer;
 }
-/* tr:hover {
-	background-color: rgb(255, 101, 1);
-} */
 
 .product-code,
 .ean-code,
