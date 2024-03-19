@@ -8,10 +8,7 @@
 					<li v-for="priceList in priceLists" :key="priceList.id">
 						<span>{{ priceList.name }}</span>
 						<button class="remove-item-btn" @click="removePriceList(priceList.id)">X</button>
-						<router-link 
-						:to="'/admin-panel/price-lists/edit/' + priceList.id">
-						EDYTUJ
-					</router-link>
+						<router-link :to="'/admin-panel/price-lists/edit/' + priceList.id"> EDYTUJ </router-link>
 					</li>
 				</ul>
 			</div>
@@ -78,7 +75,11 @@ export default {
 		async uploadPriceList(e) {
 			const fd = new FormData()
 			fd.append('file', this.selectedFile)
-
+			Swal.fire({
+				title: 'Sukces!',
+				text: 'Nowy cennik został dodany do listy!',
+				icon: 'success',
+			})
 			const fileExists = this.priceLists.some(priceList => priceList.name === this.selectedFile.name)
 			if (fileExists) {
 				Swal.fire({

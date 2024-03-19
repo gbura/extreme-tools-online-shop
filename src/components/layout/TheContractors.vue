@@ -16,6 +16,7 @@
 					<td>{{ user.companyName }}</td>
 					<td>{{ user.companyAddress }}</td>
 					<td>
+						{{ user.priceList }}
 						<select v-model="user.priceList" @change="updatePriceList(user.id, user.priceList)">
 							<option v-for="priceList in usersStore.priceLists" :key="priceList.id" :value="priceList.id">
 								{{ priceList.name }}

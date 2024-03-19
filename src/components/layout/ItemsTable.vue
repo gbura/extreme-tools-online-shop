@@ -140,18 +140,6 @@ export default {
 			this.activeRowIndex = index + 1
 			this.$emit('next-tab-click', productCode)
 		},
-		// handleRowClick(productImage, index) {
-		// 	this.activeRowIndex = index
-		// 	this.$emit('row-click', productImage)
-		// },
-		// focusNextRow(productImage, index) {
-		// 	this.activeRowIndex = index + 1
-		// 	this.$emit('next-tab-click', productImage)
-		// },
-
-		// TODO w tbody -> tr do zdjęć
-		// @keydown.tab.prevent="focusNextRow(item.image, index)"
-		// @click="handleRowClick(item.image, index)"
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
 		},
@@ -166,8 +154,6 @@ export default {
 		},
 		showShoppingCart() {
 			this.isOpenShoppingCart = true
-			// console.log(document.getElementsByClassName('quantity'))
-			// document.getElementsByClassName('quantity').value = ''
 		},
 		closeShoppingCart() {
 			this.isOpenShoppingCart = false
@@ -193,8 +179,27 @@ export default {
 	},
 }
 </script>
+<!-- // handleRowClick(productImage, index) {
+// 	this.activeRowIndex = index
+// 	this.$emit('row-click', productImage)
+// },
+// focusNextRow(productImage, index) {
+// 	this.activeRowIndex = index + 1
+// 	this.$emit('next-tab-click', productImage)
+// },
+
+// TODO w tbody -> tr do zdjęć
+// @keydown.tab.prevent="focusNextRow(item.image, index)"
+// @click="handleRowClick(item.image, index)"
+
+// showshoppingcart
+// console.log(document.getElementsByClassName('quantity'))
+// document.getElementsByClassName('quantity').value = '' -->
 
 <style scoped>
+.highlight {
+	background-color: yellow;
+}
 th.search-header {
 	height: 42px;
 }
