@@ -35,12 +35,13 @@ export default {
 			}
 
 			try {
-				await instanceAxios.post('sciezka', { email: this.email })
+				await instanceAxios.post('forgotPassword', { email: this.email })
 				Swal.fire({
 					title: 'Sukces!',
 					text: 'Wiadomość z resetem hasła została wysłana!',
 					icon: 'success',
 				})
+				this.email = ''
 			} catch (error) {
 				Swal.fire({
 					title: 'Błąd!',

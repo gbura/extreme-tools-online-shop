@@ -4,6 +4,7 @@ import instanceAxios from '@/axios'
 export const useUsersStore = defineStore('users', {
 	state: () => ({
 		users: [],
+		priceLists: [],
 	}),
 	actions: {
 		async fetchUsers() {
@@ -14,6 +15,16 @@ export const useUsersStore = defineStore('users', {
 				}
 			} catch (error) {
 				console.error('Error fetching users:', error)
+			}
+		},
+		async fetchPriceLists() {
+			try {
+				const response = await instanceAxios.get('bo/priceLists')
+				if (response.data.success) {
+					this.priceLists = response.data.data
+				}
+			} catch (error) {
+				console.error('Error fetching price lists:', error)
 			}
 		},
 	},
