@@ -63,7 +63,7 @@
 			<h2 class="shopping-cart-header" v-if="!this.shoppingCartStore.items.length">Twój koszyk jest pusty!</h2>
 			<h2 v-else>koszyk</h2>
 			<ul class="shopping-items-container">
-				<li v-for="card in this.shoppingCartStore.items" :key="card.code">
+				<li v-for="card in this.shoppingCartStore.items" :key="card.id">
 					<div class="item-container">
 						<button class="delete-item-btn" @click="this.shoppingCartStore.removeItem(card.code)">X</button>
 						<div>
@@ -72,6 +72,10 @@
 						<div>Sztuk: {{ card.quantity }}</div>
 						<div>Cena netto: {{ card.price }}zł</div>
 						<div>Suma: {{ (card.price * card.quantity).toFixed(2) }}zł</div>
+						<div class="quantity-btns-box">
+							<button @click="this.shoppingCartStore.reduceItems(card.code)">-</button>
+							<button @click="this.shoppingCartStore.increaseItems(card.code)">+</button>
+						</div>
 					</div>
 				</li>
 			</ul>
@@ -80,6 +84,7 @@
 					Usuń wszystko z koszyka
 				</button>
 				<button class="shopping-cart-btn purchase-items-btn" @click="purchase">Złóż zamówienie</button>
+				<p class="total-price">Razem netto: {{ this.shoppingCartStore.sumCartPrice.toFixed(2) }}zł</p>
 			</div>
 		</shopping-cart>
 	</div>
@@ -87,6 +92,7 @@
 
 <script>
 import axios from 'axios'
+import Swal from 'sweetalert2'
 import { useAuthStore } from '@/stores/auth.js'
 import { useShoppingCartStore } from '@/stores/shoppingcart.js'
 import ShoppingCart from './ShoppingCart.vue'
@@ -158,7 +164,17 @@ export default {
 		closeShoppingCart() {
 			this.isOpenShoppingCart = false
 		},
+
 		purchase() {
+			if (this.shoppingCartStore.items.length === 0) {
+				Swal.fire({
+					title: 'Błąd!',
+					text: 'Nie możesz złożyć zamówienia, ponieważ twój koszyk jest pusty!',
+					icon: 'error',
+				})
+				return
+			}
+
 			this.shoppingCartStore.purchase()
 			this.closeShoppingCart()
 		},
@@ -237,7 +253,18 @@ th.search-header {
 .buttons-container {
 	display: flex;
 	justify-content: space-evenly;
-	margin-top: 1.2rem;
+	align-items: center;
+	margin-top: 2rem;
+}
+.total-price {
+	color: #fff;
+	font-weight: bold;
+	background-color: rgb(104, 104, 13);
+	padding: 1rem;
+	border-radius: 8px;
+	width: 250px;
+	text-align: center;
+	font-size: 1.5rem;
 }
 
 .shopping-cart-btn {
@@ -245,7 +272,7 @@ th.search-header {
 	border: none;
 	border-radius: 8px;
 	cursor: pointer;
-	width: 150px;
+	width: 250px;
 	color: #fff;
 	font-size: 1.5rem;
 	font-weight: bold;
@@ -264,6 +291,10 @@ th.search-header {
 .purchase-items-btn:hover {
 	background-color: rgb(0, 109, 0);
 }
+/* .purchase-items-btn:disabled {
+	cursor: not-allowed;
+	pointer-events: all;
+} */
 
 .item-container {
 	position: relative;
@@ -277,6 +308,32 @@ th.search-header {
 }
 .item-container:hover {
 	background-color: rgb(199, 194, 194);
+}
+
+.quantity-btns-box {
+	position: absolute;
+	top: 50%;
+	right: 20%;
+	display: flex;
+	justify-content: space-between;
+	width: 80px;
+	transform: translateY(-50%);
+}
+
+.quantity-btns-box button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid gray;
+	background-color: orange;
+	width: 30px;
+	height: 30px;
+	font-weight: bold;
+	font-size: 2rem;
+	cursor: pointer;
+}
+.quantity-btns-box button:hover {
+	background-color: rgb(250, 179, 48);
 }
 
 .delete-item-btn {
