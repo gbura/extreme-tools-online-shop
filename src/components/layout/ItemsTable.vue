@@ -1,5 +1,5 @@
 <template>
-	<div class="table-box" ref="tableContainer" @scroll="lazyLoad">
+	<div class="table-box">
 		<table>
 			<thead>
 				<th class="search-header">
