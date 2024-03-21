@@ -194,15 +194,10 @@ export default {
 		},
 		closeShoppingCart() {
 			this.isOpenShoppingCart = false
-			this.clearQuantityInputs()
-			this.updateItemsFromLocalStorage()
-		},
-		clearQuantityInputs() {
-			const quantityInputs = document.querySelectorAll('.quantity')
-			quantityInputs.forEach(input => {
-				input.value = ''
-				input.dispatchEvent(new Event('input'))
+			this.items.forEach(item => {
+				item.quantity = ''
 			})
+			this.updateItemsFromLocalStorage()
 		},
 		updateItemsFromLocalStorage() {
 			const localStorageItems = JSON.parse(localStorage.getItem('items'))
@@ -510,5 +505,10 @@ tr:not(thead tr) {
 
 .selected-row {
 	background-color: rgb(255, 101, 1);
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 </style>
