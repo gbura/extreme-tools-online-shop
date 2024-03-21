@@ -194,8 +194,22 @@ export default {
 		},
 		closeShoppingCart() {
 			this.isOpenShoppingCart = false
+			this.clearQuantityInputs()
+			this.updateItemsFromLocalStorage()
 		},
-
+		clearQuantityInputs() {
+			const quantityInputs = document.querySelectorAll('.quantity')
+			quantityInputs.forEach(input => {
+				input.value = ''
+				input.dispatchEvent(new Event('input'))
+			})
+		},
+		updateItemsFromLocalStorage() {
+			const localStorageItems = JSON.parse(localStorage.getItem('items'))
+			if (localStorageItems) {
+				this.shoppingCartStore.items = localStorageItems
+			}
+		},
 		purchase() {
 			if (this.shoppingCartStore.items.length === 0) {
 				Swal.fire({
