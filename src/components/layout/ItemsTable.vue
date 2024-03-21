@@ -1,10 +1,15 @@
 <template>
-	<div class="table-box">
+	<div class="table-box" ref="tableContainer" @scroll="lazyLoad">
 		<table>
 			<thead>
 				<th class="search-header">
 					<div class="search-header-box">
-						<input type="text" class="input-searchbar" placeholder="Wyszukaj produkt" />
+						<input
+							type="text"
+							class="input-searchbar"
+							placeholder="Wyszukaj produkt"
+							v-model="searchQuery"
+							@input="search" />
 					</div>
 				</th>
 				<tr>
@@ -38,10 +43,10 @@
 			<tbody>
 				<tr
 					v-for="(item, index) in filteredItems"
+					:key="index"
 					@keydown.tab.prevent="focusNextRow(item.code, index)"
 					@click="handleRowClick(item.code, index)"
-					:class="{ 'selected-row': activeRowIndex === index }"
-					:key="index">
+					:class="{ 'selected-row': activeRowIndex === index }">
 					<td class="ean-code">{{ item.ean }}</td>
 					<td class="bar-code">{{ item.name }}</td>
 					<td class="product-code">{{ item.code }}</td>
@@ -112,6 +117,7 @@ export default {
 				name: '',
 				code: '',
 			},
+			searchQuery: '',
 			selectedItem: null,
 			activeRowIndex: null,
 			cost: 0,
@@ -148,6 +154,31 @@ export default {
 		},
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
+		},
+		search() {
+			const searchValue = this.searchQuery.toLowerCase().trim()
+			const rows = document.querySelectorAll('tbody tr')
+			let nextRowIndex = -1
+
+			rows.forEach((row, index) => {
+				const cells = row.querySelectorAll('td')
+
+				cells.forEach(cell => {
+					const cellText = cell.textContent.trim()
+					const markRegex = new RegExp(searchValue, 'gi')
+					const markedText = cellText.replace(markRegex, match => `<mark>${match}</mark>`)
+					cell.innerHTML = markedText !== cellText ? markedText : cellText
+
+					if (markedText !== cellText && nextRowIndex === -1) {
+						nextRowIndex = index
+					}
+				})
+			})
+
+			if (nextRowIndex !== -1) {
+				const nextRow = rows[nextRowIndex]
+				nextRow.scrollIntoView({ behavior: 'smooth', block: 'center' })
+			}
 		},
 		updateCost() {
 			this.filteredItems.forEach(item => {
@@ -213,9 +244,6 @@ export default {
 // document.getElementsByClassName('quantity').value = '' -->
 
 <style scoped>
-.highlight {
-	background-color: yellow;
-}
 th.search-header {
 	height: 42px;
 }
