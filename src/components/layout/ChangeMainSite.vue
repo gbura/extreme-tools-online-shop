@@ -30,13 +30,11 @@ export default {
 	methods: {
 		onFileSelected(event) {
 			this.selectedFile = event.target.files[0]
-			console.log(this.selectedFile)
 		},
 		onUpload() {
 			const fd = new FormData()
 			const token = this.authStore.token
 			fd.append('file', this.selectedFile)
-			console.log(fd)
 			axios
 				.post('http://127.0.0.1:8000/api/bo/mainPhotos', fd, {
 					headers: {
@@ -45,13 +43,19 @@ export default {
 					},
 				})
 				.then(res => {
-					console.log(res)
 					this.selectedFile = null
 					document.getElementById('main-image').value = ''
 					Swal.fire({
 						title: 'Sukces!',
 						text: 'Ustawiono nowe zdjęcie!',
 						icon: 'success',
+					})
+				})
+				.catch(err => {
+					Swal.fire({
+						title: 'Błąd!',
+						text: 'Wystąpił błąd podczas ustawiania nowego zdjęcia!',
+						icon: 'error',
 					})
 				})
 		},

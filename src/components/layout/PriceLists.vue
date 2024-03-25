@@ -75,11 +75,19 @@ export default {
 		async uploadPriceList(e) {
 			const fd = new FormData()
 			fd.append('file', this.selectedFile)
-			Swal.fire({
-				title: 'Sukces!',
-				text: 'Nowy cennik został dodany do listy!',
-				icon: 'success',
-			})
+			if (this.selectedFile) {
+				Swal.fire({
+					title: 'Sukces!',
+					text: 'Nowy cennik został dodany do listy!',
+					icon: 'success',
+				})
+			} else {
+				Swal.fire({
+					title: 'Błąd!',
+					text: 'Wystąpił błąd podczas dodawania cennika!',
+					icon: 'error',
+				})
+			}
 			const fileExists = this.priceLists.some(priceList => priceList.name === this.selectedFile.name)
 			if (fileExists) {
 				Swal.fire({
