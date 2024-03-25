@@ -37,7 +37,7 @@ export default {
 		BaseButton,
 		SkeletonLoader,
 	},
-	name: 'HomeView',
+	name: 'DashboardView',
 	data() {
 		return {
 			dataLoaded: false,
