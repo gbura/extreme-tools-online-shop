@@ -76,6 +76,8 @@ export default {
 
 .photo-box .photo-img {
 	width: 100%;
+	max-height: 250px;
+	object-fit: cover;
 }
 .photo-box button {
 	position: absolute;
