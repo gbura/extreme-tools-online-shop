@@ -60,6 +60,7 @@
 							v-model="item.quantity"
 							@input="updateCost"
 							min="1" />
+						<span v-else>{{ item.quantity }}</span>
 					</td>
 				</tr>
 			</tbody>
@@ -312,10 +313,6 @@ th.search-header {
 .purchase-items-btn:hover {
 	background-color: rgb(0, 109, 0);
 }
-/* .purchase-items-btn:disabled {
-	cursor: not-allowed;
-	pointer-events: all;
-} */
 
 .item-container {
 	position: relative;

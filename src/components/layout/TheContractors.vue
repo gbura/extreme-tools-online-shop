@@ -16,7 +16,7 @@
 					<td>{{ user.companyName }}</td>
 					<td>{{ user.companyAddress }}</td>
 					<td>
-						{{ user.priceList }}
+						Przypisano: {{ user.priceList }}
 						<select v-model="user.priceList" @change="updatePriceList(user.id, user.priceList)">
 							<option v-for="priceList in usersStore.priceLists" :key="priceList.id" :value="priceList.id">
 								{{ priceList.name }}
@@ -115,6 +115,10 @@ th {
 
 table {
 	width: 1200px;
+}
+
+tbody {
+	background-color: rgba(51, 50, 50, 0.514);
 }
 
 h1 {
