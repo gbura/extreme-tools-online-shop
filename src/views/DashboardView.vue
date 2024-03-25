@@ -15,7 +15,7 @@
 							<ItemsTable @row-click="changeItemImage" @next-tab-click="changeItemImage" />
 						</div>
 						<div class="item-img">
-							<img :src="selectedItemImage" alt="" />
+							<img :src="`http://127.0.0.1:8000/app/public/` + selectedItemImage" alt="" />
 						</div>
 					</div>
 				</template>
@@ -24,6 +24,7 @@
 	</div>
 </template>
 <script>
+import Swal from 'sweetalert2'
 import TheSwiper from '@/components/ui/TheSwiper.vue'
 import ItemsTable from '@/components/layout/ItemsTable.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
@@ -40,7 +41,7 @@ export default {
 	data() {
 		return {
 			dataLoaded: false,
-			selectedItemImage: null,
+			selectedItemImage: '',
 			isOpenSlider: false,
 		}
 	},
@@ -50,23 +51,13 @@ export default {
 		}, 1000)
 	},
 	methods: {
-		changeItemImage(productCode) {
-			import(`@/assets/images/accessories/${productCode.trim()}.jpg`)
-				.then(image => {
-					this.selectedItemImage = image.default
-				})
-				.catch(error => {
-					this.selectedItemImage = `https://e7.pngegg.com/pngimages/630/805/png-clipart-cats-cats.png`
-					console.error('Error loading image:', error)
-				})
+		changeItemImage(productImage) {
+			if (productImage) {
+				this.selectedItemImage = productImage.url
+			} else if (productImage === null) {
+				this.selectedItemImage = 'X.jpg'
+			}
 		},
-		// changeItemImage(productImage) {
-		// 	if (productImage) {
-		// 		this.selectedItemImage = productImage.url
-		// 	} else {
-		// 		this.selectedItemImage = `https://e7.pngegg.com/pngimages/630/805/png-clipart-cats-cats.png`
-		// 	}
-		// },
 		toggleSlider() {
 			this.isOpenSlider = !this.isOpenSlider
 		},

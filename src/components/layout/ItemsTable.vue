@@ -44,8 +44,8 @@
 				<tr
 					v-for="(item, index) in filteredItems"
 					:key="index"
-					@keydown.tab.prevent="focusNextRow(item.code, index)"
-					@click="handleRowClick(item.code, index)"
+					@keydown.tab.prevent="focusNextRow(item.image, index)"
+					@click="handleRowClick(item.image, index)"
 					:class="{ 'selected-row': activeRowIndex === index }">
 					<td class="ean-code">{{ item.ean }}</td>
 					<td class="bar-code">{{ item.name }}</td>
@@ -144,13 +144,13 @@ export default {
 				console.error('Błąd podczas pobierania danych:', error)
 			}
 		},
-		handleRowClick(productCode, index) {
+		handleRowClick(productImage, index) {
 			this.activeRowIndex = index
-			this.$emit('row-click', productCode)
+			this.$emit('row-click', productImage)
 		},
-		focusNextRow(productCode, index) {
+		focusNextRow(productImage, index) {
 			this.activeRowIndex = index + 1
-			this.$emit('next-tab-click', productCode)
+			this.$emit('next-tab-click', productImage)
 		},
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
@@ -235,22 +235,6 @@ export default {
 	},
 }
 </script>
-<!-- // handleRowClick(productImage, index) {
-// 	this.activeRowIndex = index
-// 	this.$emit('row-click', productImage)
-// },
-// focusNextRow(productImage, index) {
-// 	this.activeRowIndex = index + 1
-// 	this.$emit('next-tab-click', productImage)
-// },
-
-// TODO w tbody -> tr do zdjęć
-// @keydown.tab.prevent="focusNextRow(item.image, index)"
-// @click="handleRowClick(item.image, index)"
-
-// showshoppingcart
-// console.log(document.getElementsByClassName('quantity'))
-// document.getElementsByClassName('quantity').value = '' -->
 
 <style scoped>
 th.search-header {
