@@ -61,7 +61,7 @@ export default {
 .photos-container {
 	width: 100%;
 	height: 100%;
-	margin-top: 20rem;
+	margin-top: 30rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -85,6 +85,11 @@ export default {
 	border: none;
 	font-size: 1.6rem;
 	cursor: pointer;
+}
+
+.pagination {
+	position: absolute;
+	top: 20rem;
 }
 .pagination button {
 	padding: 0.5rem;

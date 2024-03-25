@@ -28,8 +28,6 @@ export default {
 			this.selectedFile = event.target.files[0]
 			const fileName = event.target.files[0].name
 			this.selectedFileCode = fileName.slice(0, -4)
-			console.log(this.selectedFile)
-			console.log(this.selectedFileCode)
 		},
 		onUpload() {
 			const fd = new FormData()
@@ -39,7 +37,6 @@ export default {
 			instanceAxios
 				.post('bo/images', fd)
 				.then(res => {
-					console.log(res)
 					this.selectedFile = null
 					Swal.fire({
 						title: 'Sukces!',

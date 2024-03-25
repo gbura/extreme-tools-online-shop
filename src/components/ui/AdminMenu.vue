@@ -29,7 +29,8 @@ ul {
 	width: 80%;
 	background-color: rgb(189, 131, 23);
 	list-style-type: none;
-	border-radius: 15px;
+	border-radius: 5px;
+	padding: 0.5rem;
 	transform: translateX(-50%);
 }
 
