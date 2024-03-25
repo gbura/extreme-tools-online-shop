@@ -44,7 +44,11 @@
 				<tr
 					v-for="(item, index) in filteredItems"
 					:key="index"
-					@keydown.tab.prevent="focusNextRow(item.image, index)"
+					@keydown.up.prevent="handleKeyDown($event, index)"
+					@keydown.down.prevent="handleKeyDown($event, index)"
+					@keydown.enter.prevent="handleKeyDown($event, index)"
+					tabindex="0"
+					ref="tableRows"
 					@click="handleRowClick(item.image, index)"
 					:class="{ 'selected-row': activeRowIndex === index }">
 					<td class="ean-code">{{ item.ean }}</td>
@@ -53,14 +57,13 @@
 					<td class="product-price">{{ Number(item.price).toFixed(2) }}</td>
 					<td>
 						<input
-							v-if="activeRowIndex === index"
 							:id="item.id"
 							type="number"
 							class="quantity"
 							v-model="item.quantity"
 							@input="updateCost"
-							min="1" />
-						<span v-else>{{ item.quantity }}</span>
+							min="1"
+							tabindex="0" />
 					</td>
 				</tr>
 			</tbody>
@@ -149,9 +152,34 @@ export default {
 			this.activeRowIndex = index
 			this.$emit('row-click', productImage)
 		},
-		focusNextRow(productImage, index) {
-			this.activeRowIndex = index + 1
+		handleKeyDown(event, index) {
+			if (event.key === 'ArrowUp' && index > 0) {
+				this.focusNextRow(index - 1)
+			} else if (event.key === 'ArrowDown' && index < this.filteredItems.length - 1) {
+				this.focusNextRow(index + 1)
+			} else if (event.key === 'Enter') {
+				this.focusQuantityInput(index)
+			}
+		},
+		focusNextRow(index) {
+			this.activeRowIndex = index
+			const productImage = this.filteredItems[index].image
 			this.$emit('next-tab-click', productImage)
+			const nextRow = this.$refs.tableRows[this.activeRowIndex]
+			if (nextRow) {
+				nextRow.focus()
+			}
+		},
+		focusQuantityInput(index) {
+			const selectedRow = this.filteredItems[index]
+			if (selectedRow) {
+				this.$nextTick(() => {
+					const quantityInput = this.$refs.tableRows[index].querySelector('.quantity')
+					if (quantityInput) {
+						quantityInput.focus()
+					}
+				})
+			}
 		},
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
