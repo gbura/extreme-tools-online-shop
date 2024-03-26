@@ -13,10 +13,15 @@
 <script>
 import instanceAxios from '@/axios'
 import Swal from 'sweetalert2'
+import { usePhotosStore } from '@/stores/photos.js'
 export default {
 	name: 'UpdateImage',
 	props: ['open'],
 	emits: ['close'],
+	setup() {
+		const photosStore = usePhotosStore()
+		return { photosStore }
+	},
 	data() {
 		return {
 			selectedFile: null,
@@ -33,16 +38,17 @@ export default {
 			const fd = new FormData()
 			fd.append('file', this.selectedFile)
 			fd.append('code', this.selectedFileCode)
-			console.log(fd)
 			instanceAxios
 				.post('bo/images', fd)
 				.then(res => {
 					this.selectedFile = null
+					document.getElementById('photo').value = ''
 					Swal.fire({
 						title: 'Sukces!',
 						text: 'Ustawiono nowe zdjęcie!',
 						icon: 'success',
 					})
+					this.photosStore.getPhotos()
 				})
 				.catch(err => {
 					console.error('Blad wysylania', err)

@@ -10,7 +10,6 @@
 			</div>
 		</div>
 		<div class="right-section">
-			<!-- <img :src="imageUrl" alt="Zdjęcia narzędzi oraz loga" /> -->
 			<img :src="`http://127.0.0.1:8000/app/public/` + imageUrl" alt="" />
 		</div>
 	</div>

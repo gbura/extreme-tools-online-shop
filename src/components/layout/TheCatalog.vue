@@ -1,14 +1,55 @@
 <template>
 	<div>
-		<label for="price-list">Dodaj nowe zdjęcia:</label>
-		<input type="file" id="price-list" name="price-list" accept="image/png, image/jpeg" multiple />
-		<button>Wrzuć</button>
+		<label for="catalog-photo">Dodaj nowe zdjęcia do katalogu:</label>
+		<input
+			type="file"
+			id="catalog-photo"
+			name="catalog-photo"
+			accept="image/png, image/jpg, image/jpeg"
+			multiple
+			@change="onFileSelected" />
+		<button @click="onUpload">Wrzuć</button>
 	</div>
 </template>
 
 <script>
+import instanceAxios from '@/axios'
+import Swal from 'sweetalert2'
 export default {
 	name: 'TheCatalog',
+	data() {
+		return {
+			selectedFile: null,
+		}
+	},
+	methods: {
+		onFileSelected(event) {
+			this.selectedFile = event.target.files[0]
+		},
+		onUpload() {
+			const fd = new FormData()
+			fd.append('file', this.selectedFile)
+			instanceAxios
+				.post('bo/catalogImages', fd)
+				.then(res => {
+					this.selectedFile = null
+					document.getElementById('catalog-photo').value = ''
+					Swal.fire({
+						title: 'Sukces!',
+						text: 'Ustawiono nowe zdjęcie!',
+						icon: 'success',
+					})
+				})
+				.catch(err => {
+					console.error('Blad wysylania', err)
+					Swal.fire({
+						title: 'Błąd!',
+						text: 'Wystąpił problem podczas aktualizacji zdjęcia!',
+						icon: 'error',
+					})
+				})
+		},
+	},
 }
 </script>
 
@@ -25,7 +66,7 @@ div {
 	background-color: orange;
 	border-radius: 15px;
 }
-#price-list {
+#catalog-photo {
 	display: block;
 	margin: 0 auto;
 	width: 50%;

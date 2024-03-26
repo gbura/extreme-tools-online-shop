@@ -12,7 +12,7 @@ export const useEmailsStore = defineStore('emailsStore', {
 				const response = await instanceAxios.get('bo/emails')
 				this.emails = response.data.data.data
 			} catch (error) {
-				console.log('Blad pobierania', error)
+				console.error('Blad pobierania emaili z bazy danych', error)
 			}
 		},
 		async addEmail(email) {

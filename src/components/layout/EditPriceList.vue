@@ -34,7 +34,7 @@ import Swal from 'sweetalert2'
 import { useAuthStore } from '@/stores/auth.js'
 
 export default {
-	name: 'ItemsTable',
+	name: 'EditPriceList',
 	data() {
 		return {
 			items: [],
@@ -86,7 +86,6 @@ export default {
 							price: parseFloat(item.price).toFixed(2).toString(),
 						}
 					})
-				console.log(updatedParts)
 
 				if (updatedParts.length === 0) {
 					Swal.fire({

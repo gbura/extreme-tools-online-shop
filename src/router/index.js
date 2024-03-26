@@ -98,25 +98,20 @@ async function checkAuthentication(to, _, next) {
 
 	// Sprawdzanie stanu logowania tylko dla ścieżek, które tego wymagają
 	if (requiresAuth && !authStore.isAuthenticated) {
-		// console.log('Sprawdzam status logowania...')
 		await authStore.fetchUser()
 	}
 
 	// Obsługa ścieżek, które wymagają autoryzacji
 	if (requiresAuth && !authStore.isAuthenticated) {
-		// console.log('Użytkownik nie jest zalogowany, przekierowuję do logowania...')
 		return next({ name: 'login' })
 	}
 
-	// console.log({ isAdmin: authStore.isLoggedAdmin })
 	// Obsługa ścieżek, które wymagają roli admina
 	if (requiresAdmin && !authStore.isLoggedAdmin) {
-		// console.log('Użytkownik nie jest adminem, przekierowuję do dashboard...')
 		return next({ name: 'dashboard' })
 	}
 
 	// Jeśli dotarliśmy tutaj, użytkownik jest zalogowany lub strona nie wymaga logowania
-	// console.log('Kontynuuję nawigację...')
 	next()
 }
 

@@ -30,6 +30,7 @@ import Swal from 'sweetalert2'
 import instanceAxios from '@/axios'
 import { useAuthStore } from '@/stores/auth.js'
 export default {
+	name: 'PriceLists',
 	data() {
 		return {
 			priceLists: [],
@@ -70,7 +71,6 @@ export default {
 		},
 		onFileSelected(event) {
 			this.selectedFile = event.target.files[0]
-			console.log(this.selectedFile)
 		},
 		async uploadPriceList(e) {
 			const fd = new FormData()
@@ -81,6 +81,7 @@ export default {
 					text: 'Nowy cennik został dodany do listy!',
 					icon: 'success',
 				})
+				document.getElementById('add-price-list-input').value = ''
 			} else {
 				Swal.fire({
 					title: 'Błąd!',

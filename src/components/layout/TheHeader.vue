@@ -33,7 +33,7 @@
 import { useAuthStore } from '@/stores/auth.js'
 
 export default {
-	name: 'TheNavbar',
+	name: 'TheHeader',
 	setup() {
 		const authstore = useAuthStore()
 		return { authstore }

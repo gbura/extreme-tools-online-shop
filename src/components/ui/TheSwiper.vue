@@ -1,15 +1,15 @@
 <template>
 	<div class="slider-box">
 		<swiper :loop="true" :modules="modules" :navigation="true" @slideChange="updateCurrentSlide">
-			<swiper-slide v-for="(image, index) in images" :key="index">
-				<img :src="getImageUrl(image.filename)" alt="" />
+			<swiper-slide v-for="image in images" :key="image.id">
+				<img :src="`http://127.0.0.1:8000/app/public/` + image.url" alt="" />
 			</swiper-slide>
 		</swiper>
 
 		<div class="thumbnail-carousel">
 			<swiper :slides-per-view="7" class="thumbnail-swiper">
-				<swiper-slide v-for="(image, index) in images" :key="index" :class="{ active: currentSlideIndex === index }">
-					<img :src="getImageUrl(image.filename)" alt="" />
+				<swiper-slide v-for="(image, index) in images" :key="image.id" :class="{ active: currentSlideIndex === index }">
+					<img :src="`http://127.0.0.1:8000/app/public/` + image.url" alt="" />
 				</swiper-slide>
 			</swiper>
 		</div>
@@ -21,9 +21,10 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
-import imagesData from '../../db/photos.json'
+import instanceAxios from '@/axios'
 
 export default {
+	name: 'TheSwiper',
 	components: {
 		Swiper,
 		SwiperSlide,
@@ -36,14 +37,15 @@ export default {
 		}
 	},
 	mounted() {
-		this.images = imagesData.images
+		this.fetchImages()
 	},
 	methods: {
-		getImageUrl(filename) {
-			return `../src/assets/images/catalog/${filename}`
-		},
 		updateCurrentSlide(event) {
 			this.currentSlideIndex = event.realIndex
+		},
+		async fetchImages() {
+			const response = await instanceAxios.get('bo/catalogImages')
+			this.images = response.data.data.data
 		},
 	},
 }
