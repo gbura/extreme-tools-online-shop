@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useAuthStore } from '@/stores/auth.js'
 
 const instanceAxios = axios.create({
-	baseURL: 'pawelkajdas.pl/api/',
+	baseURL: 'https://pawelkajdas.pl/api/',
 })
 
 instanceAxios.interceptors.request.use(
