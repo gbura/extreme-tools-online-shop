@@ -3,6 +3,9 @@ import { useAuthStore } from '@/stores/auth.js'
 
 const instanceAxios = axios.create({
 	baseURL: 'https://pawelkajdas.pl/api/',
+	headers: {
+		'Access-Control-Allow-Origin': '*',
+	},
 })
 
 instanceAxios.interceptors.request.use(
