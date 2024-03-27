@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import instanceAxios from '@/axios'
 import { useAuthStore } from '@/stores/auth.js'
 import ContactList from '@/components/layout/ContactList.vue'
 export default {
@@ -30,8 +30,8 @@ export default {
 	mounted() {
 		const authStore = useAuthStore()
 		const token = authStore.token
-		axios
-			.get('pawelkajdas.pl/api/mainPhotos', {
+		instanceAxios
+			.get('/mainPhotos', {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
