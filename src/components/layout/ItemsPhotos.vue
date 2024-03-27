@@ -2,7 +2,7 @@
 	<div class="photos-container">
 		<div class="photo-box" v-for="photo in photosStore.photos" :key="photo.id">
 			<p>Kod: {{ photo.part.code }}</p>
-			<img :src="`http://127.0.0.1:8000/app/public/` + photo.url" class="photo-img" />
+			<img :src="`https://pawelkajdas.pl/public/app/public/` + photo.url" class="photo-img" />
 			<button @click="updatePhoto(photo.part.id, photo.part.code)">AKTUALIZUJ</button>
 		</div>
 		<div class="pagination">
