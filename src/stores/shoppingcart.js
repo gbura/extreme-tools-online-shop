@@ -55,7 +55,6 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 						icon: 'success',
 					}).then(() => {
 						window.location.reload()
-						// reload strony po udanym zamowieniu
 					})
 					this.removeAllItems()
 				})
