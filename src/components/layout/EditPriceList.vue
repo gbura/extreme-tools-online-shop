@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import instanceAxios from '@/axios'
 import Swal from 'sweetalert2'
 import { useAuthStore } from '@/stores/auth.js'
 
@@ -52,7 +52,7 @@ export default {
 				const authStore = useAuthStore()
 				const token = authStore.token
 
-				const res = await axios.get(`pawelkajdas.pl/api/bo/priceLists/${this.priceListId}`, {
+				const res = await instanceAxios.get(`bo/priceLists/${this.priceListId}`, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},

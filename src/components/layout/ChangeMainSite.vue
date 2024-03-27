@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import instanceAxios from '@/axios'
 import Swal from 'sweetalert2'
 import { useAuthStore } from '@/stores/auth.js'
 export default {
@@ -35,8 +35,8 @@ export default {
 			const fd = new FormData()
 			const token = this.authStore.token
 			fd.append('file', this.selectedFile)
-			axios
-				.post('pawelkajdas.pl/api/bo/mainPhotos', fd, {
+			instanceAxios
+				.post('bo/mainPhotos', fd, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 						'Content-Type': 'multipart/form-data',
