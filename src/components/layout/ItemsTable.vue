@@ -136,7 +136,7 @@ export default {
 			try {
 				const authStore = useAuthStore()
 				const token = authStore.token
-				const res = await instanceAxios.get('ad/priceList/', {
+				const res = await instanceAxios.get('ad/priceList', {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
