@@ -31,7 +31,7 @@ export default {
 		const authStore = useAuthStore()
 		const token = authStore.token
 		instanceAxios
-			.get('/mainPhotos', {
+			.get('mainPhotos', {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
