@@ -2,14 +2,14 @@
 	<div class="slider-box">
 		<swiper :loop="true" :modules="modules" :navigation="true" @slideChange="updateCurrentSlide">
 			<swiper-slide v-for="image in images" :key="image.id">
-				<img :src="`http://127.0.0.1:8000/app/public/` + image.url" alt="" />
+				<img :src="`https://pawelkajdas.pl/public/app/public/` + image.url" alt="" />
 			</swiper-slide>
 		</swiper>
 
 		<div class="thumbnail-carousel">
 			<swiper :slides-per-view="7" class="thumbnail-swiper">
 				<swiper-slide v-for="(image, index) in images" :key="image.id" :class="{ active: currentSlideIndex === index }">
-					<img :src="`http://127.0.0.1:8000/app/public/` + image.url" alt="" />
+					<img :src="`https://pawelkajdas.pl/public/app/public/` + image.url" alt="" />
 				</swiper-slide>
 			</swiper>
 		</div>

@@ -15,7 +15,7 @@
 							<ItemsTable @row-click="changeItemImage" @next-tab-click="changeItemImage" />
 						</div>
 						<div class="item-img">
-							<img :src="`http://127.0.0.1:8000/app/public/` + selectedItemImage" alt="" />
+							<img :src="`https://pawelkajdas.pl/public/app/public/` + selectedItemImage" alt="" />
 						</div>
 					</div>
 				</template>

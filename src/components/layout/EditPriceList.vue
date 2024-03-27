@@ -96,8 +96,8 @@ export default {
 					return
 				}
 
-				const res = await axios.put(
-					`http://127.0.0.1:8000/api/bo/priceLists/${this.priceListId}`,
+				const res = await instanceAxios.put(
+					`bo/priceLists/${this.priceListId}`,
 					{
 						parts: updatedParts,
 					},
