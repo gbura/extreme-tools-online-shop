@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class="right-section">
-			<img :src="`http://127.0.0.1:8000/app/public/` + imageUrl" alt="" />
+			<img :src="`https://pawelkajdas.pl/app/public/` + imageUrl" alt="" />
 		</div>
 	</div>
 </template>
