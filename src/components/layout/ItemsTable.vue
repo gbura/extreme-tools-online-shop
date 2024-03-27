@@ -136,7 +136,7 @@ export default {
 			try {
 				const authStore = useAuthStore()
 				const token = authStore.token
-				const res = await axios.get('http://127.0.0.1:8000/api/ad/priceList/', {
+				const res = await axios.get('pawelkajdas.pl/api/ad/priceList/', {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},

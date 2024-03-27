@@ -36,7 +36,7 @@ export default {
 			const token = this.authStore.token
 			fd.append('file', this.selectedFile)
 			axios
-				.post('http://127.0.0.1:8000/api/bo/mainPhotos', fd, {
+				.post('pawelkajdas.pl/api/bo/mainPhotos', fd, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 						'Content-Type': 'multipart/form-data',

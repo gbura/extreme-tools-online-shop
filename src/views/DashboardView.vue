@@ -24,7 +24,6 @@
 	</div>
 </template>
 <script>
-import Swal from 'sweetalert2'
 import TheSwiper from '@/components/ui/TheSwiper.vue'
 import ItemsTable from '@/components/layout/ItemsTable.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'

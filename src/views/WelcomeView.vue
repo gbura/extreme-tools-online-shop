@@ -31,7 +31,7 @@ export default {
 		const authStore = useAuthStore()
 		const token = authStore.token
 		axios
-			.get('http://127.0.0.1:8000/api/mainPhotos', {
+			.get('pawelkajdas.pl/api/mainPhotos', {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
