@@ -1,18 +1,10 @@
 <template>
 	<div class="slider-box">
-		<swiper :loop="true" :modules="modules" :navigation="true" @slideChange="updateCurrentSlide">
+		<swiper :loop="true" :modules="modules" :navigation="true">
 			<swiper-slide v-for="image in images" :key="image.id">
-				<img :src="`https://pawelkajdas.pl/public/app/public/` + image.url" alt="" />
+				<img :src="`https://pawelkajdas.pl/public/app/public/` + image.name" alt="" />
 			</swiper-slide>
 		</swiper>
-
-		<div class="thumbnail-carousel">
-			<swiper :slides-per-view="7" class="thumbnail-swiper">
-				<swiper-slide v-for="(image, index) in images" :key="image.id" :class="{ active: currentSlideIndex === index }">
-					<img :src="`https://pawelkajdas.pl/public/app/public/` + image.url" alt="" />
-				</swiper-slide>
-			</swiper>
-		</div>
 	</div>
 </template>
 
@@ -40,12 +32,9 @@ export default {
 		this.fetchImages()
 	},
 	methods: {
-		updateCurrentSlide(event) {
-			this.currentSlideIndex = event.realIndex
-		},
 		async fetchImages() {
 			const response = await instanceAxios.get('bo/catalogImages')
-			this.images = response.data.data.data
+			this.images = response.data.data
 		},
 	},
 }
@@ -54,6 +43,7 @@ export default {
 <style>
 .slider-box {
 	height: 100%;
+	margin-left: 2rem;
 }
 .swiper {
 	width: 100%;
@@ -75,22 +65,5 @@ export default {
 .swiper-slide img {
 	width: 100%;
 	height: 100%;
-}
-
-.thumbnail-swiper {
-	width: 100%;
-}
-.thumbnail-swiper .swiper-slide {
-	width: 60px;
-	height: 60px;
-	cursor: pointer;
-	margin-right: 10px;
-	border: 1px solid transparent;
-}
-.thumbnail-swiper .swiper-slide:last-child {
-	margin-right: 0;
-}
-.thumbnail-swiper .swiper-slide.active {
-	border-color: green;
 }
 </style>

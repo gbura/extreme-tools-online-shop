@@ -3,10 +3,10 @@
 	<transition name="modal">
 		<form v-if="open" @submit.prevent="onUpload" class="image-form">
 			<div class="form-item">
-				<label for="photo">Aktualizuj zdjęcie:</label>
+				<label for="photo">Dodaj zdjęcie:</label>
 				<input type="file" id="photo" name="photo" accept="image/png, image/jpg, image/jpeg" @change="onFileSelected" />
 			</div>
-			<button class="confirm-changes-btn">Zaaktualizuj</button>
+			<button class="confirm-changes-btn">Dodaj</button>
 		</form>
 	</transition>
 </template>

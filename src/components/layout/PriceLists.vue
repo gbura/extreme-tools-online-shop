@@ -8,7 +8,7 @@
 					<li v-for="priceList in priceLists" :key="priceList.id">
 						<span>{{ priceList.name }}</span>
 						<button class="remove-item-btn" @click="removePriceList(priceList.id)">X</button>
-						<router-link :to="'/admin-panel/price-lists/edit/' + priceList.id"> EDYTUJ </router-link>
+						<router-link :to="'/admin-panel/price-lists/edit/' + priceList.id">EDYTUJ</router-link>
 					</li>
 				</ul>
 			</div>
