@@ -25,7 +25,6 @@ export default {
 		return {
 			modules: [Navigation],
 			images: [],
-			currentSlideIndex: 0,
 		}
 	},
 	mounted() {
@@ -47,7 +46,7 @@ export default {
 }
 .swiper {
 	width: 100%;
-	max-width: 550px;
+	max-width: 520px;
 	height: 100%;
 }
 .swiper-button-prev::after,

@@ -207,7 +207,7 @@ export default {
 				cells.forEach(cell => {
 					const cellText = cell.textContent.trim()
 					const markRegex = new RegExp(searchValue, 'gi')
-					const markedText = cellText.replace(markRegex, match => `<mark>${match}</mark>`)
+					const markedText = cellText.replace(markRegex, match => `<strong>${match}</strong>`)
 					cell.innerHTML = markedText !== cellText ? markedText : cellText
 
 					if (markedText !== cellText && nextRowIndex === -1) {
@@ -463,23 +463,23 @@ input {
 }
 
 .ean-header {
-	width: 120px;
+	width: 100px;
 }
 
 .item-name-header {
-	width: 600px;
-	max-width: 600px;
+	width: 700px;
+	max-width: 700px;
 }
 
 .product-code-header {
-	width: 150px;
+	width: 120px;
 }
 
 .price-header {
 	padding: 0 1rem;
 }
 .shopping-header {
-	width: 100px;
+	width: 60px;
 	cursor: pointer;
 }
 
