@@ -3,8 +3,14 @@
 	<transition name="modal">
 		<form v-if="open" @submit.prevent="onUpload" class="image-form">
 			<div class="form-item">
-				<label for="photo">Dodaj zdjęcie:</label>
-				<input type="file" id="photo" name="photo" accept="image/png, image/jpg, image/jpeg" @change="onFileSelected" />
+				<label for="photo">Dodaj zdjęcia:</label>
+				<input
+					type="file"
+					id="photo"
+					name="photo"
+					accept="image/png, image/jpg, image/jpeg"
+					@change="onFileSelected"
+					multiple />
 			</div>
 			<button class="confirm-changes-btn">Dodaj</button>
 		</form>
@@ -24,39 +30,57 @@ export default {
 	},
 	data() {
 		return {
-			selectedFile: null,
-			selectedFileCode: '',
+			selectedFiles: [],
+			duplicatedPhotos: [],
 		}
 	},
 	methods: {
 		onFileSelected(event) {
-			this.selectedFile = event.target.files[0]
-			const fileName = event.target.files[0].name
-			this.selectedFileCode = fileName.slice(0, -4)
+			this.selectedFiles = event.target.files
 		},
 		onUpload() {
+			if (this.selectedFiles.length === 0) {
+				Swal.fire({
+					title: 'Błąd!',
+					text: 'Wybierz co najmniej jedno zdjęcie!',
+					icon: 'error',
+				})
+				return
+			}
+
 			const fd = new FormData()
-			fd.append('file', this.selectedFile)
-			fd.append('code', this.selectedFileCode)
+			const existingPhotos = this.photosStore.photos.map(photo => photo.name)
+
+			for (let i = 0; i < this.selectedFiles.length; i++) {
+				if (existingPhotos.includes(this.selectedFiles[i].name)) {
+					this.duplicatedPhotos.push(this.selectedFiles[i].name)
+				} else {
+					fd.append('images[]', this.selectedFiles[i])
+				}
+			}
+			if (this.duplicatedPhotos.length > 0) {
+				Swal.fire({
+					title: 'Błąd!',
+					text: `Zdjęcia ${this.duplicatedPhotos.join(', ')} już istnieją!`,
+					icon: 'error',
+				})
+				return
+			}
+
 			instanceAxios
 				.post('bo/images', fd)
 				.then(res => {
-					this.selectedFile = null
+					this.selectedFiles = []
 					document.getElementById('photo').value = ''
 					Swal.fire({
 						title: 'Sukces!',
-						text: 'Ustawiono nowe zdjęcie!',
+						text: 'Dodano nowe zdjęcia!',
 						icon: 'success',
 					})
 					this.photosStore.getPhotos()
 				})
 				.catch(err => {
-					console.error('Blad wysylania', err)
-					Swal.fire({
-						title: 'Błąd!',
-						text: 'Wystąpił problem podczas aktualizacji zdjęcia!',
-						icon: 'error',
-					})
+					console.error('Błąd wysyłania', err)
 				})
 		},
 	},
