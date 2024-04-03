@@ -10,7 +10,7 @@
 						<img src="../assets/images/showCatalog.png" alt="" v-if="isOpenSlider" />
 						<img src="../assets/images/hideCatalog.png" alt="" v-else />
 					</button>
-					<TheSwiper v-if="isOpenSlider" />
+					<TheSwiper v-if="!isOpenSlider" />
 
 					<div class="right-box">
 						<div class="items-table">
