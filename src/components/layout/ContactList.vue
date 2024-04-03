@@ -1,23 +1,23 @@
 <template>
 	<ul>
 		<li>
-			<img src="../../assets/images/icons/phone.svg" alt="" class="icon" />
+			<img src="../../assets/images/icons/phone.png" alt="" class="icon" />
 			<p>tel. +48 500 710 140</p>
 		</li>
 		<li>
-			<img src="../../assets/images/icons/phone.svg" alt="" class="icon" />
+			<img src="../../assets/images/icons/phone.png" alt="" class="icon" />
 			<p>tel. +48 785 710 140 - biuro</p>
 		</li>
 		<li>
-			<img src="../../assets/images/icons/mail.svg" alt="" class="icon" />
+			<img src="../../assets/images/icons/email.png" alt="" class="icon" />
 			<p>aurora@extremetools.pl</p>
 		</li>
 		<li>
-			<img src="../../assets/images/icons/globe.svg" alt="" class="icon" />
+			<img src="../../assets/images/icons/globe.png" alt="" class="icon" />
 			<p>www.extremetools.pl</p>
 		</li>
 		<li>
-			<img src="../../assets/images/icons/map-pin.svg" alt="" class="icon" />
+			<img src="../../assets/images/icons/mappin.png" alt="" class="icon last-icon" />
 			<p>Paczków 48-370 ul. Jagiellońska 15</p>
 		</li>
 	</ul>
@@ -46,10 +46,18 @@ li {
 	font-weight: bold;
 	color: #fff;
 }
+p {
+	font-family: 'Century-Gothic-Bold', sans-serif;
+	font-weight: bold;
+}
 .icon {
 	background-color: rgb(239, 127, 52);
 	padding: 0.5rem;
+	width: 60px;
 	border-radius: 4px;
+}
+li:last-child {
+	margin-top: 2rem;
 }
 
 @media (min-width: 992px) {

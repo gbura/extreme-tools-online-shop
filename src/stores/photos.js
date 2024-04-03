@@ -1,38 +1,44 @@
 import { defineStore } from 'pinia'
 import instanceAxios from '@/axios'
+import Swal from 'sweetalert2'
 
 export const usePhotosStore = defineStore('photosStore', {
 	state: () => ({
-		paginate: {
-			currentPage: 1,
-			totalPages: 1,
-			perPage: 15,
-		},
 		photos: [],
 	}),
 	actions: {
 		async getPhotos() {
 			try {
-				const response = await instanceAxios.get(
-					`bo/images?page=${this.paginate.currentPage}&perPage=${this.paginate.perPage}`
-				)
+				const response = await instanceAxios.get('bo/images')
 				const data = response.data.data
-				this.photos = data.data
-				this.paginate = data.paginate
+				this.photos = data
 			} catch (error) {
 				console.error('Błąd pobierania danych', error)
 			}
 		},
-		nextPage() {
-			if (this.paginate.currentPage < this.paginate.totalPages) {
-				this.paginate.currentPage++
-				this.getPhotos()
-			}
-		},
-		previousPage() {
-			if (this.paginate.currentPage > 1) {
-				this.paginate.currentPage--
-				this.getPhotos()
+		async deletePhoto(photoId) {
+			try {
+				const response = await instanceAxios.delete('bo/images', {
+					data: {
+						imageIds: [photoId],
+					},
+				})
+				if (response.status === 200) {
+					Swal.fire({
+						title: 'Sukces!',
+						text: 'Usunięto zdjęcie!',
+						icon: 'success',
+					})
+					this.getPhotos()
+				} else {
+					Swal.fire({
+						title: 'Błąd!',
+						text: 'Błąd podczas usuwania zdjęcia!',
+						icon: 'error',
+					})
+				}
+			} catch (error) {
+				console.error('Błąd podczas usuwania zdjęcia', error)
 			}
 		},
 	},

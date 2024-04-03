@@ -1,19 +1,25 @@
 <template>
 	<div class="photos-container">
-		<div class="photo-box" v-for="photo in photosStore.photos" :key="photo.id">
-			<p>Kod: {{ photo.part.code }}</p>
-			<img :src="`https://pawelkajdas.pl/public/app/public/` + photo.url" class="photo-img" />
-			<button @click="updatePhoto(photo.part.id, photo.part.code)">AKTUALIZUJ</button>
+		<div class="photos-box">
+			<table>
+				<thead>
+					<th>ID</th>
+					<th>Nazwa zdjęcia</th>
+				</thead>
+				<tbody>
+					<tr v-for="photo in photosStore.photos" :key="photo.id">
+						<td class="photo-id">{{ photo.id }}.</td>
+						<td class="photo-name">
+							{{ photo.name }}
+							<button class="delete-photo-btn" @click="photosStore.deletePhoto(photo.id)">X</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-		<div class="pagination">
-			<button @click="previousPage" :disabled="photosStore.paginate.currentPage === 1">Poprzednia strona</button>
-			<span>Strona {{ photosStore.paginate.currentPage }} z {{ photosStore.paginate.totalPages }}</span>
-			<button @click="nextPage" :disabled="photosStore.paginate.currentPage === photosStore.paginate.totalPages">
-				Następna strona
-			</button>
-		</div>
+		<button @click="openPopup" class="add-btn">Dodaj</button>
+		<UpdateImage :open="isPopupOpen" @close="closePopup" />
 	</div>
-	<UpdateImage :open="isPopupOpen" @close="closePopup" />
 </template>
 
 <script>
@@ -34,16 +40,6 @@ export default {
 		}
 	},
 	methods: {
-		updatePhoto(partId, partCode) {
-			console.log('Aktualizuję zdjęcie z częścią o ID:', partId, 'i kodzie:', partCode)
-			this.openPopup()
-		},
-		previousPage() {
-			this.photosStore.previousPage()
-		},
-		nextPage() {
-			this.photosStore.nextPage()
-		},
 		openPopup() {
 			this.isPopupOpen = true
 		},
@@ -59,56 +55,69 @@ export default {
 
 <style scoped>
 .photos-container {
-	width: 100%;
-	height: 100%;
-	margin-top: 30rem;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	flex-wrap: wrap;
-	gap: 2rem;
+	width: 900px;
+	height: 100%;
 }
-.photo-box {
-	position: relative;
-	width: 25%;
-	border: 1px solid orange;
-}
-
-.photo-box .photo-img {
+.photos-box {
 	width: 100%;
-	max-height: 250px;
-	object-fit: cover;
+	max-height: 450px;
+	overflow-y: auto;
 }
-.photo-box button {
+table,
+th,
+td {
+	border: 2px solid rgb(255, 153, 0);
+	border-collapse: collapse;
+	font-family: 'Arial', sans-serif;
+	font-weight: bold;
+	padding: 1rem;
+}
+table {
+	width: 100%;
+}
+th {
+	background-color: orange;
+	font-size: 1.8rem;
+	text-align: center;
+	border: 3px solid rgb(175, 106, 15);
+}
+tbody {
+	background-color: rgba(51, 50, 50, 0.514);
+}
+tbody tr {
+	position: relative;
+}
+.photo-id {
+	width: 50px;
+}
+.delete-photo-btn {
 	position: absolute;
-	right: 0;
-	top: 0;
-	background: orange;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	padding: 0.5rem;
 	border: none;
-	font-size: 1.6rem;
+	background: none;
+	color: red;
 	cursor: pointer;
 }
-
-.pagination {
-	position: absolute;
-	top: 20rem;
-}
-.pagination button {
-	padding: 0.5rem;
-	margin-bottom: 5rem;
-	background-color: orange;
+.add-btn {
 	border: none;
-	font-size: 2rem;
-	color: white;
+	background: orange;
+	padding: 1rem 3rem;
+	margin: 2rem 0;
 	cursor: pointer;
 	border-radius: 8px;
+	color: white;
+	font-weight: bold;
+	font-size: 1.8rem;
+	width: 120px;
 }
-.pagination button:disabled {
-	background-color: rgba(255, 166, 0, 0.664);
-	cursor: not-allowed;
-}
-.pagination span {
-	font-size: 2rem;
-	margin: 0 1rem;
+.add-btn:hover {
+	background: rgb(226, 150, 8);
 }
 </style>

@@ -31,11 +31,14 @@
 							<button class="delete-input-btn" @click="deleteInputValue('code')">X</button>
 						</div>
 					</th>
-					<th class="price-header">Cena<br />PLN</th>
+					<th class="price-header">Cena<br />netto</th>
 					<th class="shopping-header" @click="showShoppingCart">
 						<div>
-							<img src="../../assets/images/icons/shopping-bag.svg" alt="" />
-							<span>Suma netto: {{ this.shoppingCartStore.sumCartPrice.toFixed(2) }}zł</span>
+							<span class="bag-and-price">
+								<img src="../../assets/images/icons/shopping-bag.svg" alt="" />
+								{{ this.shoppingCartStore.sumCartPrice.toFixed(2) }}zł
+							</span>
+							<span class="quantity-text">ilość</span>
 						</div>
 					</th>
 				</tr>
@@ -155,11 +158,20 @@ export default {
 		handleKeyDown(event, index) {
 			if (event.key === 'ArrowUp' && index > 0) {
 				this.focusNextRow(index - 1)
+				this.scrollTable(-1)
 			} else if (event.key === 'ArrowDown' && index < this.filteredItems.length - 1) {
 				this.focusNextRow(index + 1)
+				this.scrollTable(1)
 			} else if (event.key === 'Enter') {
 				this.focusQuantityInput(index)
 			}
+		},
+		scrollTable(direction) {
+			const rows = document.querySelectorAll('tbody tr')
+			const rowHeight = rows[0].offsetHeight
+			const table = document.querySelector('.table-box')
+			const currentScroll = table.scrollTop
+			table.scrollTop = currentScroll + direction * rowHeight
 		},
 		focusNextRow(index) {
 			this.activeRowIndex = index
@@ -195,7 +207,7 @@ export default {
 				cells.forEach(cell => {
 					const cellText = cell.textContent.trim()
 					const markRegex = new RegExp(searchValue, 'gi')
-					const markedText = cellText.replace(markRegex, match => `<mark>${match}</mark>`)
+					const markedText = cellText.replace(markRegex, match => `<strong>${match}</strong>`)
 					cell.innerHTML = markedText !== cellText ? markedText : cellText
 
 					if (markedText !== cellText && nextRowIndex === -1) {
@@ -267,7 +279,7 @@ export default {
 
 <style scoped>
 th.search-header {
-	height: 42px;
+	height: 25px;
 }
 .search-header-box {
 	position: absolute;
@@ -433,14 +445,14 @@ thead tr {
 }
 
 thead th {
-	height: 40px;
+	height: 100%;
 	font-size: 1rem;
 	padding: 0;
 	background-color: rgb(255, 101, 1);
 }
 
 th input {
-	height: 48px;
+	height: 30px;
 	padding: 0 0.5rem;
 	box-shadow: 0px 1px 2px rgb(0, 0, 0);
 }
@@ -451,37 +463,39 @@ input {
 }
 
 .ean-header {
-	width: 120px;
+	width: 100px;
 }
 
 .item-name-header {
-	width: 600px;
-	max-width: 600px;
+	width: 700px;
+	max-width: 700px;
 }
 
 .product-code-header {
-	width: 150px;
+	width: 120px;
 }
 
 .price-header {
 	padding: 0 1rem;
 }
 .shopping-header {
-	width: 100px;
+	width: 60px;
 	cursor: pointer;
 }
 
 .shopping-header div {
-	display: flex;
-	flex-direction: column;
 	border: none;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
+}
+
+.shopping-header div .bag-and-price {
+	display: flex;
+	justify-content: space-between;
+	align-items: start;
 }
 
 .quantity {
 	width: 100%;
+	text-align: right;
 }
 
 thead div {
@@ -507,9 +521,11 @@ tr:not(thead tr) {
 }
 
 .product-code,
-.ean-code,
-.product-price {
+.ean-code {
 	text-align: center;
+}
+.product-price {
+	text-align: right;
 }
 
 .selected-row {

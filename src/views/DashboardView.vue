@@ -7,9 +7,11 @@
 				</template>
 				<template v-else>
 					<button class="toggle-slider-btn" @click="toggleSlider">
-						{{ !isOpenSlider ? '<--- Ukryj katalog zdjęć --->' : '<--- Pokaż katalog zdjęć --->' }}
+						<img src="../assets/images/showCatalog.png" alt="" v-if="!isOpenSlider" />
+						<img src="../assets/images/hideCatalog.png" alt="" v-else />
 					</button>
 					<TheSwiper v-if="!isOpenSlider" />
+
 					<div class="right-box">
 						<div class="items-table">
 							<ItemsTable @row-click="changeItemImage" @next-tab-click="changeItemImage" />
@@ -74,6 +76,7 @@ export default {
 	background-color: rgba(0, 0, 0, 0.527);
 }
 .container {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -81,13 +84,15 @@ export default {
 	gap: 6rem;
 	margin-top: 10rem;
 	width: 100%;
+	min-height: 80vh;
 	height: 100%;
 }
 
 .toggle-slider-btn {
-	font-size: 2.5rem;
-	writing-mode: vertical-lr;
-	transform: rotate(180deg);
+	position: absolute;
+	left: -200px;
+	top: 110px;
+	transform: rotate(-90deg);
 	background: none;
 	border: none;
 	color: #b9b5b5;
@@ -103,9 +108,9 @@ export default {
 }
 
 .item-img img {
-	border: 5px solid rgb(255, 101, 1);
-	width: 350px;
-	margin-top: 4rem;
+	border: 4px solid rgb(255, 101, 1);
+	width: 280px;
+	margin-top: 2rem;
 }
 
 @media (min-width: 1200px) {

@@ -1,1 +1,5 @@
 @import url(./_swal.css);
+@font-face {
+	font-family: 'Century-Gothic-Bold';
+	src: url(../fonts/CenturyGothic.ttf);
+}
