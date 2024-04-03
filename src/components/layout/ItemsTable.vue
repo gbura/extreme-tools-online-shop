@@ -7,36 +7,49 @@
 						<input
 							type="text"
 							class="input-searchbar"
-							placeholder="Wyszukaj produkt"
+							placeholder="Szukaj: Nazwa towaru..."
 							v-model="searchQuery"
 							@input="search" />
+						<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
+						<button @click="this.searchQuery = ''" class="delete-input-btn">
+							<img src="../../assets/images/icons/X.png" alt="" />
+						</button>
 					</div>
 				</th>
 				<tr>
 					<th class="ean-header">
 						<div>
-							<input type="text" v-model="filters.ean" placeholder="Kod EAN" />
-							<button class="delete-input-btn" @click="deleteInputValue('ean')">X</button>
+							<input type="text" v-model="filters.ean" placeholder="EAN" />
+							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
+							<button class="delete-input-btn" @click="deleteInputValue('ean')">
+								<img src="../../assets/images/icons/X.png" alt="" />
+							</button>
 						</div>
 					</th>
 					<th class="item-name-header">
 						<div>
-							<input type="text" v-model="filters.name" placeholder="Nazwa towaru" />
-							<button class="delete-input-btn" @click="deleteInputValue('name')">X</button>
+							<input type="text" v-model="filters.name" placeholder="Filtruj: Nazwa lub kod towaru..." />
+							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
+							<button class="delete-input-btn" @click="deleteInputValue('name')">
+								<img src="../../assets/images/icons/X.png" alt="" />
+							</button>
 						</div>
 					</th>
 					<th class="product-code-header">
 						<div>
-							<input type="text" v-model="filters.code" placeholder="Kod produktu" />
-							<button class="delete-input-btn" @click="deleteInputValue('code')">X</button>
+							<input type="text" v-model="filters.code" placeholder="KOD" />
+							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
+							<button class="delete-input-btn" @click="deleteInputValue('code')">
+								<img src="../../assets/images/icons/X.png" alt="" />
+							</button>
 						</div>
 					</th>
 					<th class="price-header">Cena<br />netto</th>
 					<th class="shopping-header" @click="showShoppingCart">
 						<div>
 							<span class="bag-and-price">
-								<img src="../../assets/images/icons/shopping-bag.svg" alt="" />
-								{{ this.shoppingCartStore.sumCartPrice.toFixed(2) }}zł
+								<img src="../../assets/images/icons/shoppingCart.png" alt="" />
+								{{ this.shoppingCartStore.sumCartPrice.toFixed(2) }},-
 							</span>
 							<span class="quantity-text">ilość</span>
 						</div>
@@ -452,9 +465,18 @@ thead th {
 }
 
 th input {
+	position: relative;
 	height: 30px;
-	padding: 0 0.5rem;
+	padding: 0 0.5rem 0 1.6rem;
 	box-shadow: 0px 1px 2px rgb(0, 0, 0);
+}
+.searchbar-icon {
+	position: absolute;
+	top: 50%;
+	left: 1px;
+	transform: translateY(-50%);
+	width: 12px;
+	height: 12px;
 }
 input {
 	width: 100%;
@@ -504,12 +526,17 @@ thead div {
 
 thead div .delete-input-btn {
 	position: absolute;
-	top: 50%;
+	top: 4px;
 	right: 2px;
-	transform: translateY(-50%);
-	border: 1px solid red;
+	border: none;
 	background: none;
 	cursor: pointer;
+	width: 12px;
+	height: 12px;
+}
+.delete-input-btn img {
+	width: 100%;
+	height: 100%;
 }
 
 tbody {
