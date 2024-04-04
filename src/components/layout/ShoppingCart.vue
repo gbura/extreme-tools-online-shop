@@ -2,6 +2,7 @@
 	<div v-if="open" class="backdrop" @click="$emit('close')"></div>
 	<transition name="modal">
 		<dialog open v-if="open">
+			<button class="delete-btn" @click="$emit('close')"><img src="../../assets/images/icons/X.png" alt="" /></button>
 			<slot></slot>
 		</dialog>
 	</transition>
@@ -41,7 +42,18 @@ dialog {
 	border: none;
 	transform: translate(-50%, -50%);
 }
-
+.delete-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+.delete-btn img {
+	width: 15px;
+	height: 15px;
+}
 .modal-enter-active {
 	animation: modal 0.3s ease-out;
 }

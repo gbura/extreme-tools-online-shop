@@ -84,7 +84,7 @@ a:hover {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 1rem 0;
+	padding: 0.8rem 0;
 }
 .logout-wrapper {
 	display: flex;

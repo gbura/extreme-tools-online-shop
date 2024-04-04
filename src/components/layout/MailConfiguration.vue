@@ -6,7 +6,9 @@
 			<ul class="email-list" v-else>
 				<li v-for="email in emailsStore.emails" :key="email.id">
 					<span> {{ email.email }}</span>
-					<button @click="removeEmail(email.id)">X</button>
+					<button @click="removeEmail(email.id)" class="delete-btn">
+						<img src="../../assets/images/icons/X.png" alt="" />
+					</button>
 				</li>
 			</ul>
 		</div>
@@ -116,6 +118,10 @@ h1 {
 	text-align: center;
 	max-height: 200px;
 	overflow-y: auto;
+}
+.delete-btn img {
+	width: 15px;
+	height: 15px;
 }
 li {
 	position: relative;

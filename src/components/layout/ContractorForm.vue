@@ -12,6 +12,8 @@
 					name="contractor-email"
 					v-model="contractorEmail"
 					autocomplete="off" />
+				<label for="contractor-email">Login:</label>
+				<input type="text" id="contractor-login" name="contractor-login" v-model="contractorLogin" autocomplete="off" />
 				<label for="contractor-password">Hasło:</label>
 				<input
 					type="password"
@@ -51,12 +53,19 @@ export default {
 			contractorName: '',
 			contractorPassword: '',
 			contractorAddress: '',
+			contractorLogin: '',
 		}
 	},
 
 	methods: {
 		async handleRegister() {
-			if (!this.contractorEmail || !this.contractorPassword || !this.contractorName || !this.contractorAddress) {
+			if (
+				!this.contractorEmail ||
+				!this.contractorLogin ||
+				!this.contractorPassword ||
+				!this.contractorName ||
+				!this.contractorAddress
+			) {
 				Swal.fire({
 					title: 'Błąd!',
 					text: 'Proszę wypełnić wszystkie pola!',
@@ -67,6 +76,7 @@ export default {
 
 			const response = await this.authstore.register(
 				this.contractorEmail,
+				this.contractorLogin,
 				this.contractorPassword,
 				this.contractorName,
 				this.contractorAddress
@@ -78,6 +88,7 @@ export default {
 					icon: 'success',
 				})
 				this.contractorEmail = ''
+				this.contractorLogin = ''
 				this.contractorPassword = ''
 				this.contractorName = ''
 				this.contractorAddress = ''

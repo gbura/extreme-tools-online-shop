@@ -3,15 +3,15 @@
 		<div class="photos-box">
 			<table>
 				<thead>
-					<th>ID</th>
-					<th>Nazwa zdjęcia</th>
+					<th>Nazwa zdjęcia produktu</th>
 				</thead>
 				<tbody>
 					<tr v-for="photo in photosStore.photos" :key="photo.id">
-						<td class="photo-id">{{ photo.id }}.</td>
 						<td class="photo-name">
 							{{ photo.name }}
-							<button class="delete-photo-btn" @click="photosStore.deletePhoto(photo.id)">X</button>
+							<button class="delete-photo-btn" @click="photosStore.deletePhoto(photo.id)">
+								<img src="../../assets/images/icons/X.png" alt="" />
+							</button>
 						</td>
 					</tr>
 				</tbody>
@@ -104,6 +104,10 @@ tbody tr {
 	background: none;
 	color: red;
 	cursor: pointer;
+}
+.delete-photo-btn img {
+	width: 15px;
+	height: 15px;
 }
 .add-btn {
 	border: none;

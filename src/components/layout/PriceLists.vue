@@ -7,7 +7,9 @@
 				<ul v-else>
 					<li v-for="priceList in priceLists" :key="priceList.id">
 						<span>{{ priceList.name }}</span>
-						<button class="remove-item-btn" @click="removePriceList(priceList.id)">X</button>
+						<button class="remove-item-btn" @click="removePriceList(priceList.id)">
+							<img src="../../assets/images/icons/X.png" alt="" />
+						</button>
 						<router-link :to="'/admin-panel/price-lists/edit/' + priceList.id">EDYTUJ</router-link>
 					</li>
 				</ul>
@@ -197,5 +199,9 @@ a {
 	background: none;
 	color: red;
 	cursor: pointer;
+}
+.remove-item-btn img {
+	width: 15px;
+	height: 15px;
 }
 </style>

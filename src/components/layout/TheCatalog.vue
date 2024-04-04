@@ -1,175 +1,127 @@
 <template>
-	<div>
-		<label for="catalog-photo">Dodaj nowe zdjęcia do katalogu:</label>
-		<input
-			type="file"
-			id="catalog-photo"
-			name="catalog-photo"
-			accept="image/png, image/jpg, image/jpeg"
-			multiple
-			@change="onFileSelected" />
-		<button @click="onUpload">Wrzuć</button>
-	</div>
-	<div>
-		<label for="delete-catalog-photo">Usuń zdjęcia z katalogu:</label>
-		<input
-			type="text"
-			id="delete-catalog-photo"
-			name="delete-catalog-photo"
-			placeholder="Podaj numer lub numery zdjęć, np. 1,2,3"
-			class="delete-catalog-photo-input"
-			v-model="selectedNumbers" />
-		<button @click="onDelete">Usuń</button>
+	<div class="photos-container">
+		<div class="photos-box">
+			<table>
+				<thead>
+					<th>Nazwa zdjęcia w katalogu</th>
+				</thead>
+				<tbody>
+					<tr v-for="photo in catalogImagesStore.photos" :key="photo.id">
+						<td class="photo-name">
+							{{ photo.name }}
+							<button class="delete-photo-btn" @click="catalogImagesStore.deletePhoto(photo.id)">
+								<img src="../../assets/images/icons/X.png" alt="" />
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<button @click="openPopup" class="add-btn">Dodaj</button>
+		<UpdateCatalogImages :open="isPopupOpen" @close="closePopup" />
 	</div>
 </template>
 
 <script>
-import instanceAxios from '@/axios'
-import Swal from 'sweetalert2'
+import { useCatalogImagesStore } from '@/stores/catalogImages.js'
+import UpdateCatalogImages from '@/components/layout/UpdateCatalogImages.vue'
 export default {
-	name: 'TheCatalog',
+	name: 'ItemsPhotos',
+	components: {
+		UpdateCatalogImages,
+	},
+	setup() {
+		const catalogImagesStore = useCatalogImagesStore()
+		return { catalogImagesStore }
+	},
 	data() {
 		return {
-			selectedFile: null,
-			selectedNumbers: '',
-			photosData: [],
+			isPopupOpen: false,
 		}
 	},
-	mounted() {
-		this.getPhotosData()
-	},
 	methods: {
-		onFileSelected(event) {
-			if (event.target.files.length > 0) {
-				this.selectedFiles = event.target.files
-			} else {
-				this.selectedFiles = null
-			}
+		openPopup() {
+			this.isPopupOpen = true
 		},
-		onUpload() {
-			if (!this.selectedFiles || this.selectedFiles.length === 0) {
-				Swal.fire({
-					title: 'Błąd!',
-					text: 'Wybierz co najmniej jedno zdjęcie!',
-					icon: 'error',
-				})
-				return
-			}
-
-			const fd = new FormData()
-			for (let i = 0; i < this.selectedFiles.length; i++) {
-				fd.append('catalogImages[]', this.selectedFiles[i])
-			}
-
-			instanceAxios
-				.post('bo/catalogImages', fd)
-				.then(res => {
-					this.selectedFiles = null
-					document.getElementById('catalog-photo').value = ''
-					Swal.fire({
-						title: 'Sukces!',
-						text: 'Ustawiono nowe zdjęcia!',
-						icon: 'success',
-					})
-				})
-				.catch(err => {
-					console.error('Błąd wysyłania', err)
-				})
+		closePopup() {
+			this.isPopupOpen = false
 		},
-		getPhotosData() {
-			instanceAxios.get('bo/catalogImages').then(res => {
-				this.photosData = res.data.data
-			})
-		},
-		onDelete() {
-			const idsToDelete = this.selectedNumbers.split(',').map(id => parseInt(id.trim()))
-			if (idsToDelete.some(isNaN) || idsToDelete.length === 0) {
-				Swal.fire({
-					title: 'Błąd!',
-					text: 'Podaj poprawne numery zdjęć do usunięcia!',
-					icon: 'error',
-				})
-				return
-			}
-			const allIdsExist = idsToDelete.every(id => this.photosData.some(photo => photo.id === id))
-			if (!allIdsExist) {
-				Swal.fire({
-					title: 'Błąd!',
-					text: 'Nie można odnaleźć wszystkich zdjęć do usunięcia!',
-					icon: 'error',
-				})
-				return
-			}
-
-			instanceAxios
-				.delete('bo/catalogImages', {
-					data: {
-						catalogImageIds: idsToDelete,
-					},
-				})
-				.then(res => {
-					Swal.fire({
-						title: 'Sukces!',
-						text: 'Usunięto wybrane zdjęcia!',
-						icon: 'success',
-					})
-					this.selectedNumbers = ''
-					this.getPhotosData()
-				})
-				.catch(err => {
-					console.error('Błąd podczas usuwania zdjęć', err)
-				})
-		},
+	},
+	mounted() {
+		this.catalogImagesStore.getPhotos()
 	},
 }
 </script>
 
 <style scoped>
-div {
+.photos-container {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;
+	justify-content: center;
 	align-items: center;
-	text-align: center;
-	width: 500px;
-	height: 300px;
-	padding: 3rem;
-	background-color: orange;
-	border-radius: 15px;
+	width: 900px;
+	height: 100%;
 }
-#catalog-photo {
-	display: block;
-	margin: 0 auto;
-	width: 50%;
+.photos-box {
+	width: 100%;
+	max-height: 450px;
+	overflow-y: auto;
 }
-label {
-	font-size: 2rem;
-	margin-bottom: 1rem;
-	border-bottom: 1px solid white;
-}
-button {
-	width: 150px;
+table,
+th,
+td {
+	border: 2px solid rgb(255, 153, 0);
+	border-collapse: collapse;
+	font-family: 'Arial', sans-serif;
+	font-weight: bold;
 	padding: 1rem;
+}
+table {
+	width: 100%;
+}
+th {
+	background-color: orange;
+	font-size: 1.8rem;
+	text-align: center;
+	border: 3px solid rgb(175, 106, 15);
+}
+tbody {
+	background-color: rgba(51, 50, 50, 0.514);
+}
+tbody tr {
+	position: relative;
+}
+.photo-id {
+	width: 50px;
+}
+.delete-photo-btn {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	padding: 0.5rem;
 	border: none;
-	background-color: rgb(141, 93, 5);
-	border-radius: 15px;
-	color: white;
-	font-size: 2rem;
+	background: none;
+	color: red;
 	cursor: pointer;
 }
-button:hover {
-	background-color: rgb(104, 71, 10);
+.delete-photo-btn img {
+	width: 15px;
+	height: 15px;
 }
-.delete-catalog-photo-input {
-	padding: 1rem 2rem;
-	width: 100%;
-	outline: none;
+.add-btn {
 	border: none;
+	background: orange;
+	padding: 1rem 3rem;
+	margin: 2rem 0;
+	cursor: pointer;
 	border-radius: 8px;
+	color: white;
+	font-weight: bold;
+	font-size: 1.8rem;
+	width: 120px;
 }
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
+.add-btn:hover {
+	background: rgb(226, 150, 8);
 }
 </style>

@@ -3,8 +3,8 @@
 	<transition name="modal">
 		<form v-if="open" @submit.prevent="forgotPassword" class="forgot-pass-form">
 			<div class="form-item">
-				<label for="email">Podaj adres e-mail:</label>
-				<input type="text" id="email" name="email" v-model="email" autocomplete="off" />
+				<label for="login">Podaj login:</label>
+				<input type="text" id="login" name="login" v-model="login" autocomplete="off" />
 			</div>
 			<button class="confirm-changes-btn">Wyślij nowe hasło</button>
 		</form>
@@ -20,28 +20,28 @@ export default {
 	emits: ['close'],
 	data() {
 		return {
-			email: '',
+			login: '',
 		}
 	},
 	methods: {
 		async forgotPassword() {
-			if (!this.email || !this.validateEmail(this.email)) {
+			if (!this.login) {
 				Swal.fire({
 					title: 'Błąd!',
-					text: 'Podaj poprawny adres e-mail!',
+					text: 'Podaj poprawny login!',
 					icon: 'error',
 				})
 				return
 			}
 
 			try {
-				await instanceAxios.post('forgotPassword', { email: this.email })
+				await instanceAxios.post('forgotPassword', { login: this.login })
 				Swal.fire({
 					title: 'Sukces!',
 					text: 'Wiadomość z resetem hasła została wysłana!',
 					icon: 'success',
 				})
-				this.email = ''
+				this.login = ''
 			} catch (error) {
 				Swal.fire({
 					title: 'Błąd!',
@@ -50,10 +50,10 @@ export default {
 				})
 			}
 		},
-		validateEmail(email) {
-			const re = /\S+@\S+\.\S+/
-			return re.test(email)
-		},
+		// validateEmail(email) {
+		// 	const re = /\S+@\S+\.\S+/
+		// 	return re.test(email)
+		// },
 	},
 }
 </script>

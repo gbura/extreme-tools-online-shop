@@ -90,7 +90,9 @@
 			<ul class="shopping-items-container">
 				<li v-for="card in this.shoppingCartStore.items" :key="card.id">
 					<div class="item-container">
-						<button class="delete-item-btn" @click="this.shoppingCartStore.removeItem(card.code)">X</button>
+						<button class="delete-item-btn" @click="this.shoppingCartStore.removeItem(card.code)">
+							<img src="../../assets/images/icons/X.png" alt="" />
+						</button>
 						<div>
 							<b>{{ card.name }}</b>
 						</div>
@@ -167,6 +169,14 @@ export default {
 		handleRowClick(productImage, index) {
 			this.activeRowIndex = index
 			this.$emit('row-click', productImage)
+			const rows = document.querySelectorAll('tbody tr')
+			rows.forEach((row, i) => {
+				if (i === index) {
+					row.classList.add('selected-row')
+				} else {
+					row.classList.remove('selected-row')
+				}
+			})
 		},
 		handleKeyDown(event, index) {
 			if (event.key === 'ArrowUp' && index > 0) {
@@ -416,7 +426,10 @@ th.search-header {
 	cursor: pointer;
 	color: red;
 }
-
+.delete-item-btn img {
+	width: 15px;
+	height: 15px;
+}
 .table-box {
 	max-height: 495px;
 	overflow-y: auto;
@@ -556,6 +569,9 @@ tr:not(thead tr) {
 }
 
 .selected-row {
+	background-color: rgb(255, 101, 1);
+}
+.selected-row input.quantity {
 	background-color: rgb(255, 101, 1);
 }
 input::-webkit-outer-spin-button,

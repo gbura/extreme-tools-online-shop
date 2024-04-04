@@ -6,8 +6,8 @@
 					<h2>Zaloguj się</h2>
 				</div>
 				<div class="form-body">
-					<label for="login-email">Adres e-mail:</label>
-					<input type="text" id="login-email" name="login-email" v-model="email" autocomplete="off" />
+					<label for="login">Login:</label>
+					<input type="text" id="login" name="login" v-model="login" autocomplete="off" />
 					<label for="login-password">Hasło:</label>
 					<input type="password" id="login-password" name="login-password" v-model="password" autocomplete="off" />
 				</div>
@@ -30,7 +30,7 @@ export default {
 	components: { BaseButton, ForgotPassword },
 	data() {
 		return {
-			email: '',
+			login: '',
 			password: '',
 			isPopupOpen: false,
 		}
@@ -41,9 +41,9 @@ export default {
 	},
 	methods: {
 		async handleLogin() {
-			if (this.email && this.password) {
+			if (this.login && this.password) {
 				try {
-					await this.authstore.login(this.email, this.password)
+					await this.authstore.login(this.login, this.password)
 					if (this.authstore.isAdmin) {
 						this.$router.push('/admin-panel')
 					} else {
@@ -59,7 +59,7 @@ export default {
 			} else {
 				Swal.fire({
 					title: 'Błąd!',
-					text: 'Pola email i hasło są wymagane!',
+					text: 'Pola login i hasło są wymagane!',
 					icon: 'error',
 				})
 			}

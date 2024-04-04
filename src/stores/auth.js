@@ -13,8 +13,8 @@ export const useAuthStore = defineStore('auth', {
 		isLoggedAdmin: state => !!state.isAdmin,
 	},
 	actions: {
-		async login(email, password) {
-			const response = await instanceAxios.post('authenticate', { email, password })
+		async login(login, password) {
+			const response = await instanceAxios.post('authenticate', { login, password })
 			const token = await response.data.data.token
 			const userId = await response.data.data.user.id
 			const admin = await response.data.data.user.isAdmin
@@ -35,9 +35,10 @@ export const useAuthStore = defineStore('auth', {
 			this.isAdmin = null
 			this.isLoggedIn = false
 		},
-		async register(email, password, companyName, companyAddress) {
+		async register(email, login, password, companyName, companyAddress) {
 			const response = await instanceAxios.post('bo/users', {
 				email,
+				login,
 				password,
 				companyName,
 				companyAddress,

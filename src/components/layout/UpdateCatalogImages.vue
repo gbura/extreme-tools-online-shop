@@ -6,7 +6,7 @@
 				<button class="close-btn" @click="$emit('close')">
 					<img src="../../assets/images/icons/X.png" alt="" />
 				</button>
-				<label for="photo">Dodaj zdjęcia produktów:</label>
+				<label for="photo">Dodaj zdjęcia do katalogu:</label>
 				<input
 					type="file"
 					id="photo"
@@ -22,14 +22,14 @@
 <script>
 import instanceAxios from '@/axios'
 import Swal from 'sweetalert2'
-import { usePhotosStore } from '@/stores/photos.js'
+import { useCatalogImagesStore } from '@/stores/catalogImages.js'
 export default {
 	name: 'UpdateImage',
 	props: ['open'],
 	emits: ['close'],
 	setup() {
-		const photosStore = usePhotosStore()
-		return { photosStore }
+		const catalogImagesStore = useCatalogImagesStore()
+		return { catalogImagesStore }
 	},
 	data() {
 		return {
@@ -52,13 +52,13 @@ export default {
 			}
 
 			const fd = new FormData()
-			const existingPhotos = this.photosStore.photos.map(photo => photo.name)
+			const existingPhotos = this.catalogImagesStore.photos.map(photo => photo.name)
 
 			for (let i = 0; i < this.selectedFiles.length; i++) {
 				if (existingPhotos.includes(this.selectedFiles[i].name)) {
 					this.duplicatedPhotos.push(this.selectedFiles[i].name)
 				} else {
-					fd.append('images[]', this.selectedFiles[i])
+					fd.append('catalogImages[]', this.selectedFiles[i])
 				}
 			}
 			if (this.duplicatedPhotos.length > 0) {
@@ -71,7 +71,7 @@ export default {
 			}
 
 			instanceAxios
-				.post('bo/images', fd)
+				.post('bo/catalogImages', fd)
 				.then(res => {
 					this.selectedFiles = []
 					document.getElementById('photo').value = ''
@@ -80,7 +80,7 @@ export default {
 						text: 'Dodano nowe zdjęcia!',
 						icon: 'success',
 					})
-					this.photosStore.getPhotos()
+					this.catalogImagesStore.getPhotos()
 				})
 				.catch(err => {
 					console.error('Błąd wysyłania', err)
