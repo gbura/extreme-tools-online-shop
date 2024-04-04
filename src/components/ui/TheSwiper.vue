@@ -2,7 +2,7 @@
 	<div class="slider-box">
 		<swiper :loop="true" :modules="modules" :navigation="true">
 			<swiper-slide v-for="image in images" :key="image.id">
-				<img :src="`https://pawelkajdas.pl/public/app/public/` + image.name" alt="" />
+				<img :src="`https://pawelkajdas.pl/public/app/public/catalog` + image.name" alt="" />
 			</swiper-slide>
 		</swiper>
 	</div>
