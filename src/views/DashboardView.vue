@@ -54,7 +54,9 @@ export default {
 	methods: {
 		changeItemImage(productImage) {
 			if (productImage) {
-				this.selectedItemImage = productImage.url
+				setTimeout(() => {
+					this.selectedItemImage = productImage.url
+				}, 700)
 			} else if (productImage === null) {
 				this.selectedItemImage = 'X.jpg'
 			}

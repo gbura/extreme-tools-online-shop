@@ -34,7 +34,6 @@ export default {
 	data() {
 		return {
 			selectedFiles: [],
-			duplicatedPhotos: [],
 		}
 	},
 	methods: {
@@ -52,22 +51,9 @@ export default {
 			}
 
 			const fd = new FormData()
-			const existingPhotos = this.catalogImagesStore.photos.map(photo => photo.name)
 
 			for (let i = 0; i < this.selectedFiles.length; i++) {
-				if (existingPhotos.includes(this.selectedFiles[i].name)) {
-					this.duplicatedPhotos.push(this.selectedFiles[i].name)
-				} else {
-					fd.append('catalogImages[]', this.selectedFiles[i])
-				}
-			}
-			if (this.duplicatedPhotos.length > 0) {
-				Swal.fire({
-					title: 'Błąd!',
-					text: `Zdjęcia ${this.duplicatedPhotos.join(', ')} już istnieją!`,
-					icon: 'error',
-				})
-				return
+				fd.append('catalogImages[]', this.selectedFiles[i])
 			}
 
 			instanceAxios
