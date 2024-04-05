@@ -35,13 +35,12 @@ export const useAuthStore = defineStore('auth', {
 			this.isAdmin = null
 			this.isLoggedIn = false
 		},
-		async register(email, login, password, companyName, companyAddress) {
+		async register(email, login, password, companyName) {
 			const response = await instanceAxios.post('bo/users', {
 				email,
 				login,
 				password,
 				companyName,
-				companyAddress,
 			})
 			return response.data
 		},

@@ -7,7 +7,6 @@
 				<th>EMAIL</th>
 				<th>LOGIN</th>
 				<th>NAZWA FIRMY</th>
-				<th>ADRES FIRMY</th>
 				<th>CENNIK</th>
 				<th>AKCJE</th>
 			</thead>
@@ -16,7 +15,6 @@
 					<td>{{ user.email }}</td>
 					<td>{{ user.login }}</td>
 					<td>{{ user.companyName }}</td>
-					<td>{{ user.companyAddress }}</td>
 					<td>
 						Przypisano: {{ user.priceList }}
 						<select v-model="user.priceList" @change="updatePriceList(user.id, user.priceList)">

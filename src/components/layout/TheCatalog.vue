@@ -6,7 +6,16 @@
 					<th>Nazwa zdjęcia w katalogu</th>
 				</thead>
 				<tbody>
-					<tr v-for="photo in catalogImagesStore.photos" :key="photo.id">
+					<tr>
+						<td class="search-box">
+							<img src="../../assets/images/icons/search.png" alt="" class="search-icon" />
+							<input type="text" class="search-input" placeholder="Wyszukaj po nazwie..." v-model="searchQuery" />
+							<button class="delete-btn" @click="deleteSearchQuery">
+								<img src="../../assets/images/icons/X.png" alt="" class="delete-btn-img" />
+							</button>
+						</td>
+					</tr>
+					<tr v-for="photo in filteredPhotos" :key="photo.id" v-if="this.catalogImagesStore.photos.length > 0">
 						<td class="photo-name">
 							{{ photo.name }}
 							<button class="delete-photo-btn" @click="catalogImagesStore.deletePhoto(photo.id)">
@@ -14,6 +23,7 @@
 							</button>
 						</td>
 					</tr>
+					<h2 v-else>Brak zdjęć w katalogu...</h2>
 				</tbody>
 			</table>
 		</div>
@@ -37,7 +47,15 @@ export default {
 	data() {
 		return {
 			isPopupOpen: false,
+			searchQuery: '',
 		}
+	},
+	computed: {
+		filteredPhotos() {
+			return this.catalogImagesStore.photos.filter(photo => {
+				return photo.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+			})
+		},
 	},
 	methods: {
 		openPopup() {
@@ -45,6 +63,9 @@ export default {
 		},
 		closePopup() {
 			this.isPopupOpen = false
+		},
+		deleteSearchQuery() {
+			this.searchQuery = ''
 		},
 	},
 	mounted() {
@@ -66,6 +87,42 @@ export default {
 	width: 100%;
 	max-height: 450px;
 	overflow-y: auto;
+}
+.search-input {
+	width: 100%;
+	border: none;
+	outline: none;
+	padding: 1rem 2.5rem;
+}
+.search-box input {
+	position: relative;
+}
+.delete-btn {
+	position: absolute;
+	right: 10px;
+	top: 8px;
+	padding: 0.5rem;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+.delete-btn-img {
+	width: 15px;
+	height: 15px;
+}
+
+.search-box .search-icon {
+	position: absolute;
+	top: 50%;
+	left: 15px;
+	width: 15px;
+	height: 15px;
+	transform: translateY(-50%);
+	z-index: 15;
+}
+h2 {
+	text-align: center;
+	padding: 2rem 0;
 }
 table,
 th,

@@ -23,13 +23,6 @@
 					autocomplete="off" />
 				<label for="contractor-name">Nazwa firmy:</label>
 				<input type="text" id="contractor-name" name="contractor-name" v-model="contractorName" autocomplete="off" />
-				<label for="contractor-address">Adres firmy:</label>
-				<input
-					type="text"
-					id="contractor-address"
-					name="contractor-address"
-					v-model="contractorAddress"
-					autocomplete="off" />
 				<base-button>Stwórz nowego kontrahenta</base-button>
 			</div>
 		</form>
@@ -50,22 +43,15 @@ export default {
 	data() {
 		return {
 			contractorEmail: '',
+			contractorLogin: '',
 			contractorName: '',
 			contractorPassword: '',
-			contractorAddress: '',
-			contractorLogin: '',
 		}
 	},
 
 	methods: {
 		async handleRegister() {
-			if (
-				!this.contractorEmail ||
-				!this.contractorLogin ||
-				!this.contractorPassword ||
-				!this.contractorName ||
-				!this.contractorAddress
-			) {
+			if (!this.contractorEmail || !this.contractorLogin || !this.contractorPassword || !this.contractorName) {
 				Swal.fire({
 					title: 'Błąd!',
 					text: 'Proszę wypełnić wszystkie pola!',
@@ -78,8 +64,7 @@ export default {
 				this.contractorEmail,
 				this.contractorLogin,
 				this.contractorPassword,
-				this.contractorName,
-				this.contractorAddress
+				this.contractorName
 			)
 			if (response.success) {
 				Swal.fire({
@@ -91,7 +76,6 @@ export default {
 				this.contractorLogin = ''
 				this.contractorPassword = ''
 				this.contractorName = ''
-				this.contractorAddress = ''
 			}
 		},
 	},

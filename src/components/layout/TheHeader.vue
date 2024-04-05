@@ -16,8 +16,9 @@
 						</li>
 					</template>
 					<template v-else>
-						<li class="nav-item logout-wrapper">
+						<li class="nav-item buttons-wrapper">
 							<button @click="handleLogOut" class="logout-btn">Wyloguj się</button>
+							<button class="change-pass-btn" @click="changePassword">Zmień hasło</button>
 							<template v-if="isAdmin">
 								<router-link to="/admin-panel" class="nav-link admin-link">Panel admina</router-link>
 							</template>
@@ -27,10 +28,12 @@
 			</div>
 		</div>
 	</nav>
+	<UserResetPass :open="isResetOpen" :userId="resetUserId" @close="closeModal" />
 </template>
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
+import UserResetPass from '@/components/layout/UserResetPass.vue'
 
 export default {
 	name: 'TheHeader',
@@ -38,6 +41,13 @@ export default {
 		const authstore = useAuthStore()
 		return { authstore }
 	},
+	data() {
+		return {
+			resetUserId: this.authstore.userId,
+			isResetOpen: false,
+		}
+	},
+	components: { UserResetPass },
 	methods: {
 		isAuthenticated() {
 			return !this.authstore.isAuthenticated
@@ -45,6 +55,15 @@ export default {
 		handleLogOut() {
 			this.authstore.logout()
 			this.$router.push('/')
+		},
+		openModal() {
+			this.isResetOpen = true
+		},
+		closeModal() {
+			this.isResetOpen = false
+		},
+		changePassword() {
+			this.openModal()
 		},
 	},
 	computed: {
@@ -64,7 +83,8 @@ a {
 a:hover {
 	color: rgb(245, 118, 34);
 }
-.logout-btn {
+.logout-btn,
+.change-pass-btn {
 	border: none;
 	background: transparent;
 	color: rgb(239, 127, 52);
@@ -86,10 +106,11 @@ a:hover {
 	align-items: center;
 	padding: 0.8rem 0;
 }
-.logout-wrapper {
+.buttons-wrapper {
 	display: flex;
 	align-items: center;
 	flex-direction: row-reverse;
+	gap: 2rem;
 }
 .admin-link {
 	margin-right: 2rem;

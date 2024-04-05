@@ -19,7 +19,12 @@
 				<tr>
 					<th class="ean-header">
 						<div>
-							<input type="text" v-model="filters.ean" placeholder="EAN" />
+							<input
+								type="text"
+								v-model="filters.ean"
+								placeholder="EAN"
+								maxlength="13"
+								@focus="clearIfNotEmpty('ean')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('ean')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -28,7 +33,11 @@
 					</th>
 					<th class="item-name-header">
 						<div>
-							<input type="text" v-model="filters.name" placeholder="Filtruj: Nazwa lub kod towaru..." />
+							<input
+								type="text"
+								v-model="filters.name"
+								placeholder="Filtruj: Nazwa lub kod towaru..."
+								@focus="clearIfNotEmpty('name')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('name')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -37,7 +46,7 @@
 					</th>
 					<th class="product-code-header">
 						<div>
-							<input type="text" v-model="filters.code" placeholder="KOD" />
+							<input type="text" v-model="filters.code" placeholder="KOD" @focus="clearIfNotEmpty('code')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('code')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -219,29 +228,30 @@ export default {
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
 		},
+		clearIfNotEmpty(filterName) {
+			for (let key in this.filters) {
+				if (key !== filterName && this.filters[key] !== '') {
+					this.filters[key] = ''
+				}
+			}
+		},
 		search() {
-			const searchValue = this.searchQuery.toLowerCase().trim()
+			const searchValue = this.searchQuery.trim().toLowerCase()
 			const rows = document.querySelectorAll('tbody tr')
 			let nextRowIndex = -1
 
 			rows.forEach((row, index) => {
-				const cells = row.querySelectorAll('td')
-
-				cells.forEach(cell => {
-					const cellText = cell.textContent.trim()
-					const markRegex = new RegExp(searchValue, 'gi')
-					const markedText = cellText.replace(markRegex, match => `<strong>${match}</strong>`)
-					cell.innerHTML = markedText !== cellText ? markedText : cellText
-
-					if (markedText !== cellText && nextRowIndex === -1) {
-						nextRowIndex = index
-					}
-				})
+				const cellText = row.querySelector('.bar-code').textContent.trim().toLowerCase()
+				if (cellText.startsWith(searchValue) && nextRowIndex === -1) {
+					nextRowIndex = index
+				}
 			})
 
 			if (nextRowIndex !== -1) {
 				const nextRow = rows[nextRowIndex]
-				nextRow.scrollIntoView({ behavior: 'smooth', block: 'center' })
+				setTimeout(() => {
+					nextRow.scrollIntoView({ behavior: 'smooth', block: 'center' })
+				}, 700)
 			}
 		},
 		updateCost() {
@@ -495,10 +505,12 @@ input {
 	width: 100%;
 	outline: none;
 	border: none;
+	font-family: 'Arial', sans-serif;
+	font-size: 1rem;
 }
 
 .ean-header {
-	width: 100px;
+	width: 160px;
 }
 
 .item-name-header {

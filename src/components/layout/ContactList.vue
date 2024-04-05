@@ -51,7 +51,6 @@ p {
 	font-weight: bold;
 }
 .icon {
-	background-color: rgb(239, 127, 52);
 	padding: 0.5rem;
 	width: 60px;
 	border-radius: 4px;
