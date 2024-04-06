@@ -9,7 +9,8 @@
 							class="input-searchbar"
 							placeholder="Szukaj: Nazwa towaru..."
 							v-model="searchQuery"
-							@input="search" />
+							@input="search"
+							@blur="this.searchQuery = ''" />
 						<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 						<button @click="this.searchQuery = ''" class="delete-input-btn">
 							<img src="../../assets/images/icons/X.png" alt="" />
@@ -24,7 +25,8 @@
 								v-model="filters.ean"
 								placeholder="EAN"
 								maxlength="13"
-								@focus="clearIfNotEmpty('ean')" />
+								@focus="clearIfNotEmpty('ean')"
+								@blur="this.filters.ean = ''" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('ean')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -37,7 +39,8 @@
 								type="text"
 								v-model="filters.name"
 								placeholder="Filtruj: Nazwa lub kod towaru..."
-								@focus="clearIfNotEmpty('name')" />
+								@focus="clearIfNotEmpty('name')"
+								@blur="this.filters.name = ''" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('name')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -46,7 +49,12 @@
 					</th>
 					<th class="product-code-header">
 						<div>
-							<input type="text" v-model="filters.code" placeholder="KOD" @focus="clearIfNotEmpty('code')" />
+							<input
+								type="text"
+								v-model="filters.code"
+								placeholder="KOD"
+								@focus="clearIfNotEmpty('code')"
+								@blur="this.filters.code = ''" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('code')">
 								<img src="../../assets/images/icons/X.png" alt="" />

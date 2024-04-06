@@ -6,7 +6,12 @@
 			</swiper-slide>
 		</swiper>
 		<div v-if="fullscreen" class="fullscreen-overlay" @click="closeFullscreen"></div>
-		<img v-if="fullscreen" class="fullscreen-image" :src="fullscreenImageSrc" />
+		<img
+			v-if="fullscreen"
+			ref="fullscreenImage"
+			class="fullscreen-image"
+			:src="fullscreenImageSrc"
+			@wheel="handleWheel" />
 		<button v-if="fullscreen" class="close-button" @click="closeFullscreen">X</button>
 	</div>
 </template>
@@ -30,6 +35,8 @@ export default {
 			images: [],
 			fullscreen: false,
 			fullscreenImageSrc: '',
+			zoomLevel: 100,
+			zoomIncrement: 5,
 		}
 	},
 	mounted() {
@@ -48,6 +55,30 @@ export default {
 		closeFullscreen() {
 			this.fullscreen = false
 			document.body.style.overflow = ''
+		},
+		handleWheel(event) {
+			event.preventDefault()
+			const delta = Math.sign(event.deltaY)
+			if (delta > 0) {
+				this.zoomOut()
+			} else {
+				this.zoomIn()
+			}
+		},
+		zoomIn() {
+			this.zoomLevel += this.zoomIncrement
+			this.updateTransform()
+		},
+		zoomOut() {
+			this.zoomLevel -= this.zoomIncrement
+			if (this.zoomLevel < 50) {
+				this.zoomLevel = 50
+			}
+			this.updateTransform()
+		},
+		updateTransform() {
+			const image = this.$refs.fullscreenImage
+			image.style.transform = `translate(-50%, -50%) scale(${this.zoomLevel / 100})`
 		},
 	},
 }
@@ -106,7 +137,7 @@ export default {
 	max-width: 100%;
 	max-height: 90%;
 	z-index: 1000;
-	cursor: default;
+	cursor: zoom-in;
 }
 
 .close-button {

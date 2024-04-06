@@ -61,7 +61,7 @@ li:last-child {
 
 @media (min-width: 992px) {
 	li {
-		font-size: 2.2rem;
+		font-size: 1.9rem;
 	}
 }
 </style>
