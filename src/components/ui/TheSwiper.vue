@@ -1,5 +1,5 @@
 <template>
-	<div class="slider-box">
+	<div class="slider-box" @mousemove="handleMouseMove">
 		<swiper :loop="true" :modules="modules" :navigation="true">
 			<swiper-slide v-for="image in images" :key="image.id" @click="openFullscreen(image)">
 				<img :src="`https://pawelkajdas.pl/public/app/public/catalog/` + image.name" alt="" />
@@ -7,7 +7,7 @@
 		</swiper>
 		<div v-if="fullscreen" class="fullscreen-overlay" @click="closeFullscreen"></div>
 		<div v-if="fullscreen" class="fullscreen-container">
-			<div class="fullscreen-image-wrapper" @wheel="handleWheel">
+			<div class="fullscreen-image-wrapper" @wheel.prevent="handleWheel">
 				<img
 					ref="fullscreenImage"
 					class="fullscreen-image"
@@ -72,6 +72,16 @@ export default {
 				this.zoomIn()
 			}
 		},
+		handleMouseMove(event) {
+			if (this.fullscreen) {
+				const deltaY = event.movementY || event.mozMovementY || event.webkitMovementY || 0
+				if (deltaY > 0) {
+					this.scrollDown()
+				} else if (deltaY < 0) {
+					this.scrollUp()
+				}
+			}
+		},
 		zoomIn() {
 			this.zoomLevel += this.zoomIncrement
 			this.updateTransform()
@@ -91,6 +101,12 @@ export default {
 			} else {
 				this.translateY = 0
 			}
+		},
+		scrollDown() {
+			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, 100)
+		},
+		scrollUp() {
+			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, -100)
 		},
 	},
 }
