@@ -6,12 +6,18 @@
 			</swiper-slide>
 		</swiper>
 		<div v-if="fullscreen" class="fullscreen-overlay" @click="closeFullscreen"></div>
-		<img
-			v-if="fullscreen"
-			ref="fullscreenImage"
-			class="fullscreen-image"
-			:src="fullscreenImageSrc"
-			@wheel="handleWheel" />
+		<div v-if="fullscreen" class="fullscreen-container">
+			<div class="fullscreen-image-wrapper" @wheel="handleWheel">
+				<img
+					ref="fullscreenImage"
+					class="fullscreen-image"
+					:src="fullscreenImageSrc"
+					:style="{
+						transform:
+							'translate(-50%, -50%) scale(' + zoomLevel / 100 + ') translateY(' + Math.abs(translateY) + 'px)',
+					}" />
+			</div>
+		</div>
 		<button v-if="fullscreen" class="close-button" @click="closeFullscreen">X</button>
 	</div>
 </template>
@@ -37,6 +43,7 @@ export default {
 			fullscreenImageSrc: '',
 			zoomLevel: 100,
 			zoomIncrement: 5,
+			translateY: 0,
 		}
 	},
 	mounted() {
@@ -78,7 +85,12 @@ export default {
 		},
 		updateTransform() {
 			const image = this.$refs.fullscreenImage
-			image.style.transform = `translate(-50%, -50%) scale(${this.zoomLevel / 100})`
+			const imageHeight = (image.clientHeight * this.zoomLevel) / 100
+			if (imageHeight > window.innerHeight) {
+				this.translateY = -((imageHeight - window.innerHeight) / 2)
+			} else {
+				this.translateY = 0
+			}
 		},
 	},
 }
@@ -129,14 +141,34 @@ export default {
 	cursor: default;
 }
 
-.fullscreen-image {
+.fullscreen-container {
 	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+}
+
+.fullscreen-image-wrapper {
+	max-width: 100%;
+	max-height: 100%;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	position: relative;
+}
+
+.fullscreen-image {
+	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	max-width: 100%;
-	max-height: 90%;
-	z-index: 1000;
+	max-height: 100%;
 	cursor: zoom-in;
 }
 

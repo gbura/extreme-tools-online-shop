@@ -11,20 +11,26 @@
 						<img src="../assets/images/hideCatalog.png" alt="" v-else />
 					</button>
 					<TheSwiper v-if="!isOpenSlider" />
-
 					<div class="right-box">
 						<div class="items-table">
 							<ItemsTable @row-click="changeItemImage" @next-tab-click="changeItemImage" />
 						</div>
 						<div class="item-img">
-							<img :src="`https://pawelkajdas.pl/public/app/public/parts/` + selectedItemImage" alt="" />
+							<img
+								:src="`https://pawelkajdas.pl/public/app/public/parts/` + selectedItemImage"
+								alt=""
+								@click="openFullscreen(selectedItemImage)" />
 						</div>
 					</div>
 				</template>
 			</div>
 		</div>
+		<div v-if="fullscreen" class="fullscreen-overlay" @click="closeFullscreen"></div>
+		<img v-if="fullscreen" :src="fullscreenImageSrc" class="fullscreen-image" />
+		<button v-if="fullscreen" class="close-button" @click="closeFullscreen">X</button>
 	</div>
 </template>
+
 <script>
 import TheSwiper from '@/components/ui/TheSwiper.vue'
 import ItemsTable from '@/components/layout/ItemsTable.vue'
@@ -44,6 +50,8 @@ export default {
 			dataLoaded: false,
 			selectedItemImage: '',
 			isOpenSlider: false,
+			fullscreen: false,
+			fullscreenImageSrc: '',
 		}
 	},
 	mounted() {
@@ -63,6 +71,15 @@ export default {
 		},
 		toggleSlider() {
 			this.isOpenSlider = !this.isOpenSlider
+		},
+		openFullscreen(imageSrc) {
+			this.fullscreen = true
+			this.fullscreenImageSrc = `https://pawelkajdas.pl/public/app/public/parts/${imageSrc}`
+			document.body.style.overflow = 'hidden'
+		},
+		closeFullscreen() {
+			this.fullscreen = false
+			document.body.style.overflow = ''
 		},
 	},
 }
@@ -89,7 +106,6 @@ export default {
 	min-height: 80vh;
 	height: 100%;
 }
-
 .toggle-slider-btn {
 	position: absolute;
 	left: -200px;
@@ -103,21 +119,51 @@ export default {
 .toggle-slider-btn:hover {
 	color: #cfcbcb;
 }
-
 .right-box {
 	display: flex;
 	flex-direction: column;
 }
-
 .item-img img {
 	border: 4px solid rgb(255, 101, 1);
 	width: 280px;
 	margin-top: 2rem;
+	cursor: zoom-in;
 }
-
 @media (min-width: 1200px) {
 	.container {
 		flex-direction: row;
 	}
+}
+.fullscreen-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 999;
+	cursor: default;
+}
+.fullscreen-image {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 100%;
+	max-height: 90%;
+	z-index: 1000;
+	cursor: default;
+}
+.close-button {
+	position: fixed;
+	top: 30px;
+	right: 50px;
+	border: 1px solid red;
+	padding: 0.5rem;
+	background: none;
+	color: red;
+	font-size: 4rem;
+	z-index: 1001;
+	cursor: pointer;
 }
 </style>
