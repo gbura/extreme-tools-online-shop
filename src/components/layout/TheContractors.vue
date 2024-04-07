@@ -23,7 +23,10 @@
 							</option>
 						</select>
 					</td>
-					<td><button class="pass-reset-btn" @click="openModal(user.id)">Resetuj hasło</button></td>
+					<td>
+						<button class="pass-reset-btn" @click="openModal(user.id)">Resetuj hasło</button>
+						<button class="delete-contractor-btn" @click="deleteUser(user.id)">Usuń kontrahenta</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -59,7 +62,7 @@ export default {
 				await this.usersStore.fetchUsers()
 				await this.usersStore.fetchPriceLists()
 			} catch (error) {
-				console.error('Error fetching users:', error)
+				console.error('Blad pobierania uzytkownikow:', error)
 			}
 		},
 		async openModal(userId) {
@@ -79,7 +82,20 @@ export default {
 					icon: 'success',
 				})
 			} catch (error) {
-				console.error('Error updating price list:', error)
+				console.error('Blad przy aktualizacji cennika:', error)
+			}
+		},
+		async deleteUser(userId) {
+			try {
+				await instanceAxios.delete(`bo/users/${userId}`)
+				Swal.fire({
+					title: 'Sukces!',
+					text: 'Usunięto kontrahenta!',
+					icon: 'success',
+				})
+				await this.usersStore.fetchUsers()
+			} catch (error) {
+				console.error('Blad usuwania kontrahenta', error)
 			}
 		},
 	},
@@ -128,11 +144,23 @@ h1 {
 p {
 	font-size: 3rem;
 }
+
 .pass-reset-btn {
 	padding: 0.8rem;
 	border: none;
 	border-radius: 5px;
 	background-color: orange;
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: white;
+	cursor: pointer;
+}
+.delete-contractor-btn {
+	margin-left: 1rem;
+	padding: 0.8rem;
+	border: none;
+	border-radius: 5px;
+	background-color: red;
 	font-size: 1.5rem;
 	font-weight: bold;
 	color: white;

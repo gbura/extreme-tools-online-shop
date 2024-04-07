@@ -3,6 +3,9 @@
 	<transition name="modal">
 		<form v-if="open" @submit.prevent="forgotPassword" class="forgot-pass-form">
 			<div class="form-item">
+				<button class="close-btn" @click.prevent="$emit('close')">
+					<img src="../../assets/images/icons/X.png" alt="" class="delete-btn-img" />
+				</button>
 				<label for="login">Podaj login:</label>
 				<input type="text" id="login" name="login" v-model="login" autocomplete="off" />
 			</div>
@@ -50,10 +53,6 @@ export default {
 				})
 			}
 		},
-		// validateEmail(email) {
-		// 	const re = /\S+@\S+\.\S+/
-		// 	return re.test(email)
-		// },
 	},
 }
 </script>
@@ -115,6 +114,18 @@ export default {
 }
 .confirm-changes-btn:hover {
 	background-color: rgb(3, 160, 3);
+}
+.close-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+.close-btn img {
+	width: 15px;
+	height: 15px;
 }
 .modal-enter-active {
 	animation: modal 0.3s ease-out;

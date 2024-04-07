@@ -3,6 +3,9 @@
 	<transition name="modal">
 		<form v-if="open" @submit.prevent="resetPassword" class="reset-pass-form">
 			<div class="form-item">
+				<button class="close-btn" @click.prevent="$emit('close')">
+					<img src="../../assets/images/icons/X.png" alt="" class="delete-btn-img" />
+				</button>
 				<label for="pass">Podaj nowe hasło:</label>
 				<input type="text" id="pass" name="pass" v-model="password" autocomplete="off" />
 			</div>
@@ -121,6 +124,18 @@ export default {
 }
 .confirm-changes-btn:hover {
 	background-color: rgb(3, 160, 3);
+}
+.close-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+.close-btn img {
+	width: 15px;
+	height: 15px;
 }
 .modal-enter-active {
 	animation: modal 0.3s ease-out;
