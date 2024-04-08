@@ -21,7 +21,7 @@ export const useUsersStore = defineStore('users', {
 			try {
 				const response = await instanceAxios.get('bo/priceLists')
 				if (response.data.success) {
-					this.priceLists = response.data.data
+					this.priceLists = response.data.data.filter(priceList => priceList.active === 1)
 				}
 			} catch (error) {
 				console.error('Error fetching price lists:', error)
