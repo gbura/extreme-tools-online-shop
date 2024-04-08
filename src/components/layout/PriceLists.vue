@@ -60,7 +60,7 @@ export default {
 					},
 				})
 				if (res.data) {
-					this.priceLists = res.data.data
+					this.priceLists = res.data.data.filter(priceList => priceList.active === 1)
 				}
 			} catch (error) {
 				console.error('Błąd podczas pobierania danych:', error)
