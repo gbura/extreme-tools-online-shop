@@ -22,7 +22,12 @@
 					multiple
 					accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
 					@change="onFileSelected" />
-				<button class="add-price-list-btn" @click="uploadPriceList">Dodaj cennik</button>
+				<button class="add-price-list-btn" @click="uploadPriceList">
+					<span v-if="isLoading">
+						<div class="loader"></div>
+					</span>
+					<span v-else>Dodaj cennik</span>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -38,6 +43,7 @@ export default {
 		return {
 			priceLists: [],
 			selectedFile: null,
+			isLoading: false,
 		}
 	},
 	mounted() {
@@ -78,34 +84,42 @@ export default {
 		async uploadPriceList(e) {
 			const fd = new FormData()
 			fd.append('file', this.selectedFile)
-			if (this.selectedFile) {
+			try {
+				this.isLoading = true
+				Swal.fire({
+					title: 'Proszę czekać...',
+					html: 'Trwa przesyłanie danych...',
+					allowOutsideClick: false,
+					showConfirmButton: false,
+					onBeforeOpen: () => {
+						Swal.showLoading()
+					},
+				})
+				const response = await instanceAxios.post('bo/priceLists', fd)
+
+				this.isLoading = false
+				Swal.close()
+				this.getPriceLists()
 				Swal.fire({
 					title: 'Sukces!',
 					text: 'Nowy cennik został dodany do listy!',
 					icon: 'success',
 				})
+
 				document.getElementById('add-price-list-input').value = ''
-			} else {
-				Swal.fire({
-					title: 'Błąd!',
-					text: 'Wystąpił błąd podczas dodawania cennika!',
-					icon: 'error',
-				})
-			}
-			const fileExists = this.priceLists.some(priceList => priceList.name === this.selectedFile.name)
-			if (fileExists) {
+			} catch (error) {
+				console.error('Błąd podczas przesyłania cennika:', error)
+
+				this.isLoading = false
+
+				Swal.close()
+
 				Swal.fire({
 					title: 'Błąd!',
 					text: 'Cennik o takiej nazwie już istnieje!',
 					icon: 'error',
 				})
-			} else {
-				try {
-					await instanceAxios.post('bo/priceLists', fd)
-					this.getPriceLists()
-				} catch (error) {
-					console.error('Błąd podczas przesyłania cennika:', error)
-				}
+				document.getElementById('add-price-list-input').value = ''
 			}
 		},
 		formatCreatedAt(createdAt) {
@@ -218,5 +232,23 @@ a {
 .remove-item-btn img {
 	width: 15px;
 	height: 15px;
+}
+.loader {
+	border: 4px solid #f3f3f3;
+	border-top: 4px solid #3498db;
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	animation: spin 2s linear infinite;
+	margin: auto;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
 </style>

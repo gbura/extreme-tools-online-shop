@@ -7,6 +7,7 @@
 				<th>NAZWA FIRMY</th>
 				<th>LOGIN</th>
 				<th>EMAIL</th>
+				<th>PRZYPISANO</th>
 				<th>CENNIK</th>
 				<th>AKCJE</th>
 			</thead>
@@ -15,8 +16,8 @@
 					<td>{{ user.companyName }}</td>
 					<td>{{ user.login }}</td>
 					<td>{{ user.email }}</td>
-					<td class="row-td">
-						Przypisano: {{ user.priceList }}
+					<td>{{ user.priceList }}</td>
+					<td>
 						<select v-model="user.priceList" @change="updatePriceList(user.id, user.priceList)">
 							<option v-for="priceList in usersStore.priceLists" :key="priceList.id" :value="priceList.id">
 								{{ priceList.name }}
@@ -83,6 +84,9 @@ export default {
 					text: 'Ustawiono nowy cennik!',
 					icon: 'success',
 				})
+				setTimeout(() => {
+					window.location.reload()
+				}, 1000)
 			} catch (error) {
 				console.error('Blad przy aktualizacji cennika:', error)
 			}

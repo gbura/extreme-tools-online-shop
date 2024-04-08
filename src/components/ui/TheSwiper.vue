@@ -44,7 +44,7 @@ export default {
 			fullscreen: false,
 			fullscreenImageSrc: '',
 			zoomLevel: 100,
-			zoomIncrement: 2,
+			zoomIncrement: 10,
 			translateY: 0,
 		}
 	},
@@ -105,10 +105,10 @@ export default {
 			}
 		},
 		scrollDown() {
-			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, 5)
+			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, 10)
 		},
 		scrollUp() {
-			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, -5)
+			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, -19)
 		},
 	},
 }
