@@ -71,7 +71,7 @@ export default {
 				await instanceAxios.delete(`bo/priceLists/${id}`)
 				Swal.fire({
 					title: 'Sukces!',
-					text: 'Ceny z cennika zostały wyzerowane!',
+					text: 'Cennik został usunięty!',
 					icon: 'success',
 				})
 				this.getPriceLists()
