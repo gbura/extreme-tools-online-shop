@@ -66,7 +66,7 @@ export default {
 			if (productImage) {
 				setTimeout(() => {
 					this.selectedItemImage = productImage.url
-				}, 700)
+				}, 0)
 			} else if (productImage === null) {
 				this.selectedItemImage = 'X.jpg'
 			}
