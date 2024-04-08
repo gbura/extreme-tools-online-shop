@@ -4,18 +4,18 @@
 		<p v-if="!usersStore.users.length">Brak kontrahentów na liście!</p>
 		<table v-else>
 			<thead>
-				<th>EMAIL</th>
-				<th>LOGIN</th>
 				<th>NAZWA FIRMY</th>
+				<th>LOGIN</th>
+				<th>EMAIL</th>
 				<th>CENNIK</th>
 				<th>AKCJE</th>
 			</thead>
 			<tbody>
 				<tr v-for="user in usersStore.users" :key="user.id">
-					<td>{{ user.email }}</td>
-					<td>{{ user.login }}</td>
 					<td>{{ user.companyName }}</td>
-					<td>
+					<td>{{ user.login }}</td>
+					<td>{{ user.email }}</td>
+					<td class="row-td">
 						Przypisano: {{ user.priceList }}
 						<select v-model="user.priceList" @change="updatePriceList(user.id, user.priceList)">
 							<option v-for="priceList in usersStore.priceLists" :key="priceList.id" :value="priceList.id">
@@ -25,7 +25,9 @@
 					</td>
 					<td>
 						<button class="pass-reset-btn" @click="openModal(user.id)">Resetuj hasło</button>
-						<button class="delete-contractor-btn" @click="deleteUser(user.id)">Usuń kontrahenta</button>
+						<button class="delete-contractor-btn" @click="deleteUser(user.id)">
+							<img src="../../assets/images/icons/X.png" alt="" />
+						</button>
 					</td>
 				</tr>
 			</tbody>
@@ -114,13 +116,15 @@ export default {
 table,
 th,
 td {
-	border: 3px solid rgb(175, 106, 15);
 	border-collapse: collapse;
 	font-family: 'Arial', sans-serif;
 	font-size: 1.4rem;
 	font-weight: bold;
 	text-align: center;
-	padding: 1.5rem;
+	padding: 0.5rem;
+}
+tr {
+	border-bottom: 3px solid rgb(175, 106, 15);
 }
 
 th {
@@ -144,6 +148,9 @@ h1 {
 p {
 	font-size: 3rem;
 }
+.row-td {
+	display: flex;
+}
 
 .pass-reset-btn {
 	padding: 0.8rem;
@@ -160,14 +167,18 @@ p {
 	padding: 0.8rem;
 	border: none;
 	border-radius: 5px;
-	background-color: red;
+	background: none;
 	font-size: 1.5rem;
 	font-weight: bold;
 	color: white;
 	cursor: pointer;
 }
+.delete-contractor-btn img {
+	width: 20px;
+	height: 20px;
+}
 select {
-	width: 100%;
+	width: 75%;
 	border: none;
 	outline: none;
 	background-color: orange;

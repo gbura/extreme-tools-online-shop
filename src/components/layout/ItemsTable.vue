@@ -6,11 +6,11 @@
 					<div class="search-header-box">
 						<input
 							type="text"
-							class="input-searchbar"
-							placeholder="Szukaj: Nazwa towaru..."
 							v-model="searchQuery"
+							placeholder="Szukaj: Nazwa towaru..."
 							@input="search"
-							@blur="this.searchQuery = ''" />
+							@blur="this.searchQuery = ''"
+							@focus="clearIfNotEmpty('searchQuery')" />
 						<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 						<button @click="this.searchQuery = ''" class="delete-input-btn">
 							<img src="../../assets/images/icons/X.png" alt="" />
@@ -25,7 +25,7 @@
 								v-model="filters.ean"
 								placeholder="EAN"
 								maxlength="13"
-								@focus="clearIfNotEmpty('ean')" />
+								@focus="clearIfNotEmpty('filters.ean')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('ean')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -38,7 +38,7 @@
 								type="text"
 								v-model="filters.name"
 								placeholder="Filtruj: Nazwa lub kod towaru..."
-								@focus="clearIfNotEmpty('name')" />
+								@focus="clearIfNotEmpty('filters.name')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('name')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -47,7 +47,7 @@
 					</th>
 					<th class="product-code-header">
 						<div>
-							<input type="text" v-model="filters.code" placeholder="KOD" @focus="clearIfNotEmpty('code')" />
+							<input type="text" v-model="filters.code" placeholder="KOD" @focus="clearIfNotEmpty('filters.code')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('code')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -229,9 +229,9 @@ export default {
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
 		},
-		clearIfNotEmpty(filterName) {
+		clearIfNotEmpty(filterRef) {
 			for (let key in this.filters) {
-				if (key !== filterName && this.filters[key] !== '') {
+				if (key !== filterRef && this.filters[key] !== '') {
 					this.filters[key] = ''
 				}
 			}

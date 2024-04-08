@@ -7,6 +7,7 @@
 				<ul v-else>
 					<li v-for="priceList in priceLists" :key="priceList.id">
 						<span>{{ priceList.name }}</span>
+						<span class="created">| {{ formatCreatedAt(priceList.createdAt) }}</span>
 						<button class="remove-item-btn" @click="removePriceList(priceList.id)">
 							<img src="../../assets/images/icons/X.png" alt="" />
 						</button>
@@ -107,6 +108,16 @@ export default {
 				}
 			}
 		},
+		formatCreatedAt(createdAt) {
+			const date = new Date(createdAt)
+			const day = date.getDate().toString().padStart(2, '0')
+			const month = (date.getMonth() + 1).toString().padStart(2, '0')
+			const year = date.getFullYear()
+			const hours = date.getHours().toString().padStart(2, '0')
+			const minutes = date.getMinutes().toString().padStart(2, '0')
+
+			return `${day}.${month}.${year} ${hours}:${minutes}`
+		},
 	},
 }
 </script>
@@ -128,6 +139,9 @@ export default {
 }
 .price-list {
 	background-color: orange;
+}
+.created {
+	font-size: 1.2rem;
 }
 .add-price-list-container {
 	display: flex;
@@ -169,6 +183,7 @@ ul {
 li {
 	position: relative;
 	display: flex;
+	align-items: center;
 	gap: 0.5rem;
 	background-color: orange;
 	padding: 1rem;

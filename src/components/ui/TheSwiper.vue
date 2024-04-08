@@ -105,10 +105,10 @@ export default {
 			}
 		},
 		scrollDown() {
-			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, 100)
+			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, 5)
 		},
 		scrollUp() {
-			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, -100)
+			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, -5)
 		},
 	},
 }
