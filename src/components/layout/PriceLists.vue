@@ -74,6 +74,7 @@ export default {
 					text: 'Ceny z cennika zostały wyzerowane!',
 					icon: 'success',
 				})
+				this.getPriceLists()
 			} catch (error) {
 				console.error('Błąd podczas usuwania cennika:', error)
 			}
