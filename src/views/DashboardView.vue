@@ -27,7 +27,9 @@
 		</div>
 		<div v-if="fullscreen" class="fullscreen-overlay" @click="closeFullscreen"></div>
 		<img v-if="fullscreen" :src="fullscreenImageSrc" class="fullscreen-image" />
-		<button v-if="fullscreen" class="close-button" @click="closeFullscreen">X</button>
+		<button v-if="fullscreen" class="close-button" @click="closeFullscreen">
+			<img src="../assets/images/icons/X.png" alt="" class="delete-btn-img" />
+		</button>
 	</div>
 </template>
 
@@ -156,14 +158,18 @@ export default {
 }
 .close-button {
 	position: fixed;
-	top: 30px;
+	top: 50px;
 	right: 50px;
-	border: 1px solid red;
+
+	border: none;
 	padding: 0.5rem;
 	background: none;
-	color: red;
 	font-size: 4rem;
 	z-index: 1001;
 	cursor: pointer;
+}
+.close-button img {
+	width: 50px;
+	height: 50px;
 }
 </style>

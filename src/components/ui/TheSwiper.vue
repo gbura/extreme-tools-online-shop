@@ -18,7 +18,9 @@
 					}" />
 			</div>
 		</div>
-		<button v-if="fullscreen" class="close-button" @click="closeFullscreen">X</button>
+		<button v-if="fullscreen" class="close-button" @click="closeFullscreen">
+			<img src="../../assets/images/icons/X.png" alt="" class="delete-btn-img" />
+		</button>
 	</div>
 </template>
 
@@ -192,10 +194,9 @@ export default {
 	position: fixed;
 	top: 30px;
 	right: 50px;
-	border: 1px solid red;
+	border: none;
 	padding: 0.5rem;
 	background: none;
-	color: red;
 	font-size: 4rem;
 	z-index: 1001;
 	cursor: pointer;

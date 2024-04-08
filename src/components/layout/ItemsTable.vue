@@ -520,7 +520,7 @@ input {
 }
 
 .product-code-header {
-	width: 120px;
+	width: 140px;
 }
 
 .price-header {
