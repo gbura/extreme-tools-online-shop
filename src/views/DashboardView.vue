@@ -17,7 +17,11 @@
 						</div>
 						<div class="item-img">
 							<img
-								:src="`https://pawelkajdas.pl/public/app/public/parts/` + selectedItemImage"
+								:src="
+									`https://pawelkajdas.pl/public/app/public/parts/` +
+									selectedItemImage +
+									`?timestamp=${new Date().getTime()}`
+								"
 								alt=""
 								@click="openFullscreen(selectedItemImage)" />
 						</div>
@@ -68,7 +72,7 @@ export default {
 					this.selectedItemImage = productImage.url
 				}, 0)
 			} else if (productImage === null) {
-				this.selectedItemImage = 'X.jpg'
+				this.selectedItemImage = 'nophoto.jpg'
 			}
 		},
 		toggleSlider() {
@@ -76,7 +80,8 @@ export default {
 		},
 		openFullscreen(imageSrc) {
 			this.fullscreen = true
-			this.fullscreenImageSrc = `https://pawelkajdas.pl/public/app/public/parts/${imageSrc}`
+			this.fullscreenImageSrc =
+				`https://pawelkajdas.pl/public/app/public/parts/${imageSrc}` + `?timestamp=${new Date().getTime()}`
 			document.body.style.overflow = 'hidden'
 		},
 		closeFullscreen() {

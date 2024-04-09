@@ -2,7 +2,9 @@
 	<div class="slider-box" @mousemove="handleMouseMove">
 		<swiper :loop="true" :modules="modules" :navigation="true">
 			<swiper-slide v-for="image in images" :key="image.id" @click="openFullscreen(image)">
-				<img :src="`https://pawelkajdas.pl/public/app/public/catalog/` + image.name" alt="" />
+				<img
+					:src="`https://pawelkajdas.pl/public/app/public/catalog/` + image.name + `?timestamp=${new Date().getTime()}`"
+					alt="" />
 			</swiper-slide>
 		</swiper>
 		<div v-if="fullscreen" class="fullscreen-overlay" @click="closeFullscreen"></div>
@@ -58,11 +60,14 @@ export default {
 		},
 		openFullscreen(image) {
 			this.fullscreen = true
-			this.fullscreenImageSrc = `https://pawelkajdas.pl/public/app/public/catalog/${image.name}`
+			this.fullscreenImageSrc =
+				`https://pawelkajdas.pl/public/app/public/catalog/${image.name}` + `?timestamp=${new Date().getTime()}`
 			document.body.style.overflow = 'hidden'
 		},
 		closeFullscreen() {
 			this.fullscreen = false
+			this.zoomLevel = 100
+			this.translateY = 0
 			document.body.style.overflow = ''
 		},
 		handleWheel(event) {
@@ -105,10 +110,10 @@ export default {
 			}
 		},
 		scrollDown() {
-			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, 10)
+			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, 30)
 		},
 		scrollUp() {
-			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, -19)
+			document.querySelector('.fullscreen-image-wrapper').scrollBy(0, -30)
 		},
 	},
 }
