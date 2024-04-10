@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useAuthStore } from '@/stores/auth.js'
 
 const instanceAxios = axios.create({
-	baseURL: 'https://pawelkajdas.pl/api/',
+	baseURL: 'http://127.0.0.1:8000/api/',
 	headers: {
 		'Access-Control-Allow-Origin': '*',
 	},
