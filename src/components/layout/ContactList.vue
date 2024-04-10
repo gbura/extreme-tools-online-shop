@@ -17,7 +17,7 @@
 			<p>www.extremetools.pl</p>
 		</li>
 		<li>
-			<img src="../../assets/images/icons/mappin.png" alt="" class="icon last-icon" />
+			<img src="../../assets/images/icons/mappin.png" alt="" class="icon" />
 			<p>Paczków 48-370 ul. Jagiellońska 15</p>
 		</li>
 	</ul>
@@ -54,9 +54,6 @@ p {
 	padding: 0.5rem;
 	width: 60px;
 	border-radius: 4px;
-}
-li:last-child {
-	margin-top: 2rem;
 }
 
 @media (min-width: 992px) {
