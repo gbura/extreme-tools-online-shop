@@ -18,7 +18,7 @@
 						<div class="item-img">
 							<img
 								:src="
-									`http://127.0.0.1:8000/public/app/public/parts/` +
+									`http://127.0.0.1:8000/app/public/parts/` +
 									selectedItemImage +
 									`?timestamp=${new Date().getTime()}`
 								"
@@ -81,7 +81,7 @@ export default {
 		openFullscreen(imageSrc) {
 			this.fullscreen = true
 			this.fullscreenImageSrc =
-				`http://127.0.0.1:8000/public/app/public/parts/${imageSrc}` + `?timestamp=${new Date().getTime()}`
+				`http://127.0.0.1:8000/app/public/parts/${imageSrc}` + `?timestamp=${new Date().getTime()}`
 			document.body.style.overflow = 'hidden'
 		},
 		closeFullscreen() {
