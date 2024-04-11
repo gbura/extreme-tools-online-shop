@@ -10,7 +10,7 @@
 			<ContactList />
 		</div>
 		<div class="right-section">
-			<img :src="`https://pawelkajdas.pl/public/app/public/` + imageUrl" alt="" />
+			<img :src="`http://127.0.0.1:8000/public/app/public/` + imageUrl" alt="" />
 		</div>
 	</div>
 </template>
