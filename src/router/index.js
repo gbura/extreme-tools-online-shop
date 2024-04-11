@@ -98,26 +98,38 @@ async function checkAuthentication(to, _, next) {
 	const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 	const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
 
-	// Sprawdź stan uwierzytelnienia tylko dla tras wymagających go
-	if (requiresAuth) {
-		// Pobierz informacje o użytkowniku
+	// Sprawdzanie stanu logowania tylko dla ścieżek, które tego wymagają
+	if (requiresAuth && !authStore.isAuthenticated) {
 		await authStore.fetchUser()
-
-		// Jeśli użytkownik nie jest zalogowany, przekieruj na stronę logowania
-		if (!authStore.isAuthenticated) {
-			return next({ name: 'login' })
-		}
 	}
 
-	// Obsługa tras wymagających roli admina
+	// Obsługa ścieżek, które wymagają autoryzacji
+	if (requiresAuth && !authStore.isAuthenticated) {
+		return next({ name: 'login' })
+	}
+
+	// Obsługa ścieżek, które wymagają roli admina
 	if (requiresAdmin && !authStore.isLoggedAdmin) {
 		return next({ name: 'dashboard' })
 	}
 
-	// Jeśli dotarliśmy tutaj, użytkownik jest zalogowany lub trasa nie wymaga uwierzytelnienia
+	// Jeśli dotarliśmy tutaj, użytkownik jest zalogowany lub strona nie wymaga logowania
 	next()
 }
 
-router.beforeEach(checkAuthentication)
+router.beforeEach(async (to, from, next) => {
+	try {
+		await checkAuthentication(to, from, next)
+	} catch (error) {
+		// Obsługa błędu Unauthorized
+		if (error.response && error.response.status === 401) {
+			const authStore = useAuthStore()
+			await authStore.logout()
+			next({ name: 'login' })
+		} else {
+			console.error('Error during route navigation:', error)
+		}
+	}
+})
 
 export default router
