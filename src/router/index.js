@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+
 import WelcomeView from '../views/WelcomeView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import LoginView from '../views/LoginView.vue'
@@ -91,27 +92,29 @@ const router = createRouter({
 		},
 	],
 })
+
 async function checkAuthentication(to, _, next) {
 	const authStore = useAuthStore()
 	const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 	const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
 
-	// Sprawdzanie stanu logowania tylko dla ścieżek, które tego wymagają
-	if (requiresAuth && !authStore.isAuthenticated) {
+	// Sprawdź stan uwierzytelnienia tylko dla tras wymagających go
+	if (requiresAuth) {
+		// Pobierz informacje o użytkowniku
 		await authStore.fetchUser()
+
+		// Jeśli użytkownik nie jest zalogowany, przekieruj na stronę logowania
+		if (!authStore.isAuthenticated) {
+			return next({ name: 'login' })
+		}
 	}
 
-	// Obsługa ścieżek, które wymagają autoryzacji
-	if (requiresAuth && !authStore.isAuthenticated) {
-		return next({ name: 'login' })
-	}
-
-	// Obsługa ścieżek, które wymagają roli admina
+	// Obsługa tras wymagających roli admina
 	if (requiresAdmin && !authStore.isLoggedAdmin) {
 		return next({ name: 'dashboard' })
 	}
 
-	// Jeśli dotarliśmy tutaj, użytkownik jest zalogowany lub strona nie wymaga logowania
+	// Jeśli dotarliśmy tutaj, użytkownik jest zalogowany lub trasa nie wymaga uwierzytelnienia
 	next()
 }
 
