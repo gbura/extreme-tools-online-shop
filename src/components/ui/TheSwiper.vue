@@ -3,7 +3,11 @@
 		<swiper :loop="true" :modules="modules" :navigation="true">
 			<swiper-slide v-for="image in images" :key="image.id" @click="openFullscreen(image)">
 				<img
-					:src="`https://pawelkajdas.pl/public/app/public/catalog/` + image.name + `?timestamp=${new Date().getTime()}`"
+					:src="
+						`http://api.extremetoolsb2b.pl/public/app/public/catalog/` +
+						image.name +
+						`?timestamp=${new Date().getTime()}`
+					"
 					alt="" />
 			</swiper-slide>
 		</swiper>
@@ -61,7 +65,7 @@ export default {
 		openFullscreen(image) {
 			this.fullscreen = true
 			this.fullscreenImageSrc =
-				`https://pawelkajdas.pl/public/app/public/catalog/${image.name}` + `?timestamp=${new Date().getTime()}`
+				`http://api.extremetoolsb2b.pl/public/app/public/catalog/${image.name}` + `?timestamp=${new Date().getTime()}`
 			document.body.style.overflow = 'hidden'
 		},
 		closeFullscreen() {

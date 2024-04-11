@@ -18,7 +18,7 @@
 						<div class="item-img">
 							<img
 								:src="
-									`https://pawelkajdas.pl/public/app/public/parts/` +
+									`http://api.extremetoolsb2b.pl/public/app/public/parts/` +
 									selectedItemImage +
 									`?timestamp=${new Date().getTime()}`
 								"
@@ -81,7 +81,7 @@ export default {
 		openFullscreen(imageSrc) {
 			this.fullscreen = true
 			this.fullscreenImageSrc =
-				`https://pawelkajdas.pl/public/app/public/parts/${imageSrc}` + `?timestamp=${new Date().getTime()}`
+				`http://api.extremetoolsb2b.pl/public/app/public/parts/${imageSrc}` + `?timestamp=${new Date().getTime()}`
 			document.body.style.overflow = 'hidden'
 		},
 		closeFullscreen() {
