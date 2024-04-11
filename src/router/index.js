@@ -125,6 +125,7 @@ router.beforeEach(async (to, from, next) => {
 		if (error.response && error.response.status === 401) {
 			const authStore = useAuthStore()
 			await authStore.logout()
+			window.location.reload()
 			next({ name: 'login' })
 		} else {
 			console.error('Error during route navigation:', error)
