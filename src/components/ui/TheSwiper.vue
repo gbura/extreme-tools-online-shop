@@ -4,7 +4,7 @@
 			<swiper-slide v-for="image in images" :key="image.id" @click="openFullscreen(image)">
 				<img
 					:src="
-						`http://api.extremetoolsb2b.pl/public/app/public/catalog/` +
+						`https://api.extremetoolsb2b.pl/public/app/public/catalog/` +
 						image.name +
 						`?timestamp=${new Date().getTime()}`
 					"
@@ -65,7 +65,7 @@ export default {
 		openFullscreen(image) {
 			this.fullscreen = true
 			this.fullscreenImageSrc =
-				`http://api.extremetoolsb2b.pl/public/app/public/catalog/${image.name}` + `?timestamp=${new Date().getTime()}`
+				`https://api.extremetoolsb2b.pl/public/app/public/catalog/${image.name}` + `?timestamp=${new Date().getTime()}`
 			document.body.style.overflow = 'hidden'
 		},
 		closeFullscreen() {

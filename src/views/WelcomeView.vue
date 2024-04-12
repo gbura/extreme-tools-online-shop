@@ -10,7 +10,7 @@
 			<ContactList />
 		</div>
 		<div class="right-section">
-			<img :src="`http://api.extremetoolsb2b.pl/public/app/public/` + imageUrl" alt="" />
+			<img :src="`https://api.extremetoolsb2b.pl/public/app/public/` + imageUrl" alt="" />
 		</div>
 	</div>
 </template>
