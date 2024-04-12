@@ -15,7 +15,7 @@ import ChangeMainSite from '@/components/layout/ChangeMainSite.vue'
 import ItemsPhotos from '@/components/layout/ItemsPhotos.vue'
 
 const router = createRouter({
-	history: createWebHistory(import.meta.env.BASE_URL),
+	history: createWebHistory(),
 	routes: [
 		{
 			path: '/',

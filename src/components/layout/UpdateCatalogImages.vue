@@ -15,14 +15,21 @@
 					@change="onFileSelected"
 					multiple />
 			</div>
-			<button class="confirm-changes-btn" @click="onUpload">Dodaj</button>
+			<button class="confirm-changes-btn" @click="onUpload" :disabled="isLoading">
+				<span v-if="isLoading">
+					<div class="loader"></div>
+				</span>
+				<span v-else>Dodaj</span>
+			</button>
 		</div>
 	</transition>
 </template>
+
 <script>
 import instanceAxios from '@/axios'
 import Swal from 'sweetalert2'
 import { useCatalogImagesStore } from '@/stores/catalogImages.js'
+
 export default {
 	name: 'UpdateImage',
 	props: ['open'],
@@ -34,13 +41,14 @@ export default {
 	data() {
 		return {
 			selectedFiles: [],
+			isLoading: false,
 		}
 	},
 	methods: {
 		onFileSelected(event) {
 			this.selectedFiles = event.target.files
 		},
-		onUpload() {
+		async onUpload() {
 			if (this.selectedFiles.length === 0) {
 				Swal.fire({
 					title: 'Błąd!',
@@ -56,27 +64,44 @@ export default {
 				fd.append('catalogImages[]', this.selectedFiles[i])
 			}
 
-			instanceAxios
-				.post('bo/catalogImages', fd)
-				.then(res => {
-					this.selectedFiles = []
-					document.getElementById('photo').value = ''
-					Swal.fire({
-						title: 'Sukces!',
-						text: 'Dodano nowe zdjęcia!',
-						icon: 'success',
-					})
-					this.catalogImagesStore.getPhotos()
+			try {
+				this.isLoading = true
+
+				const response = await instanceAxios.post('bo/catalogImages', fd)
+
+				this.selectedFiles = []
+				document.getElementById('photo').value = ''
+				Swal.fire({
+					title: 'Sukces!',
+					text: 'Dodano nowe zdjęcia!',
+					icon: 'success',
 				})
-				.catch(err => {
-					console.error('Błąd wysyłania', err)
+				this.catalogImagesStore.getPhotos()
+			} catch (error) {
+				console.error('Błąd wysyłania', error)
+				Swal.fire({
+					title: 'Błąd!',
+					text: 'Wystąpił błąd podczas przesyłania zdjęć!',
+					icon: 'error',
 				})
+			} finally {
+				this.isLoading = false
+			}
 		},
 	},
 }
 </script>
 
 <style scoped>
+.loader {
+	border: 4px solid #f3f3f3;
+	border-top: 4px solid #3498db;
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	animation: spin 2s linear infinite;
+	margin: auto;
+}
 .backdrop {
 	position: fixed;
 	top: 0;
@@ -167,6 +192,14 @@ export default {
 
 	100% {
 		opacity: 1;
+	}
+}
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
 	}
 }
 </style>

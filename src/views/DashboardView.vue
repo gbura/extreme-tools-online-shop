@@ -18,12 +18,13 @@
 						<div class="item-img">
 							<img
 								:src="
-									`http://127.0.0.1:8000/app/public/parts/` +
+									`https://api.extremetoolsb2b.pl/public/app/public/parts/` +
 									selectedItemImage +
 									`?timestamp=${new Date().getTime()}`
 								"
 								alt=""
-								@click="openFullscreen(selectedItemImage)" />
+								@click="openFullscreen(selectedItemImage)"
+								@error="handleImageError" />
 						</div>
 					</div>
 				</template>
@@ -67,7 +68,7 @@ export default {
 	},
 	methods: {
 		changeItemImage(productImage) {
-			if (productImage) {
+			if (productImage && productImage.url) {
 				setTimeout(() => {
 					this.selectedItemImage = productImage.url
 				}, 0)
@@ -75,13 +76,16 @@ export default {
 				this.selectedItemImage = 'nophoto.jpg'
 			}
 		},
+		handleImageError() {
+			this.selectedItemImage = 'nophoto.jpg'
+		},
 		toggleSlider() {
 			this.isOpenSlider = !this.isOpenSlider
 		},
 		openFullscreen(imageSrc) {
 			this.fullscreen = true
 			this.fullscreenImageSrc =
-				`http://127.0.0.1:8000/app/public/parts/${imageSrc}` + `?timestamp=${new Date().getTime()}`
+				`https://api.extremetoolsb2b.pl/public/app/public/parts/${imageSrc}` + `?timestamp=${new Date().getTime()}`
 			document.body.style.overflow = 'hidden'
 		},
 		closeFullscreen() {
