@@ -103,12 +103,14 @@
 						<button class="delete-item-btn" @click="this.shoppingCartStore.removeItem(card.code)">
 							<img src="../../assets/images/icons/X.png" alt="" />
 						</button>
-						<div>
+						<div class="shop-card-name">
 							<b>{{ card.name }}</b>
 						</div>
-						<div>Sztuk: {{ card.quantity }}</div>
-						<div>Cena netto: {{ card.price }}zł</div>
-						<div>Suma: {{ (card.price * card.quantity).toFixed(2) }}zł</div>
+						<div class="shop-row-item">
+							<div>Sztuk: {{ card.quantity }}</div>
+							<div>Cena netto: {{ card.price }}zł</div>
+							<div>Suma: {{ (card.price * card.quantity).toFixed(2) }}zł</div>
+						</div>
 						<div class="quantity-btns-box">
 							<button @click="this.shoppingCartStore.reduceItems(card.code)">-</button>
 							<button @click="this.shoppingCartStore.increaseItems(card.code)">+</button>
@@ -312,6 +314,22 @@ export default {
 </script>
 
 <style scoped>
+.shop-card-name {
+	max-width: 600px;
+}
+.shop-row-item {
+	display: flex;
+	gap: 2rem;
+	max-width: 600px;
+}
+.shop-row-item div:first-child {
+	border-right: 1px solid black;
+	padding-right: 2rem;
+}
+.shop-row-item div:nth-child(2) {
+	border-right: 1px solid black;
+	padding-right: 2rem;
+}
 th.search-header {
 	height: 25px;
 }

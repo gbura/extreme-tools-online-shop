@@ -13,8 +13,8 @@ import AdminMenu from '@/components/ui/AdminMenu.vue'
 
 const app = createApp(App)
 
-app.use(createPinia())
 app.use(router)
+app.use(createPinia())
 app.use(VueSweetalert2)
 app.component('AdminMenu', AdminMenu)
 

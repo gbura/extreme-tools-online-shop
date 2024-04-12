@@ -23,7 +23,8 @@
 									`?timestamp=${new Date().getTime()}`
 								"
 								alt=""
-								@click="openFullscreen(selectedItemImage)" />
+								@click="openFullscreen(selectedItemImage)"
+								@error="handleImageError" />
 						</div>
 					</div>
 				</template>
@@ -67,13 +68,16 @@ export default {
 	},
 	methods: {
 		changeItemImage(productImage) {
-			if (productImage) {
+			if (productImage && productImage.url) {
 				setTimeout(() => {
 					this.selectedItemImage = productImage.url
 				}, 0)
 			} else if (productImage === null) {
 				this.selectedItemImage = 'nophoto.jpg'
 			}
+		},
+		handleImageError() {
+			this.selectedItemImage = 'nophoto.jpg'
 		},
 		toggleSlider() {
 			this.isOpenSlider = !this.isOpenSlider
