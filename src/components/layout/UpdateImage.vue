@@ -71,11 +71,6 @@ export default {
 
 				this.selectedFiles = []
 				document.getElementById('photo').value = ''
-				Swal.fire({
-					title: 'Sukces!',
-					text: 'Dodano nowe zdjęcia!',
-					icon: 'success',
-				})
 				this.photosStore.getPhotos()
 			} catch (error) {
 				console.error('Błąd wysyłania', error)

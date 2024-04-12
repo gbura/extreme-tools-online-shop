@@ -3,7 +3,10 @@
 		<div class="photos-box">
 			<table>
 				<thead>
-					<th>Nazwa zdjęcia w katalogu</th>
+					<th>
+						Nazwa zdjęcia w katalogu
+						<span>Ilość zdjęć: {{ this.catalogImagesStore.photos.length }}</span>
+					</th>
 				</thead>
 				<tbody>
 					<tr>
@@ -137,10 +140,16 @@ table {
 	width: 100%;
 }
 th {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
 	background-color: orange;
 	font-size: 1.8rem;
 	text-align: center;
 	border: 3px solid rgb(175, 106, 15);
+}
+th span {
+	font-size: 1.3rem;
 }
 tbody {
 	background-color: rgba(51, 50, 50, 0.514);

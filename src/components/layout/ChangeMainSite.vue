@@ -45,11 +45,6 @@ export default {
 				.then(res => {
 					this.selectedFile = null
 					document.getElementById('main-image').value = ''
-					Swal.fire({
-						title: 'Sukces!',
-						text: 'Ustawiono nowe zdjęcie!',
-						icon: 'success',
-					})
 				})
 				.catch(err => {
 					Swal.fire({
