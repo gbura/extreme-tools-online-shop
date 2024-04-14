@@ -84,9 +84,7 @@ export default {
 					text: 'Ustawiono nowy cennik!',
 					icon: 'success',
 				})
-				setTimeout(() => {
-					window.location.reload()
-				}, 1000)
+				await this.usersStore.fetchUsers()
 			} catch (error) {
 				console.error('Blad przy aktualizacji cennika:', error)
 			}
