@@ -565,9 +565,11 @@ input {
 
 .quantity {
 	width: 100%;
+	padding-right: 0.5rem;
 	text-align: right;
 	font-weight: 900;
-	color: red;
+	color: #800000;
+	caret-color: #800000;
 }
 
 thead div {
