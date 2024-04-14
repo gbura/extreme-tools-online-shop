@@ -43,7 +43,7 @@ export default {
 	},
 	data() {
 		return {
-			resetUserId: this.authstore.userId,
+			resetUserId: localStorage.getItem('userId'),
 			isResetOpen: false,
 		}
 	},

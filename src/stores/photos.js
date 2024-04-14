@@ -12,7 +12,6 @@ export const usePhotosStore = defineStore('photosStore', {
 				const response = await instanceAxios.get('bo/images')
 				const data = response.data.data
 				this.photos = data
-				console.log(data)
 			} catch (error) {
 				console.error('Błąd pobierania danych', error)
 			}
