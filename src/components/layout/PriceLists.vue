@@ -117,7 +117,7 @@ export default {
 
 				Swal.fire({
 					title: 'Błąd!',
-					text: 'Cennik o takiej nazwie już istnieje!',
+					text: 'Błąd wgrywania cennika!',
 					icon: 'error',
 				})
 				document.getElementById('add-price-list-input').value = ''
