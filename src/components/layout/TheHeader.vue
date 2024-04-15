@@ -43,7 +43,7 @@ export default {
 	},
 	data() {
 		return {
-			resetUserId: localStorage.getItem('userId'),
+			resetUserId: null,
 			isResetOpen: false,
 		}
 	},
@@ -57,6 +57,7 @@ export default {
 			this.$router.push('/')
 		},
 		openModal() {
+			this.resetUserId = localStorage.getItem('userId')
 			this.isResetOpen = true
 		},
 		closeModal() {
