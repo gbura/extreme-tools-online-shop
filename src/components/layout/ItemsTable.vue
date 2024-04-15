@@ -259,7 +259,7 @@ export default {
 		},
 		updateCost() {
 			this.filteredItems.forEach(item => {
-				if (!isNaN(item.quantity) && item.quantity > 0 && !isNaN(item.price) && item.price > 0) {
+				if (!isNaN(item.quantity) && item.quantity > 0 && !isNaN(item.price)) {
 					if (!this.shoppingCartStore.items.includes(item)) {
 						this.shoppingCartStore.addItem(item)
 					}
