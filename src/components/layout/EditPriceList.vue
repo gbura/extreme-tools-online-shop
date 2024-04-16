@@ -192,6 +192,12 @@ input {
 	border: none;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
 tbody {
 	background-color: white;
 }
