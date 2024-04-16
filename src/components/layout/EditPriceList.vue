@@ -129,6 +129,10 @@ export default {
 .container-box {
 	width: 100%;
 }
+.quantity {
+	text-align: right;
+	padding-right: 0.5rem;
+}
 
 .table-box {
 	width: 100%;
