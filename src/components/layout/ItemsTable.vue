@@ -111,13 +111,18 @@
 							<div>Cena netto: {{ card.price }}zł</div>
 							<div>Suma: {{ (card.price * card.quantity).toFixed(2) }}zł</div>
 						</div>
+
 						<div class="quantity-btns-box">
 							<button @click="this.shoppingCartStore.reduceItems(card.code)">-</button>
 							<button @click="this.shoppingCartStore.increaseItems(card.code)">+</button>
 						</div>
 					</div>
 				</li>
+				<div>
+					<textarea id="purchase-info" placeholder="Uwagi, pytania do zamówienia..."></textarea>
+				</div>
 			</ul>
+
 			<div class="buttons-container">
 				<button class="shopping-cart-btn delete-all-items-btn" @click="this.shoppingCartStore.removeAllItems">
 					Usuń wszystko z koszyka
@@ -318,6 +323,18 @@ export default {
 </script>
 
 <style scoped>
+#purchase-info {
+	padding: 1rem;
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+	min-height: 100px;
+	max-height: 100px;
+	resize: none;
+	border-radius: 8px;
+	border: 1px solid orange;
+	outline: none;
+}
 .shop-card-name {
 	max-width: 600px;
 }

@@ -41,18 +41,23 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 				pieces: item.quantity.toString(),
 			}))
 			const totalNet = parseFloat(this.sumCartPrice).toFixed(2).toString()
+			const comment = document.getElementById('purchase-info').value
 			const orderData = {
 				userId: userId,
 				totalNet: totalNet,
+				comment: comment,
 				orderItems: orderItems,
 			}
 			instanceAxios
 				.post('ad/makeOrder', orderData)
 				.then(res => {
 					Swal.fire({
-						title: 'Sukces!',
-						text: 'Złożono zamówienie!',
+						title: 'Zamówienie przyjęte!',
+						text: 'Miłego dnia.',
 						icon: 'success',
+						customClass: {
+							htmlContainer: 'green-subtext',
+						},
 					}).then(() => {
 						window.location.reload()
 					})
