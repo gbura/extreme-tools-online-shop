@@ -2,48 +2,50 @@
 	<div class="users-box">
 		<h1>Lista kontrahentów:</h1>
 		<p v-if="!usersStore.users.length">Brak kontrahentów na liście!</p>
-		<table v-else>
-			<thead>
-				<th>NAZWA FIRMY</th>
-				<th>LOGIN</th>
-				<th>EMAIL</th>
-				<th>PRZYPISANO</th>
-				<th>CENNIK</th>
-				<th>AKCJE</th>
-				<th class="login-counter-header">
-					LOGOWANIE<br />
-					SUMA
-					<button class="delete-count-btn" @click="clearCounter">
-						<img src="../../assets/images/icons/X.png" alt="" />
-					</button>
-				</th>
-			</thead>
-			<tbody>
-				<tr v-for="user in usersStore.users" :key="user.id">
-					<td>{{ user.companyName }}</td>
-					<td>{{ user.login }}</td>
-					<td>{{ user.email }}</td>
-					<td>{{ user.priceList }}</td>
-
-					<td>
-						<select v-model="user.priceList" @change="updatePriceList(user.id, user.priceList)">
-							<option v-for="priceList in usersStore.priceLists" :key="priceList.id" :value="priceList.id">
-								{{ priceList.name }}
-							</option>
-						</select>
-					</td>
-					<td>
-						<button class="pass-reset-btn" @click="openModal(user.id)">Resetuj hasło</button>
-						<button class="delete-contractor-btn" @click="deleteUser(user.id)">
+		<div class="table-box" v-else>
+			<table>
+				<thead>
+					<th>NAZWA FIRMY</th>
+					<th>LOGIN</th>
+					<th>EMAIL</th>
+					<th>PRZYPISANO</th>
+					<th>CENNIK</th>
+					<th>AKCJE</th>
+					<th class="login-counter-header">
+						LOGOWANIE<br />
+						SUMA
+						<button class="delete-count-btn" @click="clearCounter">
 							<img src="../../assets/images/icons/X.png" alt="" />
 						</button>
-					</td>
-					<td>
-						{{ user.loginCounter }}
-					</td>
-				</tr>
-			</tbody>
-		</table>
+					</th>
+				</thead>
+				<tbody>
+					<tr v-for="user in usersStore.users" :key="user.id">
+						<td>{{ user.companyName }}</td>
+						<td>{{ user.login }}</td>
+						<td>{{ user.email }}</td>
+						<td>{{ user.priceList }}</td>
+
+						<td>
+							<select v-model="user.priceList" @change="updatePriceList(user.id, user.priceList)">
+								<option v-for="priceList in usersStore.priceLists" :key="priceList.id" :value="priceList.id">
+									{{ priceList.name }}
+								</option>
+							</select>
+						</td>
+						<td class="actions-box">
+							<button class="pass-reset-btn" @click="openModal(user.id)">Resetuj hasło</button>
+							<button class="delete-contractor-btn" @click="deleteUser(user.id)">
+								<img src="../../assets/images/icons/X.png" alt="" />
+							</button>
+						</td>
+						<td>
+							{{ user.loginCounter }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<ResetPassword :open="isResetOpen" :userId="resetUserId" @close="closeModal" />
 	</div>
 </template>
@@ -158,9 +160,23 @@ th {
 	color: rgb(255, 255, 255);
 	font-size: 1.8rem;
 }
+thead {
+	position: sticky;
+	top: 0;
+	left: 0;
+}
+td {
+	max-width: 200px;
+	word-wrap: break-word;
+}
+
+.table-box {
+	max-height: 450px;
+	overflow-y: auto;
+}
 
 table {
-	width: 1200px;
+	width: 1400px;
 }
 
 tbody {

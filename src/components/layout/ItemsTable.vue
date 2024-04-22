@@ -119,7 +119,7 @@
 					</div>
 				</li>
 				<div>
-					<textarea id="purchase-info" placeholder="Uwagi, pytania do zamówienia..."></textarea>
+					<textarea id="comment" placeholder="Uwagi, pytania do zamówienia..."></textarea>
 				</div>
 			</ul>
 
@@ -323,7 +323,7 @@ export default {
 </script>
 
 <style scoped>
-#purchase-info {
+#comment {
 	padding: 1rem;
 	width: 100%;
 	min-width: 100%;

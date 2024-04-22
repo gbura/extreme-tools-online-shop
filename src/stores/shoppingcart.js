@@ -41,7 +41,7 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 				pieces: item.quantity.toString(),
 			}))
 			const totalNet = parseFloat(this.sumCartPrice).toFixed(2).toString()
-			const comment = document.getElementById('purchase-info').value
+			const comment = document.getElementById('comment').value
 			const orderData = {
 				userId: userId,
 				totalNet: totalNet,
