@@ -118,7 +118,7 @@
 						</div>
 					</div>
 				</li>
-				<div>
+				<div class="comment-container">
 					<textarea id="comment" placeholder="Uwagi, pytania do zamówienia..."></textarea>
 				</div>
 			</ul>
@@ -323,18 +323,6 @@ export default {
 </script>
 
 <style scoped>
-#comment {
-	padding: 1rem;
-	width: 100%;
-	min-width: 100%;
-	max-width: 100%;
-	min-height: 100px;
-	max-height: 100px;
-	resize: none;
-	border-radius: 8px;
-	border: 1px solid orange;
-	outline: none;
-}
 .shop-card-name {
 	max-width: 600px;
 }
@@ -375,6 +363,24 @@ th.search-header {
 	list-style-type: none;
 	background-color: #fff;
 	padding: 1rem;
+	margin: 0;
+}
+.comment-container {
+	margin-top: auto;
+	border-radius: 8px;
+	width: 100%;
+}
+#comment {
+	padding: 1rem;
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+	min-height: 100px;
+	max-height: 100px;
+	resize: none;
+	border-radius: 8px;
+	border: 1px solid #800000;
+	outline: none;
 }
 .shopping-cart-header {
 	text-align: center;
