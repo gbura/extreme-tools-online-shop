@@ -129,6 +129,9 @@
 				</button>
 				<button class="shopping-cart-btn purchase-items-btn" @click="purchase">Złóż zamówienie</button>
 				<p class="total-price">Razem netto: {{ this.shoppingCartStore.sumCartPrice.toFixed(2) }}zł</p>
+				<button class="shopping-cart-btn save-pdf-btn" @click="this.shoppingCartStore.generatePdf">
+					Zapisz do PDF
+				</button>
 			</div>
 		</shopping-cart>
 	</div>
@@ -405,7 +408,7 @@ th.search-header {
 	border-radius: 8px;
 	width: 250px;
 	text-align: center;
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 }
 
 .shopping-cart-btn {
@@ -413,15 +416,17 @@ th.search-header {
 	border: none;
 	border-radius: 8px;
 	cursor: pointer;
-	width: 250px;
+	width: 200px;
 	color: #fff;
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	font-weight: bold;
 }
-.delete-all-items-btn {
+.delete-all-items-btn,
+.save-pdf-btn {
 	background-color: red;
 }
-.delete-all-items-btn:hover {
+.delete-all-items-btn:hover,
+.save-pdf-btn:hover {
 	background-color: rgb(211, 3, 3);
 }
 

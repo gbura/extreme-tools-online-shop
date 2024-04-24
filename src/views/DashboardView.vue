@@ -6,25 +6,25 @@
 					<SkeletonLoader />
 				</template>
 				<template v-else>
-					<button class="toggle-slider-btn" @click="toggleSlider">
-						<img src="../assets/images/showCatalog.png" alt="" v-if="isOpenSlider" />
-						<img src="../assets/images/hideCatalog.png" alt="" v-else />
+					<div class="item-img">
+						<img
+							:src="
+								`https://api.extremetoolsb2b.pl/public/app/public/parts/` +
+								selectedItemImage +
+								`?timestamp=${new Date().getTime()}`
+							"
+							alt="Zdjęcie narzędzia"
+							@click="openFullscreen(selectedItemImage)"
+							@error="handleImageError" />
+					</div>
+					<button class="toggle-slider-btn" aria-label="Przycisk pokaż katalog">
+						<a href="https://extremetools.pl/katalog/?_gallery=gg-12-1420" target="_blank">
+							<img src="../assets/images/showCatalog.png" alt="Przycisk pokaż katalog" />
+						</a>
 					</button>
-					<TheSwiper v-if="!isOpenSlider" />
 					<div class="right-box">
 						<div class="items-table">
 							<ItemsTable @row-click="changeItemImage" @next-tab-click="changeItemImage" />
-						</div>
-						<div class="item-img">
-							<img
-								:src="
-									`https://api.extremetoolsb2b.pl/public/app/public/parts/` +
-									selectedItemImage +
-									`?timestamp=${new Date().getTime()}`
-								"
-								alt=""
-								@click="openFullscreen(selectedItemImage)"
-								@error="handleImageError" />
 						</div>
 					</div>
 				</template>
@@ -56,7 +56,6 @@ export default {
 		return {
 			dataLoaded: false,
 			selectedItemImage: '',
-			isOpenSlider: false,
 			fullscreen: false,
 			fullscreenImageSrc: '',
 		}
@@ -78,9 +77,6 @@ export default {
 		},
 		handleImageError() {
 			this.selectedItemImage = 'nophoto.jpg'
-		},
-		toggleSlider() {
-			this.isOpenSlider = !this.isOpenSlider
 		},
 		openFullscreen(imageSrc) {
 			this.fullscreen = true
@@ -111,7 +107,7 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	align-items: start;
-	gap: 6rem;
+	gap: 4rem;
 	margin-top: 10rem;
 	width: 100%;
 	min-height: 80vh;
@@ -134,10 +130,13 @@ export default {
 	display: flex;
 	flex-direction: column;
 }
+.item-img {
+	margin-left: 2rem;
+}
 .item-img img {
 	border: 4px solid rgb(255, 101, 1);
-	width: 280px;
-	margin-top: 2rem;
+	width: 500px;
+	height: 400px;
 	cursor: zoom-in;
 }
 @media (min-width: 1200px) {

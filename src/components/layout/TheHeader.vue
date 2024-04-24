@@ -20,6 +20,7 @@
 							<button @click="handleLogOut" class="logout-btn">Wyloguj się</button>
 							<button class="change-pass-btn" @click="changePassword">Zmień hasło</button>
 							<template v-if="isAdmin">
+								<button class="change-admin-login" @click="changeLogin">Zmień login</button>
 								<router-link to="/admin-panel" class="nav-link admin-link">Panel admina</router-link>
 							</template>
 						</li>
@@ -29,11 +30,13 @@
 		</div>
 	</nav>
 	<UserResetPass :open="isResetOpen" :userId="resetUserId" @close="closeModal" />
+	<ChangeAdminLogin :open="isChangeLoginOpen" @close="closeChangeLoginModal" :userId="resetUserId" />
 </template>
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
 import UserResetPass from '@/components/layout/UserResetPass.vue'
+import ChangeAdminLogin from '@/components/layout/ChangeAdminLogin.vue'
 
 export default {
 	name: 'TheHeader',
@@ -45,9 +48,10 @@ export default {
 		return {
 			resetUserId: null,
 			isResetOpen: false,
+			isChangeLoginOpen: false,
 		}
 	},
-	components: { UserResetPass },
+	components: { UserResetPass, ChangeAdminLogin },
 	methods: {
 		isAuthenticated() {
 			return !this.authstore.isAuthenticated
@@ -65,6 +69,16 @@ export default {
 		},
 		changePassword() {
 			this.openModal()
+		},
+		openChangeLoginModal() {
+			this.resetUserId = localStorage.getItem('userId')
+			this.isChangeLoginOpen = true
+		},
+		closeChangeLoginModal() {
+			this.isChangeLoginOpen = false
+		},
+		changeLogin() {
+			this.openChangeLoginModal()
 		},
 	},
 	computed: {
@@ -85,7 +99,8 @@ a:hover {
 	color: rgb(245, 118, 34);
 }
 .logout-btn,
-.change-pass-btn {
+.change-pass-btn,
+.change-admin-login {
 	border: none;
 	background: transparent;
 	color: rgb(239, 127, 52);

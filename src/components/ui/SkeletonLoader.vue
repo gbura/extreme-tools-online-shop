@@ -23,7 +23,7 @@ export default {
 
 .skeleton-slider {
 	width: 500px;
-	height: 700px;
+	height: 400px;
 	background-color: #f0f0f0;
 }
 

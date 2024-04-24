@@ -67,6 +67,7 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 					console.error('Blad podczas skladania zamowienia:', err)
 				})
 		},
+
 		increaseItems(itemCode) {
 			const itemToUpdate = this.items.find(item => item.code === itemCode)
 			if (itemToUpdate) {
@@ -80,6 +81,34 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 				itemToUpdate.quantity--
 			}
 			localStorage.setItem('items', JSON.stringify(this.items))
+		},
+		generatePdf() {
+			const userId = Number(localStorage.getItem('userId'))
+			const orderItems = this.items.map(item => ({
+				ean: item.ean,
+				name: item.name,
+				code: item.code,
+				price: item.price,
+				pieces: item.quantity.toString(),
+			}))
+
+			const comment = document.getElementById('comment').value
+			const orderData = {
+				userId: userId,
+				comment: comment,
+				orderItems: orderItems,
+			}
+			instanceAxios
+				.post('ad/generatePdf', orderData, { responseType: 'blob' })
+				.then(res => {
+					console.log(res)
+					const file = new Blob([res.data], { type: 'application/pdf' })
+					const fileURL = URL.createObjectURL(file)
+					window.open(fileURL, '_blank')
+				})
+				.catch(err => {
+					console.error('Blad podczas pobierania PDF:', err)
+				})
 		},
 	},
 })

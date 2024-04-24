@@ -5,7 +5,6 @@
 			<li><RouterLink to="/admin-panel/mail-configuration">Konfiguracja maila</RouterLink></li>
 			<li><RouterLink to="/admin-panel/add-contractor">Dodaj kontrahenta</RouterLink></li>
 			<li><RouterLink to="/admin-panel/contractors">Kontrahenci</RouterLink></li>
-			<li><RouterLink to="/admin-panel/catalog">Katalog</RouterLink></li>
 			<li><RouterLink to="/admin-panel/items-photos">Zdjęcia</RouterLink></li>
 			<li><RouterLink to="/admin-panel/price-lists">Cenniki</RouterLink></li>
 		</ul>
