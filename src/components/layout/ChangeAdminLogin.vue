@@ -94,7 +94,7 @@ export default {
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 	border-radius: 12px;
 	padding: 2rem 1rem;
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	border: none;
 	transform: translate(-50%, -50%);
 	z-index: 100;

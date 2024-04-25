@@ -153,7 +153,7 @@ export default {
 	margin-top: 2rem;
 }
 .price-list {
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 }
 .price-list-name {
 	font-size: 1.4rem;
@@ -166,7 +166,7 @@ export default {
 	flex-direction: column;
 	align-items: center;
 	gap: 2rem;
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	padding: 1rem 0;
 	border-radius: 8px;
 	width: 40%;
@@ -174,7 +174,7 @@ export default {
 .add-price-list-btn {
 	padding: 0.5rem;
 	border: none;
-	background-color: rgb(255, 108, 11);
+	background-color: rgb(252, 125, 40);
 	border-radius: 8px;
 	font-size: 2rem;
 	color: white;
@@ -203,11 +203,11 @@ li {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	padding: 1rem;
 }
 li:hover {
-	background-color: rgb(226, 153, 17);
+	background-color: rgb(252, 125, 41);
 }
 span {
 	font-size: 2rem;

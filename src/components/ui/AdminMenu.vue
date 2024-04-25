@@ -26,7 +26,7 @@ ul {
 	justify-content: space-evenly;
 	align-items: center;
 	width: 80%;
-	background-color: rgb(189, 131, 23);
+	background-color: rgb(255, 101, 1);
 	list-style-type: none;
 	border-radius: 5px;
 	padding: 0.5rem;
@@ -47,6 +47,6 @@ a:hover {
 .router-link-active {
 	border: none;
 	padding: 0.5rem;
-	color: rgb(255, 166, 0);
+	color: rgb(255, 217, 1);
 }
 </style>

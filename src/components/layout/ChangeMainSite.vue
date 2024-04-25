@@ -68,7 +68,7 @@ div {
 	width: 500px;
 	height: 300px;
 	padding: 3rem;
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	border-radius: 15px;
 }
 #price-list {
@@ -85,13 +85,13 @@ button {
 	width: 150px;
 	padding: 1rem;
 	border: none;
-	background-color: rgb(141, 93, 5);
+	background: rgb(248, 118, 31);
 	border-radius: 15px;
 	color: white;
 	font-size: 2rem;
 	cursor: pointer;
 }
 button:hover {
-	background-color: rgb(104, 71, 10);
+	background-color: rgb(241, 133, 61);
 }
 </style>

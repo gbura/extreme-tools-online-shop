@@ -92,7 +92,7 @@ export default {
 <style scoped>
 a {
 	text-decoration: none;
-	color: rgb(239, 127, 52);
+	color: rgb(255, 101, 1);
 	transition: color 0.2s ease-in;
 }
 a:hover {
@@ -103,7 +103,7 @@ a:hover {
 .change-admin-login {
 	border: none;
 	background: transparent;
-	color: rgb(239, 127, 52);
+	color: rgb(255, 101, 1);
 	font-size: 1.6rem;
 	cursor: pointer;
 }

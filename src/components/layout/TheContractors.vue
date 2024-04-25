@@ -152,11 +152,11 @@ td {
 	padding: 0.5rem;
 }
 tr {
-	border-bottom: 3px solid rgb(175, 106, 15);
+	border-bottom: 3px solid rgb(255, 101, 1);
 }
 
 th {
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	color: rgb(255, 255, 255);
 	font-size: 1.8rem;
 }
@@ -198,7 +198,7 @@ p {
 	padding: 0.8rem;
 	border: none;
 	border-radius: 5px;
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	font-size: 1.5rem;
 	font-weight: bold;
 	color: white;
@@ -223,7 +223,7 @@ select {
 	width: 75%;
 	border: none;
 	outline: none;
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	padding: 0.5rem;
 	border-radius: 8px;
 	color: #fff;
