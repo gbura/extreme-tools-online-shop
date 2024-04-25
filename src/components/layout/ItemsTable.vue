@@ -125,12 +125,20 @@
 
 			<div class="buttons-container">
 				<button class="shopping-cart-btn delete-all-items-btn" @click="this.shoppingCartStore.removeAllItems">
-					Usuń wszystko z koszyka
+					<img src="../../../src/assets/images/buttons/deleteAllBtn.jpg" alt="" />
 				</button>
-				<button class="shopping-cart-btn purchase-items-btn" @click="purchase">Złóż zamówienie</button>
-				<p class="total-price">Razem netto: {{ this.shoppingCartStore.sumCartPrice.toFixed(2) }}zł</p>
-				<button class="shopping-cart-btn save-pdf-btn" @click="this.shoppingCartStore.generatePdf">
-					Zapisz do PDF
+				<button class="shopping-cart-btn purchase-items-btn" @click="purchase">
+					<img src="../../../src/assets/images/buttons/purchaseBtn.jpg" alt="" />
+				</button>
+				<p class="total-price">
+					<img src="../../../src/assets/images/buttons/nettoPriceBtn.jpg" alt="" />
+					<span>{{ this.shoppingCartStore.sumCartPrice.toFixed(2) }}zł</span>
+				</p>
+				<button
+					v-if="this.shoppingCartStore.items.length"
+					class="shopping-cart-btn save-pdf-btn"
+					@click="this.shoppingCartStore.generatePdf">
+					<img src="../../../src/assets/images/buttons/saveToPdfBtn.jpg" alt="" />
 				</button>
 			</div>
 		</shopping-cart>
@@ -398,44 +406,33 @@ th.search-header {
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
-	margin-top: 2rem;
+	margin-top: 0.5rem;
 }
 .total-price {
-	color: #fff;
-	font-weight: bold;
-	background-color: rgb(104, 104, 13);
-	padding: 1rem;
-	border-radius: 8px;
-	width: 250px;
-	text-align: center;
-	font-size: 1.2rem;
-}
-
-.shopping-cart-btn {
-	padding: 1rem;
-	border: none;
-	border-radius: 8px;
+	position: relative;
+	width: 180px;
 	cursor: pointer;
-	width: 200px;
-	color: #fff;
-	font-size: 1.2rem;
+}
+.total-price span {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%);
 	font-weight: bold;
+	color: white;
+	text-shadow: -0.5px -0.5px 0 black, 0.5px -0.5px 0 black, -0.5px 0.5px 0 black, 1px 1px 0 black;
 }
-.delete-all-items-btn,
-.save-pdf-btn {
-	background-color: red;
+.total-price img {
+	width: 100%;
 }
-.delete-all-items-btn:hover,
-.save-pdf-btn:hover {
-	background-color: rgb(211, 3, 3);
+.shopping-cart-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	width: 180px;
 }
-
-.purchase-items-btn {
-	background-color: green;
-}
-
-.purchase-items-btn:hover {
-	background-color: rgb(0, 109, 0);
+.shopping-cart-btn img {
+	width: 100%;
 }
 
 .item-container {

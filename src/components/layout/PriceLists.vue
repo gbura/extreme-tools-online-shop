@@ -6,7 +6,7 @@
 				<p v-if="!priceLists.length">Brak dostępnych cenników!</p>
 				<ul v-else>
 					<li v-for="priceList in priceLists" :key="priceList.id">
-						<span>{{ priceList.name }}</span>
+						<span class="price-list-name">{{ priceList.name }}</span>
 						<span class="created">| {{ formatCreatedAt(priceList.createdAt) }}</span>
 						<button class="remove-item-btn" @click="removePriceList(priceList.id)">
 							<img src="../../assets/images/icons/X.png" alt="" />
@@ -154,6 +154,9 @@ export default {
 }
 .price-list {
 	background-color: orange;
+}
+.price-list-name {
+	font-size: 1.4rem;
 }
 .created {
 	font-size: 1.2rem;

@@ -18,7 +18,7 @@
 							@error="handleImageError" />
 					</div>
 					<button class="toggle-slider-btn" aria-label="Przycisk pokaż katalog">
-						<a href="https://extremetools.pl/katalog/?_gallery=gg-12-1420" target="_blank">
+						<a href="https://extremetools.pl/katalog/?_gallery=gg-12-1447" target="_blank">
 							<img src="../assets/images/showCatalog.png" alt="Przycisk pokaż katalog" />
 						</a>
 					</button>
