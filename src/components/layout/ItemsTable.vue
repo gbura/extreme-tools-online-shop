@@ -98,7 +98,7 @@
 			<h2 class="shopping-cart-header" v-if="!this.shoppingCartStore.items.length">Twój koszyk jest pusty!</h2>
 			<h2 v-else>koszyk</h2>
 			<ul class="shopping-items-container">
-				<li v-for="card in sortedShoppingCartItems" :key="card.id">
+				<li v-for="card in this.shoppingCartStore.items" :key="card.id">
 					<div class="item-container">
 						<button class="delete-item-btn" @click="this.shoppingCartStore.removeItem(card.code)">
 							<img src="../../assets/images/icons/X.png" alt="" />
@@ -293,7 +293,7 @@ export default {
 			this.updateItemsFromLocalStorage()
 		},
 		updateItemsFromLocalStorage() {
-			const localStorageItems = JSON.parse(localStorage.getItem('items'))
+			const localStorageItems = JSON.parse(localStorage.getItem(`items_${localStorage.getItem('userId')}`))
 			if (localStorageItems) {
 				this.shoppingCartStore.items = localStorageItems
 			}
@@ -324,11 +324,11 @@ export default {
 				return []
 			}
 		},
-		sortedShoppingCartItems() {
-			return this.shoppingCartStore.items.slice().sort((a, b) => {
-				return a.name.localeCompare(b.name)
-			})
-		},
+		// sortedShoppingCartItems() {
+		// 	return this.shoppingCartStore.items.slice().sort((a, b) => {
+		// 		return a.name.localeCompare(b.name)
+		// 	})
+		// },
 	},
 }
 </script>

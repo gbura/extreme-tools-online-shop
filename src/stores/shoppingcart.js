@@ -4,7 +4,8 @@ import Swal from 'sweetalert2'
 
 export const useShoppingCartStore = defineStore('shoppingCartStore', {
 	state: () => ({
-		items: JSON.parse(localStorage.getItem('items')) || [],
+		userId: localStorage.getItem('userId'),
+		items: JSON.parse(localStorage.getItem(`items_${localStorage.getItem('userId')}`)) || [],
 	}),
 	getters: {
 		sumCartPrice(state) {
@@ -21,18 +22,18 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 			} else {
 				this.items.push(item)
 			}
-			localStorage.setItem('items', JSON.stringify(this.items))
+
+			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
 		removeItem(id) {
 			this.items = this.items.filter(item => item.code !== id)
-			localStorage.setItem('items', JSON.stringify(this.items))
+			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
 		removeAllItems() {
 			this.items = []
-			localStorage.removeItem('items')
+			localStorage.removeItem(`items_${this.userId}`)
 		},
 		purchase() {
-			const userId = Number(localStorage.getItem('userId'))
 			const orderItems = this.items.map(item => ({
 				ean: item.ean,
 				name: item.name,
@@ -43,7 +44,7 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 			const totalNet = parseFloat(this.sumCartPrice).toFixed(2).toString()
 			const comment = document.getElementById('comment').value
 			const orderData = {
-				userId: userId,
+				userId: this.userId,
 				totalNet: totalNet,
 				comment: comment,
 				orderItems: orderItems,
@@ -73,17 +74,16 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 			if (itemToUpdate) {
 				itemToUpdate.quantity++
 			}
-			localStorage.setItem('items', JSON.stringify(this.items))
+			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
 		reduceItems(itemCode) {
 			const itemToUpdate = this.items.find(item => item.code === itemCode)
 			if (itemToUpdate && itemToUpdate.quantity > 1) {
 				itemToUpdate.quantity--
 			}
-			localStorage.setItem('items', JSON.stringify(this.items))
+			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
 		generatePdf() {
-			const userId = Number(localStorage.getItem('userId'))
 			const orderItems = this.items.map(item => ({
 				ean: item.ean,
 				name: item.name,
@@ -94,14 +94,13 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 
 			const comment = document.getElementById('comment').value
 			const orderData = {
-				userId: userId,
+				userId: this.userId,
 				comment: comment,
 				orderItems: orderItems,
 			}
 			instanceAxios
 				.post('ad/generatePdf', orderData, { responseType: 'blob' })
 				.then(res => {
-					console.log(res)
 					const file = new Blob([res.data], { type: 'application/pdf' })
 					const fileURL = URL.createObjectURL(file)
 					window.open(fileURL, '_blank')
