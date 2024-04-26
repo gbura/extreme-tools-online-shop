@@ -125,20 +125,20 @@
 
 			<div class="buttons-container">
 				<button class="shopping-cart-btn delete-all-items-btn" @click="this.shoppingCartStore.removeAllItems">
-					<img src="../../../src/assets/images/buttons/deleteAllBtn.jpg" alt="" />
+					<img src="../../../src/assets/images/buttons/deleteAllBtn.png" alt="" />
 				</button>
 				<button class="shopping-cart-btn purchase-items-btn" @click="purchase">
-					<img src="../../../src/assets/images/buttons/purchaseBtn.jpg" alt="" />
+					<img src="../../../src/assets/images/buttons/purchaseBtn.png" alt="" />
 				</button>
 				<p class="total-price">
-					<img src="../../../src/assets/images/buttons/nettoPriceBtn.jpg" alt="" />
+					<img src="../../../src/assets/images/buttons/nettoPriceBtn.png" alt="" />
 					<span>{{ this.shoppingCartStore.sumCartPrice.toFixed(2) }}zł</span>
 				</p>
 				<button
 					v-if="this.shoppingCartStore.items.length"
 					class="shopping-cart-btn save-pdf-btn"
 					@click="this.shoppingCartStore.generatePdf">
-					<img src="../../../src/assets/images/buttons/saveToPdfBtn.jpg" alt="" />
+					<img src="../../../src/assets/images/buttons/saveToPdfBtn.png" alt="" />
 				</button>
 			</div>
 		</shopping-cart>
@@ -440,7 +440,7 @@ th.search-header {
 	display: flex;
 	flex-direction: column;
 	padding: 0.5rem;
-	border: 2px solid rgb(255, 145, 0);
+	border: 2px solid rgb(255, 101, 1);
 	border-radius: 8px;
 	font-size: 1.5rem;
 	transition: background-color 0.1s ease-in;
@@ -464,7 +464,7 @@ th.search-header {
 	justify-content: center;
 	align-items: center;
 	border: 1px solid gray;
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	width: 30px;
 	height: 30px;
 	font-weight: bold;
@@ -472,7 +472,7 @@ th.search-header {
 	cursor: pointer;
 }
 .quantity-btns-box button:hover {
-	background-color: rgb(250, 179, 48);
+	background-color: rgb(253, 126, 41);
 }
 
 .delete-item-btn {
@@ -498,7 +498,6 @@ h2 {
 	text-align: center;
 	text-transform: uppercase;
 	color: white;
-	border-bottom: 2px solid white;
 	margin-bottom: 0.5rem;
 }
 
@@ -585,14 +584,14 @@ input {
 .shopping-header div .bag-and-price {
 	display: flex;
 	justify-content: space-between;
-	align-items: start;
+	align-items: center;
 }
 
 .quantity {
 	width: 100%;
 	padding-right: 0.5rem;
 	text-align: right;
-	font-weight: 900;
+	font-weight: 700;
 	color: #800000;
 	caret-color: #800000;
 }
