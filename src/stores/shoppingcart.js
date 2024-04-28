@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import instanceAxios from '@/axios'
 import Swal from 'sweetalert2'
+import { useAuthStore } from '@/stores/auth.js'
 
 export const useShoppingCartStore = defineStore('shoppingCartStore', {
 	state: () => ({
-		userId: localStorage.getItem('userId'),
-		items: JSON.parse(localStorage.getItem(`items_${localStorage.getItem('userId')}`)) || [],
+		userId: useAuthStore().userId,
+		items: [],
 	}),
 	getters: {
 		sumCartPrice(state) {
@@ -15,6 +16,11 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 		},
 	},
 	actions: {
+		fetchItems() {
+			const authStore = useAuthStore()
+			this.userId = authStore.userId
+			this.items = JSON.parse(localStorage.getItem(`items_${authStore.userId}`)) || []
+		},
 		addItem(item) {
 			const existingItemIndex = this.items.findIndex(existingItem => existingItem.code === item.code)
 			if (existingItemIndex !== -1) {
@@ -25,8 +31,8 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 
 			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
-		removeItem(id) {
-			this.items = this.items.filter(item => item.code !== id)
+		removeItem(code) {
+			this.items = this.items.filter(item => item.code !== code)
 			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
 		removeAllItems() {
@@ -84,13 +90,15 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
 		generatePdf() {
-			const orderItems = this.items.map(item => ({
-				ean: item.ean,
-				name: item.name,
-				code: item.code,
-				price: item.price,
-				pieces: item.quantity.toString(),
-			}))
+			const orderItems = this.items
+				.map(item => ({
+					ean: item.ean,
+					name: item.name,
+					code: item.code,
+					price: item.price,
+					pieces: item.quantity.toString(),
+				}))
+				.sort((a, b) => a.name.localeCompare(b.name))
 
 			const comment = document.getElementById('comment').value
 			const orderData = {
@@ -98,6 +106,7 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 				comment: comment,
 				orderItems: orderItems,
 			}
+			console.log(orderData)
 			instanceAxios
 				.post('ad/generatePdf', orderData, { responseType: 'blob' })
 				.then(res => {

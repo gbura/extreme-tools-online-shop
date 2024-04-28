@@ -43,6 +43,7 @@ import TheSwiper from '@/components/ui/TheSwiper.vue'
 import ItemsTable from '@/components/layout/ItemsTable.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import SkeletonLoader from '@/components/ui/SkeletonLoader.vue'
+import { useShoppingCartStore } from '@/stores/shoppingcart.js'
 
 export default {
 	components: {
@@ -60,10 +61,15 @@ export default {
 			fullscreenImageSrc: '',
 		}
 	},
+	setup() {
+		const shoppingCartStore = useShoppingCartStore()
+		return { shoppingCartStore }
+	},
 	mounted() {
 		setTimeout(() => {
 			this.dataLoaded = true
 		}, 1000)
+		this.shoppingCartStore.fetchItems()
 	},
 	methods: {
 		changeItemImage(productImage) {

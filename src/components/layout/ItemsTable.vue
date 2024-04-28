@@ -156,8 +156,9 @@ export default {
 	name: 'ItemsTable',
 	components: { ShoppingCart },
 	setup() {
+		const authStore = useAuthStore()
 		const shoppingCartStore = useShoppingCartStore()
-		return { shoppingCartStore }
+		return { shoppingCartStore, authStore }
 	},
 	data() {
 		return {
@@ -176,6 +177,8 @@ export default {
 	},
 	mounted() {
 		this.getTableItems()
+		// localStorage.getItem('userId')
+		this.updateItemsFromLocalStorage()
 	},
 	methods: {
 		async getTableItems() {
@@ -279,6 +282,10 @@ export default {
 					if (!this.shoppingCartStore.items.includes(item)) {
 						this.shoppingCartStore.addItem(item)
 					}
+				} else {
+					if (this.shoppingCartStore.items.includes(item)) {
+						this.shoppingCartStore.removeItem(item.code)
+					}
 				}
 			})
 		},
@@ -287,13 +294,9 @@ export default {
 		},
 		closeShoppingCart() {
 			this.isOpenShoppingCart = false
-			this.items.forEach(item => {
-				item.quantity = ''
-			})
-			this.updateItemsFromLocalStorage()
 		},
 		updateItemsFromLocalStorage() {
-			const localStorageItems = JSON.parse(localStorage.getItem(`items_${localStorage.getItem('userId')}`))
+			const localStorageItems = JSON.parse(localStorage.getItem(`items_${this.authStore.userId}`))
 			if (localStorageItems) {
 				this.shoppingCartStore.items = localStorageItems
 			}
