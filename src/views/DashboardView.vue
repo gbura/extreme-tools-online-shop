@@ -70,6 +70,7 @@ export default {
 			this.dataLoaded = true
 		}, 1000)
 		this.shoppingCartStore.fetchItems()
+		this.selectedItemImage = 'SFMCB100-XJ.jpg'
 	},
 	methods: {
 		changeItemImage(productImage) {

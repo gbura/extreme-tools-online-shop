@@ -177,8 +177,8 @@ export default {
 	},
 	mounted() {
 		this.getTableItems()
-		// localStorage.getItem('userId')
 		this.updateItemsFromLocalStorage()
+		this.activeRowIndex = 0
 	},
 	methods: {
 		async getTableItems() {
@@ -327,11 +327,6 @@ export default {
 				return []
 			}
 		},
-		// sortedShoppingCartItems() {
-		// 	return this.shoppingCartStore.items.slice().sort((a, b) => {
-		// 		return a.name.localeCompare(b.name)
-		// 	})
-		// },
 	},
 }
 </script>
@@ -592,8 +587,7 @@ input {
 
 .quantity {
 	width: 100%;
-	padding-right: 0.5rem;
-	text-align: right;
+	text-align: center;
 	font-weight: 700;
 	color: #800000;
 	caret-color: #800000;
