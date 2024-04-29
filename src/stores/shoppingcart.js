@@ -40,13 +40,15 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 			localStorage.removeItem(`items_${this.userId}`)
 		},
 		purchase() {
-			const orderItems = this.items.map(item => ({
-				ean: item.ean,
-				name: item.name,
-				code: item.code,
-				price: item.price,
-				pieces: item.quantity.toString(),
-			}))
+			const orderItems = this.items
+				.map(item => ({
+					ean: item.ean,
+					name: item.name,
+					code: item.code,
+					price: item.price,
+					pieces: item.quantity.toString(),
+				}))
+				.sort((a, b) => a.name.localeCompare(b.name))
 			const totalNet = parseFloat(this.sumCartPrice).toFixed(2).toString()
 			const comment = document.getElementById('comment').value
 			const orderData = {

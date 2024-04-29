@@ -66,7 +66,7 @@
 					</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody v-if="filteredItems.length > 0" ref="tableBody">
 				<tr
 					v-for="(item, index) in filteredItems"
 					:key="index"
@@ -176,10 +176,22 @@ export default {
 		}
 	},
 	mounted() {
-		this.getTableItems()
 		this.updateItemsFromLocalStorage()
-		this.activeRowIndex = 0
+		this.getTableItems()
+			.then(() => {
+				this.activeRowIndex = 0
+				this.$nextTick(() => {
+					const firstSelectedRow = document.querySelector('.selected-row')
+					if (firstSelectedRow) {
+						firstSelectedRow.focus()
+					}
+				})
+			})
+			.catch(error => {
+				console.error('Błąd podczas pobierania danych:', error)
+			})
 	},
+
 	methods: {
 		async getTableItems() {
 			try {
@@ -279,6 +291,7 @@ export default {
 		updateCost() {
 			this.filteredItems.forEach(item => {
 				if (!isNaN(item.quantity) && item.quantity > 0 && !isNaN(item.price)) {
+					item.quantity = Number(item.quantity)
 					if (!this.shoppingCartStore.items.includes(item)) {
 						this.shoppingCartStore.addItem(item)
 					}
@@ -288,6 +301,7 @@ export default {
 					}
 				}
 			})
+			localStorage.setItem(`items_${this.authStore.userId}`, JSON.stringify(this.shoppingCartStore.items))
 		},
 		showShoppingCart() {
 			this.isOpenShoppingCart = true
