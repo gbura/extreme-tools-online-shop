@@ -24,7 +24,10 @@
 					</button>
 					<div class="right-box">
 						<div class="items-table">
-							<ItemsTable @row-click="changeItemImage" @next-tab-click="changeItemImage" />
+							<ItemsTable
+								@row-click="changeItemImage"
+								@next-tab-click="changeItemImage"
+								@filters-updated="updateSelectedItemImage" />
 						</div>
 					</div>
 				</template>
@@ -73,6 +76,11 @@ export default {
 		this.selectedItemImage = 'SFMCB100-XJ.jpg'
 	},
 	methods: {
+		updateSelectedItemImage(filters) {
+			if (Object.values(filters).every(value => value === '')) {
+				this.selectedItemImage = 'SFMCB100-XJ.jpg'
+			}
+		},
 		changeItemImage(productImage) {
 			if (productImage && productImage.url) {
 				setTimeout(() => {

@@ -9,10 +9,10 @@
 							v-model="searchQuery"
 							placeholder="Szukaj: Nazwa towaru..."
 							@input="search"
-							@blur="this.searchQuery = ''"
+							@blur="blurIfEmpty()"
 							@focus="clearIfNotEmpty('searchQuery')" />
 						<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
-						<button @click="this.searchQuery = ''" class="delete-input-btn">
+						<button @click="blurIfEmpty()" class="delete-input-btn">
 							<img src="../../assets/images/icons/X.png" alt="" />
 						</button>
 					</div>
@@ -261,13 +261,22 @@ export default {
 		},
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
+			this.activeRowIndex = 0
+			this.$emit('filters-updated', this.filters)
 		},
 		clearIfNotEmpty(filterRef) {
 			for (let key in this.filters) {
 				if (key !== filterRef && this.filters[key] !== '') {
 					this.filters[key] = ''
+					this.activeRowIndex = 0
+					this.$emit('filters-updated', this.filters)
 				}
 			}
+		},
+		blurIfEmpty() {
+			this.searchQuery = ''
+			this.activeRowIndex = 0
+			this.$emit('filters-updated', this.filters)
 		},
 		search() {
 			const searchValue = this.searchQuery.trim().toLowerCase()
