@@ -7,7 +7,7 @@
 				<thead>
 					<th>NAZWA FIRMY</th>
 					<th>LOGIN</th>
-					<th>EMAIL</th>
+					<th class="user-email">EMAIL</th>
 					<th>PRZYPISANO</th>
 					<th>CENNIK</th>
 					<th>AKCJE</th>
@@ -176,7 +176,7 @@ td {
 }
 
 table {
-	width: 1400px;
+	width: 1500px;
 }
 
 tbody {
@@ -220,7 +220,7 @@ p {
 	height: 20px;
 }
 select {
-	width: 75%;
+	width: 65%;
 	border: none;
 	outline: none;
 	background-color: rgb(255, 101, 1);
@@ -245,5 +245,8 @@ select {
 .delete-count-btn img {
 	width: 15px;
 	height: 15px;
+}
+.user-email {
+	width: 350px;
 }
 </style>
