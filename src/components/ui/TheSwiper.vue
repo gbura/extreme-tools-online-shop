@@ -2,17 +2,8 @@
 	<div class="slider-box" @mousemove="handleMouseMove">
 		<swiper :loop="true" :modules="modules" :navigation="true">
 			<swiper-slide v-for="image in images" :key="image.id" @click="openFullscreen(image)">
-				<img
-<<<<<<< HEAD
-					:src="`http://127.0.0.1:8000/app/public/catalog/` + image.name + `?timestamp=${new Date().getTime()}`"
-=======
-					:src="
-						`https://api.extremetoolsb2b.pl/public/app/public/catalog/` +
-						image.name +
-						`?timestamp=${new Date().getTime()}`
-					"
->>>>>>> a5c10c4650481b4a52aff6b9710ae2dfa18747f2
-					alt="" />
+				<img :src=" `https://api.extremetoolsb2b.pl/public/app/public/catalog/` + image.name + `?timestamp=${new
+				Date().getTime()}` "
 			</swiper-slide>
 		</swiper>
 		<div v-if="fullscreen" class="fullscreen-overlay" @click="closeFullscreen"></div>
@@ -69,11 +60,7 @@ export default {
 		openFullscreen(image) {
 			this.fullscreen = true
 			this.fullscreenImageSrc =
-<<<<<<< HEAD
-				`http://127.0.0.1:8000/app/public/catalog/${image.name}` + `?timestamp=${new Date().getTime()}`
-=======
 				`https://api.extremetoolsb2b.pl/public/app/public/catalog/${image.name}` + `?timestamp=${new Date().getTime()}`
->>>>>>> a5c10c4650481b4a52aff6b9710ae2dfa18747f2
 			document.body.style.overflow = 'hidden'
 		},
 		closeFullscreen() {
