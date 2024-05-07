@@ -9,10 +9,10 @@
 							v-model="searchQuery"
 							placeholder="Szukaj: Nazwa towaru..."
 							@input="search"
-							@blur="this.searchQuery = ''"
+							@blur="blurIfEmpty()"
 							@focus="clearIfNotEmpty('searchQuery')" />
 						<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
-						<button @click="this.searchQuery = ''" class="delete-input-btn">
+						<button @click="blurIfEmpty()" class="delete-input-btn">
 							<img src="../../assets/images/icons/X.png" alt="" />
 						</button>
 					</div>
@@ -66,7 +66,7 @@
 					</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody v-if="filteredItems.length > 0" ref="tableBody">
 				<tr
 					v-for="(item, index) in filteredItems"
 					:key="index"
@@ -98,7 +98,7 @@
 			<h2 class="shopping-cart-header" v-if="!this.shoppingCartStore.items.length">Twój koszyk jest pusty!</h2>
 			<h2 v-else>koszyk</h2>
 			<ul class="shopping-items-container">
-				<li v-for="card in sortedShoppingCartItems" :key="card.id">
+				<li v-for="card in this.shoppingCartStore.items" :key="card.id">
 					<div class="item-container">
 						<button class="delete-item-btn" @click="this.shoppingCartStore.removeItem(card.code)">
 							<img src="../../assets/images/icons/X.png" alt="" />
@@ -111,19 +111,35 @@
 							<div>Cena netto: {{ card.price }}zł</div>
 							<div>Suma: {{ (card.price * card.quantity).toFixed(2) }}zł</div>
 						</div>
+
 						<div class="quantity-btns-box">
 							<button @click="this.shoppingCartStore.reduceItems(card.code)">-</button>
 							<button @click="this.shoppingCartStore.increaseItems(card.code)">+</button>
 						</div>
 					</div>
 				</li>
+				<div class="comment-container">
+					<textarea id="comment" placeholder="Uwagi, pytania do zamówienia..."></textarea>
+				</div>
 			</ul>
+
 			<div class="buttons-container">
 				<button class="shopping-cart-btn delete-all-items-btn" @click="this.shoppingCartStore.removeAllItems">
-					Usuń wszystko z koszyka
+					<img src="../../../src/assets/images/buttons/deleteAllBtn.png" alt="" />
 				</button>
-				<button class="shopping-cart-btn purchase-items-btn" @click="purchase">Złóż zamówienie</button>
-				<p class="total-price">Razem netto: {{ this.shoppingCartStore.sumCartPrice.toFixed(2) }}zł</p>
+				<button class="shopping-cart-btn purchase-items-btn" @click="purchase">
+					<img src="../../../src/assets/images/buttons/purchaseBtn.png" alt="" />
+				</button>
+				<p class="total-price">
+					<img src="../../../src/assets/images/buttons/nettoPriceBtn.png" alt="" />
+					<span>{{ this.shoppingCartStore.sumCartPrice.toFixed(2) }}zł</span>
+				</p>
+				<button
+					v-if="this.shoppingCartStore.items.length"
+					class="shopping-cart-btn save-pdf-btn"
+					@click="this.shoppingCartStore.generatePdf">
+					<img src="../../../src/assets/images/buttons/saveToPdfBtn.png" alt="" />
+				</button>
 			</div>
 		</shopping-cart>
 	</div>
@@ -140,8 +156,9 @@ export default {
 	name: 'ItemsTable',
 	components: { ShoppingCart },
 	setup() {
+		const authStore = useAuthStore()
 		const shoppingCartStore = useShoppingCartStore()
-		return { shoppingCartStore }
+		return { shoppingCartStore, authStore }
 	},
 	data() {
 		return {
@@ -159,8 +176,22 @@ export default {
 		}
 	},
 	mounted() {
+		this.updateItemsFromLocalStorage()
 		this.getTableItems()
+			.then(() => {
+				this.activeRowIndex = 0
+				this.$nextTick(() => {
+					const firstSelectedRow = document.querySelector('.selected-row')
+					if (firstSelectedRow) {
+						firstSelectedRow.focus()
+					}
+				})
+			})
+			.catch(error => {
+				console.error('Błąd podczas pobierania danych:', error)
+			})
 	},
+
 	methods: {
 		async getTableItems() {
 			try {
@@ -230,13 +261,22 @@ export default {
 		},
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
+			this.activeRowIndex = 0
+			this.$emit('filters-updated', this.filters)
 		},
 		clearIfNotEmpty(filterRef) {
 			for (let key in this.filters) {
 				if (key !== filterRef && this.filters[key] !== '') {
 					this.filters[key] = ''
+					this.activeRowIndex = 0
+					this.$emit('filters-updated', this.filters)
 				}
 			}
+		},
+		blurIfEmpty() {
+			this.searchQuery = ''
+			this.activeRowIndex = 0
+			this.$emit('filters-updated', this.filters)
 		},
 		search() {
 			const searchValue = this.searchQuery.trim().toLowerCase()
@@ -259,25 +299,27 @@ export default {
 		},
 		updateCost() {
 			this.filteredItems.forEach(item => {
-				if (!isNaN(item.quantity) && item.quantity > 0 && !isNaN(item.price) && item.price > 0) {
+				if (!isNaN(item.quantity) && item.quantity > 0 && !isNaN(item.price)) {
+					item.quantity = Number(item.quantity)
 					if (!this.shoppingCartStore.items.includes(item)) {
 						this.shoppingCartStore.addItem(item)
 					}
+				} else {
+					if (this.shoppingCartStore.items.includes(item)) {
+						this.shoppingCartStore.removeItem(item.code)
+					}
 				}
 			})
+			localStorage.setItem(`items_${this.authStore.userId}`, JSON.stringify(this.shoppingCartStore.items))
 		},
 		showShoppingCart() {
 			this.isOpenShoppingCart = true
 		},
 		closeShoppingCart() {
 			this.isOpenShoppingCart = false
-			this.items.forEach(item => {
-				item.quantity = ''
-			})
-			this.updateItemsFromLocalStorage()
 		},
 		updateItemsFromLocalStorage() {
-			const localStorageItems = JSON.parse(localStorage.getItem('items'))
+			const localStorageItems = JSON.parse(localStorage.getItem(`items_${this.authStore.userId}`))
 			if (localStorageItems) {
 				this.shoppingCartStore.items = localStorageItems
 			}
@@ -307,11 +349,6 @@ export default {
 			} else {
 				return []
 			}
-		},
-		sortedShoppingCartItems() {
-			return this.shoppingCartStore.items.slice().sort((a, b) => {
-				return a.name.localeCompare(b.name)
-			})
 		},
 	},
 }
@@ -358,6 +395,24 @@ th.search-header {
 	list-style-type: none;
 	background-color: #fff;
 	padding: 1rem;
+	margin: 0;
+}
+.comment-container {
+	margin-top: auto;
+	border-radius: 8px;
+	width: 100%;
+}
+#comment {
+	padding: 1rem;
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+	min-height: 100px;
+	max-height: 100px;
+	resize: none;
+	border-radius: 8px;
+	border: 1px solid #800000;
+	outline: none;
 }
 .shopping-cart-header {
 	text-align: center;
@@ -372,42 +427,33 @@ th.search-header {
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
-	margin-top: 2rem;
+	margin-top: 0.5rem;
 }
 .total-price {
-	color: #fff;
-	font-weight: bold;
-	background-color: rgb(104, 104, 13);
-	padding: 1rem;
-	border-radius: 8px;
-	width: 250px;
-	text-align: center;
-	font-size: 1.5rem;
-}
-
-.shopping-cart-btn {
-	padding: 1rem;
-	border: none;
-	border-radius: 8px;
+	position: relative;
+	width: 180px;
 	cursor: pointer;
-	width: 250px;
-	color: #fff;
-	font-size: 1.5rem;
+}
+.total-price span {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%);
 	font-weight: bold;
+	color: white;
+	text-shadow: -0.5px -0.5px 0 black, 0.5px -0.5px 0 black, -0.5px 0.5px 0 black, 1px 1px 0 black;
 }
-.delete-all-items-btn {
-	background-color: red;
+.total-price img {
+	width: 100%;
 }
-.delete-all-items-btn:hover {
-	background-color: rgb(211, 3, 3);
+.shopping-cart-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	width: 180px;
 }
-
-.purchase-items-btn {
-	background-color: green;
-}
-
-.purchase-items-btn:hover {
-	background-color: rgb(0, 109, 0);
+.shopping-cart-btn img {
+	width: 100%;
 }
 
 .item-container {
@@ -415,7 +461,7 @@ th.search-header {
 	display: flex;
 	flex-direction: column;
 	padding: 0.5rem;
-	border: 2px solid rgb(255, 145, 0);
+	border: 2px solid rgb(255, 101, 1);
 	border-radius: 8px;
 	font-size: 1.5rem;
 	transition: background-color 0.1s ease-in;
@@ -439,7 +485,7 @@ th.search-header {
 	justify-content: center;
 	align-items: center;
 	border: 1px solid gray;
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	width: 30px;
 	height: 30px;
 	font-weight: bold;
@@ -447,7 +493,7 @@ th.search-header {
 	cursor: pointer;
 }
 .quantity-btns-box button:hover {
-	background-color: rgb(250, 179, 48);
+	background-color: rgb(253, 126, 41);
 }
 
 .delete-item-btn {
@@ -473,7 +519,6 @@ h2 {
 	text-align: center;
 	text-transform: uppercase;
 	color: white;
-	border-bottom: 2px solid white;
 	margin-bottom: 0.5rem;
 }
 
@@ -560,12 +605,15 @@ input {
 .shopping-header div .bag-and-price {
 	display: flex;
 	justify-content: space-between;
-	align-items: start;
+	align-items: center;
 }
 
 .quantity {
 	width: 100%;
-	text-align: right;
+	text-align: center;
+	font-weight: 700;
+	color: #800000;
+	caret-color: #800000;
 }
 
 thead div {

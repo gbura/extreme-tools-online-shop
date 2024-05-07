@@ -89,7 +89,7 @@ form {
 	align-items: center;
 	width: 600px;
 	padding-bottom: 2rem;
-	background: linear-gradient(rgb(221, 137, 80), #eca41e);
+	background-color: rgb(255, 101, 1);
 	border-radius: 4px;
 	overflow: hidden;
 }
@@ -97,7 +97,7 @@ form {
 	width: 100%;
 	padding: 2rem;
 	text-align: center;
-	background-color: rgb(248, 118, 31);
+	background-color: rgb(255, 101, 1);
 }
 .form-body {
 	display: flex;

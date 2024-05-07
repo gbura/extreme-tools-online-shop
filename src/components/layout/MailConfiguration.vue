@@ -85,7 +85,7 @@ export default {
 .no-emails-text {
 	font-size: 2.4rem;
 	text-align: center;
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	padding: 2rem;
 }
 input {
@@ -98,7 +98,7 @@ input {
 	padding: 2rem 4rem;
 	margin-top: 1rem;
 	border: none;
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	color: white;
 	font-size: 2rem;
 	cursor: pointer;
@@ -127,11 +127,11 @@ li {
 	position: relative;
 	width: 100%;
 	padding: 2rem;
-	border: 2px solid white;
-	background-color: orange;
+	border: 1px solid white;
+	background-color: rgb(255, 101, 1);
 }
 li:hover {
-	background-color: rgb(226, 152, 15);
+	background-color: rgb(245, 119, 35);
 }
 li button {
 	position: absolute;

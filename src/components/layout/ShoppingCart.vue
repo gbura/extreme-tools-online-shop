@@ -38,7 +38,7 @@ dialog {
 	border-radius: 12px;
 	padding: 1rem;
 	z-index: 100;
-	background-color: orange;
+	background-color: rgb(255, 101, 1);
 	border: none;
 	transform: translate(-50%, -50%);
 }

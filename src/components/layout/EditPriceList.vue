@@ -129,6 +129,10 @@ export default {
 .container-box {
 	width: 100%;
 }
+.quantity {
+	text-align: right;
+	padding-right: 0.5rem;
+}
 
 .table-box {
 	width: 100%;
@@ -186,6 +190,12 @@ input {
 	width: 100%;
 	outline: none;
 	border: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 tbody {

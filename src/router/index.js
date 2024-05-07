@@ -7,7 +7,6 @@ import LoginView from '../views/LoginView.vue'
 import AdminPanel from '@/views/AdminPanel.vue'
 import ContractorForm from '@/components/layout/ContractorForm.vue'
 import TheContractors from '@/components/layout/TheContractors.vue'
-import TheCatalog from '@/components/layout/TheCatalog.vue'
 import PriceLists from '@/components/layout/PriceLists.vue'
 import EditPriceList from '@/components/layout/EditPriceList.vue'
 import MailConfiguration from '@/components/layout/MailConfiguration.vue'
@@ -63,11 +62,6 @@ const router = createRouter({
 					path: 'contractors',
 					name: 'contractors',
 					component: TheContractors,
-				},
-				{
-					path: 'catalog',
-					name: 'catalog',
-					component: TheCatalog,
 				},
 				{
 					path: 'price-lists',

@@ -6,25 +6,28 @@
 					<SkeletonLoader />
 				</template>
 				<template v-else>
-					<button class="toggle-slider-btn" @click="toggleSlider">
-						<img src="../assets/images/showCatalog.png" alt="" v-if="isOpenSlider" />
-						<img src="../assets/images/hideCatalog.png" alt="" v-else />
+					<div class="item-img">
+						<img
+							:src="
+								`https://api.extremetoolsb2b.pl/public/app/public/parts/` +
+								selectedItemImage +
+								`?timestamp=${new Date().getTime()}`
+							"
+							alt="Zdjęcie narzędzia"
+							@click="openFullscreen(selectedItemImage)"
+							@error="handleImageError" />
+					</div>
+					<button class="toggle-slider-btn" aria-label="Przycisk pokaż katalog">
+						<a href="https://extremetools.pl/katalog/?_gallery=gg-12-1447" target="_blank">
+							<img src="../assets/images/showCatalog.png" alt="Przycisk pokaż katalog" />
+						</a>
 					</button>
-					<TheSwiper v-if="!isOpenSlider" />
 					<div class="right-box">
 						<div class="items-table">
-							<ItemsTable @row-click="changeItemImage" @next-tab-click="changeItemImage" />
-						</div>
-						<div class="item-img">
-							<img
-								:src="
-									`https://api.extremetoolsb2b.pl/public/app/public/parts/` +
-									selectedItemImage +
-									`?timestamp=${new Date().getTime()}`
-								"
-								alt=""
-								@click="openFullscreen(selectedItemImage)"
-								@error="handleImageError" />
+							<ItemsTable
+								@row-click="changeItemImage"
+								@next-tab-click="changeItemImage"
+								@filters-updated="updateSelectedItemImage" />
 						</div>
 					</div>
 				</template>
@@ -43,6 +46,7 @@ import TheSwiper from '@/components/ui/TheSwiper.vue'
 import ItemsTable from '@/components/layout/ItemsTable.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import SkeletonLoader from '@/components/ui/SkeletonLoader.vue'
+import { useShoppingCartStore } from '@/stores/shoppingcart.js'
 
 export default {
 	components: {
@@ -56,17 +60,27 @@ export default {
 		return {
 			dataLoaded: false,
 			selectedItemImage: '',
-			isOpenSlider: false,
 			fullscreen: false,
 			fullscreenImageSrc: '',
 		}
+	},
+	setup() {
+		const shoppingCartStore = useShoppingCartStore()
+		return { shoppingCartStore }
 	},
 	mounted() {
 		setTimeout(() => {
 			this.dataLoaded = true
 		}, 1000)
+		this.shoppingCartStore.fetchItems()
+		this.selectedItemImage = 'SFMCB100-XJ.jpg'
 	},
 	methods: {
+		updateSelectedItemImage(filters) {
+			if (Object.values(filters).every(value => value === '')) {
+				this.selectedItemImage = 'SFMCB100-XJ.jpg'
+			}
+		},
 		changeItemImage(productImage) {
 			if (productImage && productImage.url) {
 				setTimeout(() => {
@@ -78,9 +92,6 @@ export default {
 		},
 		handleImageError() {
 			this.selectedItemImage = 'nophoto.jpg'
-		},
-		toggleSlider() {
-			this.isOpenSlider = !this.isOpenSlider
 		},
 		openFullscreen(imageSrc) {
 			this.fullscreen = true
@@ -111,7 +122,7 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	align-items: start;
-	gap: 6rem;
+	gap: 4rem;
 	margin-top: 10rem;
 	width: 100%;
 	min-height: 80vh;
@@ -134,10 +145,13 @@ export default {
 	display: flex;
 	flex-direction: column;
 }
+.item-img {
+	margin-left: 2rem;
+}
 .item-img img {
 	border: 4px solid rgb(255, 101, 1);
-	width: 280px;
-	margin-top: 2rem;
+	width: 500px;
+	height: 400px;
 	cursor: zoom-in;
 }
 @media (min-width: 1200px) {

@@ -198,6 +198,7 @@ export default {
 }
 
 .fullscreen-image {
+	user-select: none;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -208,6 +209,7 @@ export default {
 }
 
 .close-button {
+	user-select: none;
 	position: fixed;
 	top: 30px;
 	right: 50px;

@@ -1,15 +1,17 @@
 <template>
 	<div v-if="open" class="backdrop" @click="$emit('close')"></div>
 	<transition name="modal">
-		<form v-if="open" @submit.prevent="forgotPassword" class="forgot-pass-form">
+		<form v-if="open" @submit.prevent="changeLogin" class="change-admin-login-form">
 			<div class="form-item">
 				<button class="close-btn" @click.prevent="$emit('close')">
 					<img src="../../assets/images/icons/X.png" alt="" class="delete-btn-img" />
 				</button>
-				<label for="login">Podaj login:</label>
-				<input type="text" id="login" name="login" v-model="login" autocomplete="off" />
+				<label for="admin-login">Podaj nowy login:</label>
+				<input type="text" id="admin-login" name="admin-login" v-model="login" autocomplete="off" />
+				<label for="new-login">Powtórz nowy login:</label>
+				<input type="text" id="new-login" name="new-login" v-model="newLogin" autocomplete="off" />
 			</div>
-			<button class="confirm-changes-btn">Wyślij nowe hasło</button>
+			<button class="confirm-changes-btn">Zmień login</button>
 		</form>
 	</transition>
 </template>
@@ -17,40 +19,54 @@
 <script>
 import instanceAxios from '@/axios'
 import Swal from 'sweetalert2'
+import { useAuthStore } from '@/stores/auth.js'
+
 export default {
-	name: 'ForgotPassword',
-	props: ['open'],
+	name: 'ChangeAdminLogin',
+	props: ['open', 'userId'],
 	emits: ['close'],
+	setup() {
+		const authstore = useAuthStore()
+		return { authstore }
+	},
 	data() {
 		return {
 			login: '',
+			newLogin: '',
 		}
 	},
 	methods: {
-		async forgotPassword() {
-			if (!this.login) {
+		async changeLogin() {
+			if ((!this.login && !this.newLogin) || this.login !== this.newLogin) {
 				Swal.fire({
 					title: 'Błąd!',
-					text: 'Podaj poprawny login!',
+					text: 'Uzupełnij pola w poprawny sposób!',
 					icon: 'error',
 				})
-				return
-			}
-
-			try {
-				await instanceAxios.post('forgotPassword', { login: this.login })
-				Swal.fire({
-					title: 'Sukces!',
-					text: 'Wiadomość z resetem hasła została wysłana!',
-					icon: 'success',
-				})
-				this.login = ''
-			} catch (error) {
-				Swal.fire({
-					title: 'Błąd!',
-					text: 'Wystąpił błąd podczas wysyłania wiadomości resetującej hasło!',
-					icon: 'error',
-				})
+			} else {
+				try {
+					await instanceAxios.post(`bo/users/${this.userId}/setNewLogin`, {
+						login: this.login,
+						newLogin: this.newLogin,
+					})
+					Swal.fire({
+						title: 'Sukces!',
+						text: 'Ustawiono nowy login!',
+						icon: 'success',
+					})
+					this.login = ''
+					this.newLogin = ''
+					this.authstore.logout()
+					this.$router.push('/login')
+					this.$emit('close')
+				} catch (error) {
+					console.error('Błąd podczas ustawiania loginu:', error)
+					Swal.fire({
+						title: 'Błąd!',
+						text: 'Wystąpił błąd podczas ustawiania loginu. Spróbuj ponownie później.',
+						icon: 'error',
+					})
+				}
 			}
 		},
 	},
@@ -68,7 +84,7 @@ export default {
 	background-color: rgba(0, 0, 0, 0.75);
 }
 
-.forgot-pass-form {
+.change-admin-login-form {
 	position: fixed;
 	top: 50%;
 	width: 30%;
@@ -83,16 +99,17 @@ export default {
 	transform: translate(-50%, -50%);
 	z-index: 100;
 }
-.forgot-pass-form .form-item {
+.change-admin-login-form .form-item {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 0.5rem;
+	gap: 1rem;
 	margin-bottom: 2rem;
 }
 .form-item label {
 	font-size: 1.8rem;
+	color: #fff;
 }
 .form-item input {
 	outline: none;

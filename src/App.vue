@@ -1,5 +1,7 @@
 <template>
-	<TheHeader />
+	<template v-if="showHeader">
+		<TheHeader />
+	</template>
 	<div class="wrapper">
 		<RouterView />
 	</div>
@@ -13,6 +15,11 @@ export default {
 	name: 'App',
 	components: {
 		TheHeader,
+	},
+	computed: {
+		showHeader() {
+			return this.$route.name !== 'welcome'
+		},
 	},
 }
 </script>

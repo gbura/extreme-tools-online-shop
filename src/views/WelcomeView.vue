@@ -50,13 +50,9 @@ export default {
 .container {
 	margin-top: 6rem;
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-evenly;
+	gap: 4rem;
 	width: 100%;
-}
-
-.left-section,
-.right-section {
-	width: 50%;
 }
 
 .logo {
@@ -76,6 +72,7 @@ export default {
 
 .right-section img {
 	width: 100%;
-	height: 80vh;
+	height: 70vh;
+	max-height: 650px;
 }
 </style>

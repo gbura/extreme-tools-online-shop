@@ -94,7 +94,7 @@ form {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background: linear-gradient(#ecaf2bd7, #b37604);
+	background-color: rgb(255, 101, 1);
 	border-radius: 4px;
 	overflow: hidden;
 	width: 100%;
