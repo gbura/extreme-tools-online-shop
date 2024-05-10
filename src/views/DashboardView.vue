@@ -18,7 +18,7 @@
 							@error="handleImageError" />
 					</div>
 					<button class="toggle-slider-btn" aria-label="Przycisk pokaż katalog">
-						<a href="https://extremetools.pl/katalog/?_gallery=gg-12-1447" target="_blank">
+						<a href="https://extremetools.pl/katalog/" target="_blank">
 							<img src="../assets/images/showCatalog.png" alt="Przycisk pokaż katalog" />
 						</a>
 					</button>
@@ -150,7 +150,7 @@ export default {
 }
 .item-img img {
 	border: 4px solid rgb(255, 101, 1);
-	width: 500px;
+	max-width: 560px;
 	height: 400px;
 	cursor: zoom-in;
 }
