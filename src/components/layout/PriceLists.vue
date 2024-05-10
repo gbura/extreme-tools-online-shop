@@ -61,6 +61,7 @@ export default {
 				})
 				if (res.data) {
 					this.priceLists = res.data.data.filter(priceList => priceList.active === 1)
+					this.priceLists.sort((a, b) => a.name.localeCompare(b.name))
 				}
 			} catch (error) {
 				console.error('Błąd podczas pobierania danych:', error)
@@ -107,6 +108,7 @@ export default {
 					icon: 'success',
 				})
 
+				this.priceLists.sort((a, b) => a.name.localeCompare(b.name))
 				document.getElementById('add-price-list-input').value = ''
 			} catch (error) {
 				console.error('Błąd podczas przesyłania cennika:', error)
