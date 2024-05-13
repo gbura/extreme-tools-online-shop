@@ -25,7 +25,8 @@
 								v-model="filters.ean"
 								placeholder="EAN"
 								maxlength="13"
-								@focus="clearIfNotEmpty('filters.ean')" />
+								@focus="clearIfNotEmpty('filters.ean')"
+								@input="searchAndHandleRowClick('ean')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('ean')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -38,7 +39,8 @@
 								type="text"
 								v-model="filters.name"
 								placeholder="Filtruj: Nazwa lub kod towaru..."
-								@focus="clearIfNotEmpty('filters.name')" />
+								@focus="clearIfNotEmpty('filters.name')"
+								@input="searchAndHandleRowClick('name')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('name')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -47,7 +49,12 @@
 					</th>
 					<th class="product-code-header">
 						<div>
-							<input type="text" v-model="filters.code" placeholder="KOD" @focus="clearIfNotEmpty('filters.code')" />
+							<input
+								type="text"
+								v-model="filters.code"
+								placeholder="KOD"
+								@focus="clearIfNotEmpty('filters.code')"
+								@input="searchAndHandleRowClick('code')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('code')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -335,6 +342,10 @@ export default {
 			}
 			this.shoppingCartStore.purchase()
 			this.closeShoppingCart()
+		},
+		searchAndHandleRowClick(filterName) {
+			this.search()
+			this.handleRowClick(this.filteredItems[0]?.image, 0)
 		},
 	},
 	computed: {

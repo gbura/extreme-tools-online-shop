@@ -150,7 +150,7 @@ export default {
 }
 .item-img img {
 	border: 4px solid rgb(255, 101, 1);
-	max-width: 560px;
+	width: 550px;
 	height: 400px;
 	cursor: zoom-in;
 }
