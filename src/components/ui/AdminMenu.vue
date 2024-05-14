@@ -41,12 +41,12 @@ a {
 }
 
 a:hover {
-	color: rgb(255, 166, 0);
+	color: red;
 }
 
 .router-link-active {
 	border: none;
 	padding: 0.5rem;
-	color: rgb(255, 217, 1);
+	color: red;
 }
 </style>

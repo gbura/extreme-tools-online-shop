@@ -545,6 +545,7 @@ td {
 
 table {
 	width: 100%;
+	user-select: none;
 }
 
 thead {

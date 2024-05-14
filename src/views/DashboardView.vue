@@ -183,7 +183,6 @@ export default {
 	position: fixed;
 	top: 50px;
 	right: 50px;
-
 	border: none;
 	padding: 0.5rem;
 	background: none;
