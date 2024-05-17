@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import TheSwiper from '@/components/ui/TheSwiper.vue'
 import ItemsTable from '@/components/layout/ItemsTable.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import SkeletonLoader from '@/components/ui/SkeletonLoader.vue'
@@ -50,7 +49,6 @@ import { useShoppingCartStore } from '@/stores/shoppingcart.js'
 
 export default {
 	components: {
-		TheSwiper,
 		ItemsTable,
 		BaseButton,
 		SkeletonLoader,
@@ -150,14 +148,9 @@ export default {
 }
 .item-img img {
 	border: 4px solid rgb(255, 101, 1);
-	width: 550px;
-	height: 400px;
+	width: 300px;
+	height: 250px;
 	cursor: zoom-in;
-}
-@media (min-width: 1200px) {
-	.container {
-		flex-direction: row;
-	}
 }
 .fullscreen-overlay {
 	position: fixed;
@@ -193,5 +186,30 @@ export default {
 .close-button img {
 	width: 50px;
 	height: 50px;
+}
+@media (min-width: 1200px) {
+	.container {
+		flex-direction: row;
+	}
+}
+
+@media (min-width: 1440px) {
+	.item-img img {
+		width: 350px;
+		height: 250px;
+	}
+}
+
+@media (min-width: 1600px) {
+	.item-img img {
+		width: 450px;
+		height: 350px;
+	}
+}
+@media (min-width: 1700px) {
+	.item-img img {
+		width: 550px;
+		height: 400px;
+	}
 }
 </style>
