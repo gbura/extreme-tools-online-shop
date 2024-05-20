@@ -187,6 +187,7 @@ export default {
 	width: 50px;
 	height: 50px;
 }
+
 @media (min-width: 1200px) {
 	.container {
 		flex-direction: row;
@@ -200,13 +201,7 @@ export default {
 	}
 }
 
-@media (min-width: 1600px) {
-	.item-img img {
-		width: 450px;
-		height: 350px;
-	}
-}
-@media (min-width: 1700px) {
+@media (min-width: 1800px) {
 	.item-img img {
 		width: 550px;
 		height: 400px;
