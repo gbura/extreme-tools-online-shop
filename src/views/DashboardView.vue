@@ -8,11 +8,7 @@
 				<template v-else>
 					<div class="item-img">
 						<img
-							:src="
-								`https://api.extremetoolsb2b.pl/public/app/public/parts/` +
-								selectedItemImage +
-								`?timestamp=${new Date().getTime()}`
-							"
+							:src="selectedItemImageUrl"
 							alt="Zdjęcie narzędzia"
 							@click="openFullscreen(selectedItemImage)"
 							@error="handleImageError" />
@@ -27,7 +23,8 @@
 							<ItemsTable
 								@row-click="changeItemImage"
 								@next-tab-click="changeItemImage"
-								@filters-updated="updateSelectedItemImage" />
+								@filters-updated="updateSelectedItemImage"
+								@filtered-items-empty="setDefaultImage" />
 						</div>
 					</div>
 				</template>
@@ -57,7 +54,7 @@ export default {
 	data() {
 		return {
 			dataLoaded: false,
-			selectedItemImage: '',
+			selectedItemImage: 'SFMCB100-XJ.jpg',
 			fullscreen: false,
 			fullscreenImageSrc: '',
 		}
@@ -100,6 +97,16 @@ export default {
 		closeFullscreen() {
 			this.fullscreen = false
 			document.body.style.overflow = ''
+		},
+		setDefaultImage() {
+			this.selectedItemImage = 'nophoto.jpg'
+		},
+	},
+	computed: {
+		selectedItemImageUrl() {
+			return `https://api.extremetoolsb2b.pl/public/app/public/parts/${
+				this.selectedItemImage
+			}?timestamp=${new Date().getTime()}`
 		},
 	},
 }
@@ -196,8 +203,15 @@ export default {
 
 @media (min-width: 1440px) {
 	.item-img img {
-		width: 350px;
-		height: 250px;
+		width: 250px;
+		height: 180px;
+	}
+}
+
+@media (min-width: 1660px) {
+	.item-img img {
+		width: 300px;
+		height: 220px;
 	}
 }
 

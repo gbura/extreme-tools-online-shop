@@ -303,6 +303,10 @@ export default {
 					nextRow.scrollIntoView({ behavior: 'smooth', block: 'center' })
 				}, 700)
 			}
+
+			if (this.filteredItems.length === 0) {
+				this.$emit('filtered-items-empty')
+			}
 		},
 		updateCost() {
 			this.filteredItems.forEach(item => {
@@ -359,6 +363,13 @@ export default {
 				)
 			} else {
 				return []
+			}
+		},
+	},
+	watch: {
+		filteredItems(newFilteredItems) {
+			if (newFilteredItems.length === 0) {
+				this.$emit('filtered-items-empty')
 			}
 		},
 	},
