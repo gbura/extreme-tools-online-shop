@@ -217,17 +217,27 @@ export default {
 			}
 		},
 		handleRowClick(productImage, index) {
-			this.activeRowIndex = index
-			this.$emit('row-click', productImage)
-			const rows = document.querySelectorAll('tbody tr')
-			rows.forEach((row, i) => {
-				if (i === index) {
-					row.classList.add('selected-row')
-				} else {
-					row.classList.remove('selected-row')
-				}
-			})
-		},
+            this.activeRowIndex = index;
+            this.$emit('row-click', productImage);
+            this.$nextTick(() => {
+                const rows = this.$refs.tableBody.querySelectorAll('tr');
+                rows.forEach((row, i) => {
+                    if (i === index) {
+                        row.classList.add('selected-row');
+                    } else {
+                        row.classList.remove('selected-row');
+                    }
+                });
+            });
+        },
+        focusActiveRow() {
+            this.$nextTick(() => {
+                const activeRow = this.$refs.tableBody.querySelector('.selected-row');
+                if (activeRow) {
+                    activeRow.focus();
+                }
+            });
+        },
 		handleKeyDown(event, index) {
 			if (event.key === 'ArrowUp' && index > 0) {
 				this.focusNextRow(index - 1)

@@ -21,10 +21,12 @@
 					<div class="right-box">
 						<div class="items-table">
 							<ItemsTable
+								ref="itemsTable"
 								@row-click="changeItemImage"
 								@next-tab-click="changeItemImage"
 								@filters-updated="updateSelectedItemImage"
-								@filtered-items-empty="setDefaultImage" />
+								@filtered-items-empty="setDefaultImage"
+								@focus-active-row="focusActiveRow" />
 						</div>
 					</div>
 				</template>
@@ -97,9 +99,18 @@ export default {
 		closeFullscreen() {
 			this.fullscreen = false
 			document.body.style.overflow = ''
+			this.$refs.itemsTable.focusActiveRow()
 		},
 		setDefaultImage() {
 			this.selectedItemImage = 'nophoto.jpg'
+		},
+		focusActiveRow() {
+			this.$nextTick(() => {
+				const activeRow = this.$refs.itemsTable.$el.querySelector('.selected-row')
+				if (activeRow) {
+					activeRow.focus()
+				}
+			})
 		},
 	},
 	computed: {
