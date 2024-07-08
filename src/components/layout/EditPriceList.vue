@@ -128,6 +128,7 @@ export default {
 <style scoped>
 .container-box {
 	width: 100%;
+	margin-top: 8rem;
 }
 .quantity {
 	text-align: right;
@@ -221,5 +222,11 @@ tr:not(thead tr) {
 	color: #fff;
 	border-radius: 8px;
 	cursor: pointer;
+}
+
+@media (min-width: 500px) {
+	.container-box {
+		margin-top: 15rem;
+	}
 }
 </style>
