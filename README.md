@@ -32,4 +32,5 @@ Admin panel: Administrators have the capability to create and manage customer ac
 ![alt text](/public/overviewImages/6.png)
 
 
+
 </details>
