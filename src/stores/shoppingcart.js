@@ -36,6 +36,9 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
 		removeAllItems() {
+			this.items.forEach(item => {
+				item.quantity = ''
+			})
 			this.items = []
 			localStorage.removeItem(`items_${this.userId}`)
 		},

@@ -8,23 +8,25 @@
 				<template v-else>
 					<div class="item-img">
 						<img
-							:src="
-								`https://api.extremetoolsb2b.pl/public/app/public/parts/` +
-								selectedItemImage +
-								`?timestamp=${new Date().getTime()}`
-							"
+							:src="selectedItemImageUrl"
 							alt="Zdjęcie narzędzia"
 							@click="openFullscreen(selectedItemImage)"
 							@error="handleImageError" />
 					</div>
 					<button class="toggle-slider-btn" aria-label="Przycisk pokaż katalog">
-						<a href="https://extremetools.pl/katalog/?_gallery=gg-12-1447" target="_blank">
+						<a href="https://extremetools.pl/katalog/" target="_blank">
 							<img src="../assets/images/showCatalog.png" alt="Przycisk pokaż katalog" />
 						</a>
 					</button>
 					<div class="right-box">
 						<div class="items-table">
-							<ItemsTable @row-click="changeItemImage" @next-tab-click="changeItemImage" />
+							<ItemsTable
+								ref="itemsTable"
+								@row-click="changeItemImage"
+								@next-tab-click="changeItemImage"
+								@filters-updated="updateSelectedItemImage"
+								@filtered-items-empty="setDefaultImage"
+								@focus-active-row="focusActiveRow" />
 						</div>
 					</div>
 				</template>
@@ -39,7 +41,6 @@
 </template>
 
 <script>
-import TheSwiper from '@/components/ui/TheSwiper.vue'
 import ItemsTable from '@/components/layout/ItemsTable.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import SkeletonLoader from '@/components/ui/SkeletonLoader.vue'
@@ -47,7 +48,6 @@ import { useShoppingCartStore } from '@/stores/shoppingcart.js'
 
 export default {
 	components: {
-		TheSwiper,
 		ItemsTable,
 		BaseButton,
 		SkeletonLoader,
@@ -56,7 +56,7 @@ export default {
 	data() {
 		return {
 			dataLoaded: false,
-			selectedItemImage: '',
+			selectedItemImage: 'SFMCB100-XJ.jpg',
 			fullscreen: false,
 			fullscreenImageSrc: '',
 		}
@@ -73,6 +73,11 @@ export default {
 		this.selectedItemImage = 'SFMCB100-XJ.jpg'
 	},
 	methods: {
+		updateSelectedItemImage(filters) {
+			if (Object.values(filters).every(value => value === '')) {
+				this.selectedItemImage = 'SFMCB100-XJ.jpg'
+			}
+		},
 		changeItemImage(productImage) {
 			if (productImage && productImage.url) {
 				setTimeout(() => {
@@ -94,6 +99,25 @@ export default {
 		closeFullscreen() {
 			this.fullscreen = false
 			document.body.style.overflow = ''
+			this.$refs.itemsTable.focusActiveRow()
+		},
+		setDefaultImage() {
+			this.selectedItemImage = 'nophoto.jpg'
+		},
+		focusActiveRow() {
+			this.$nextTick(() => {
+				const activeRow = this.$refs.itemsTable.$el.querySelector('.selected-row')
+				if (activeRow) {
+					activeRow.focus()
+				}
+			})
+		},
+	},
+	computed: {
+		selectedItemImageUrl() {
+			return `https://api.extremetoolsb2b.pl/public/app/public/parts/${
+				this.selectedItemImage
+			}?timestamp=${new Date().getTime()}`
 		},
 	},
 }
@@ -142,14 +166,9 @@ export default {
 }
 .item-img img {
 	border: 4px solid rgb(255, 101, 1);
-	width: 500px;
-	height: 400px;
+	width: 300px;
+	height: 250px;
 	cursor: zoom-in;
-}
-@media (min-width: 1200px) {
-	.container {
-		flex-direction: row;
-	}
 }
 .fullscreen-overlay {
 	position: fixed;
@@ -175,7 +194,6 @@ export default {
 	position: fixed;
 	top: 50px;
 	right: 50px;
-
 	border: none;
 	padding: 0.5rem;
 	background: none;
@@ -186,5 +204,32 @@ export default {
 .close-button img {
 	width: 50px;
 	height: 50px;
+}
+
+@media (min-width: 1200px) {
+	.container {
+		flex-direction: row;
+	}
+}
+
+@media (min-width: 1440px) {
+	.item-img img {
+		width: 250px;
+		height: 180px;
+	}
+}
+
+@media (min-width: 1660px) {
+	.item-img img {
+		width: 300px;
+		height: 220px;
+	}
+}
+
+@media (min-width: 1800px) {
+	.item-img img {
+		width: 550px;
+		height: 400px;
+	}
 }
 </style>

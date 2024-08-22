@@ -1,7 +1,7 @@
 <template>
 	<div v-if="open" class="backdrop" @click="$emit('close')"></div>
 	<transition name="modal">
-		<form v-if="open" @submit.prevent="resetPassword" class="reset-pass-form">
+		<form v-if="open" @keyup.enter="resetPassword" @submit.prevent="resetPassword" class="reset-pass-form">
 			<div class="form-item">
 				<button class="close-btn" @click.prevent="$emit('close')">
 					<img src="../../assets/images/icons/X.png" alt="" class="delete-btn-img" />

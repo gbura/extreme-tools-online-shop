@@ -1,6 +1,6 @@
 <template>
 	<div class="container-box">
-		<div class="table-box">
+		<div class="table-box" @scroll="onScroll">
 			<table>
 				<thead>
 					<tr>
@@ -10,7 +10,7 @@
 						<th class="price-header">CENA</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody ref="tableBody">
 					<tr v-for="item in items" :key="item.id">
 						<td>{{ item.ean }}</td>
 						<td>{{ item.name }}</td>
@@ -121,6 +121,18 @@ export default {
 				alert('Wystąpił błąd podczas zapisywania zmian.')
 			}
 		},
+		onScroll(event) {
+			const tableBody = this.$refs.tableBody
+			if (tableBody && tableBody.rows.length > 0) {
+				const rowHeight = tableBody.rows[0].clientHeight
+				const scrollTop = event.target.scrollTop
+
+				const rowIndex = Math.round(scrollTop / rowHeight)
+				const newScrollTop = rowIndex * rowHeight
+
+				event.target.scrollTop = newScrollTop
+			}
+		},
 	},
 }
 </script>
@@ -128,6 +140,7 @@ export default {
 <style scoped>
 .container-box {
 	width: 100%;
+	margin-top: 8rem;
 }
 .quantity {
 	text-align: right;
@@ -221,5 +234,11 @@ tr:not(thead tr) {
 	color: #fff;
 	border-radius: 8px;
 	cursor: pointer;
+}
+
+@media (min-width: 500px) {
+	.container-box {
+		margin-top: 15rem;
+	}
 }
 </style>

@@ -10,8 +10,8 @@ export const useUsersStore = defineStore('users', {
 		async fetchUsers() {
 			try {
 				const response = await instanceAxios.get('bo/users')
-				if (response && response.data && response.data.data) {
-					this.users = response.data.data.data
+				if (response && response.data && response.data) {
+					this.users = response.data.data
 				}
 			} catch (error) {
 				console.error('Error fetching users:', error)

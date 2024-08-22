@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+
 import WelcomeView from '../views/WelcomeView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import LoginView from '../views/LoginView.vue'
@@ -85,6 +86,7 @@ const router = createRouter({
 		},
 	],
 })
+
 async function checkAuthentication(to, _, next) {
 	const authStore = useAuthStore()
 	const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
@@ -109,6 +111,20 @@ async function checkAuthentication(to, _, next) {
 	next()
 }
 
-router.beforeEach(checkAuthentication)
+router.beforeEach(async (to, from, next) => {
+	try {
+		await checkAuthentication(to, from, next)
+	} catch (error) {
+		// Obsługa błędu Unauthorized
+		if (error.response && error.response.status === 401) {
+			const authStore = useAuthStore()
+			await authStore.logout()
+			window.location.reload()
+			next({ name: 'login' })
+		} else {
+			console.error('Error during route navigation:', error)
+		}
+	}
+})
 
 export default router

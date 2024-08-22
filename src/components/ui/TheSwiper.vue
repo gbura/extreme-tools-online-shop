@@ -2,13 +2,8 @@
 	<div class="slider-box" @mousemove="handleMouseMove">
 		<swiper :loop="true" :modules="modules" :navigation="true">
 			<swiper-slide v-for="image in images" :key="image.id" @click="openFullscreen(image)">
-				<img
-					:src="
-						`https://api.extremetoolsb2b.pl/public/app/public/catalog/` +
-						image.name +
-						`?timestamp=${new Date().getTime()}`
-					"
-					alt="" />
+				<img :src=" `https://api.extremetoolsb2b.pl/public/app/public/catalog/` + image.name + `?timestamp=${new
+				Date().getTime()}` "
 			</swiper-slide>
 		</swiper>
 		<div v-if="fullscreen" class="fullscreen-overlay" @click="closeFullscreen"></div>

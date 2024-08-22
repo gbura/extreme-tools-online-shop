@@ -51,8 +51,8 @@ dialog {
 	cursor: pointer;
 }
 .delete-btn img {
-	width: 15px;
-	height: 15px;
+	width: 30px;
+	height: 30px;
 }
 .modal-enter-active {
 	animation: modal 0.3s ease-out;

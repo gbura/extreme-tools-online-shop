@@ -9,10 +9,10 @@
 							v-model="searchQuery"
 							placeholder="Szukaj: Nazwa towaru..."
 							@input="search"
-							@blur="this.searchQuery = ''"
+							@blur="blurIfEmpty()"
 							@focus="clearIfNotEmpty('searchQuery')" />
 						<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
-						<button @click="this.searchQuery = ''" class="delete-input-btn">
+						<button @click="blurIfEmpty()" class="delete-input-btn">
 							<img src="../../assets/images/icons/X.png" alt="" />
 						</button>
 					</div>
@@ -25,7 +25,8 @@
 								v-model="filters.ean"
 								placeholder="EAN"
 								maxlength="13"
-								@focus="clearIfNotEmpty('filters.ean')" />
+								@focus="clearIfNotEmpty('filters.ean')"
+								@input="searchAndHandleRowClick('ean')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('ean')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -38,7 +39,8 @@
 								type="text"
 								v-model="filters.name"
 								placeholder="Filtruj: Nazwa lub kod towaru..."
-								@focus="clearIfNotEmpty('filters.name')" />
+								@focus="clearIfNotEmpty('filters.name')"
+								@input="searchAndHandleRowClick('name')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('name')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -47,7 +49,12 @@
 					</th>
 					<th class="product-code-header">
 						<div>
-							<input type="text" v-model="filters.code" placeholder="KOD" @focus="clearIfNotEmpty('filters.code')" />
+							<input
+								type="text"
+								v-model="filters.code"
+								placeholder="KOD"
+								@focus="clearIfNotEmpty('filters.code')"
+								@input="searchAndHandleRowClick('code')" />
 							<img src="../../assets/images/icons/search.png" alt="" class="searchbar-icon" />
 							<button class="delete-input-btn" @click="deleteInputValue('code')">
 								<img src="../../assets/images/icons/X.png" alt="" />
@@ -210,17 +217,27 @@ export default {
 			}
 		},
 		handleRowClick(productImage, index) {
-			this.activeRowIndex = index
-			this.$emit('row-click', productImage)
-			const rows = document.querySelectorAll('tbody tr')
-			rows.forEach((row, i) => {
-				if (i === index) {
-					row.classList.add('selected-row')
-				} else {
-					row.classList.remove('selected-row')
-				}
-			})
-		},
+            this.activeRowIndex = index;
+            this.$emit('row-click', productImage);
+            this.$nextTick(() => {
+                const rows = this.$refs.tableBody.querySelectorAll('tr');
+                rows.forEach((row, i) => {
+                    if (i === index) {
+                        row.classList.add('selected-row');
+                    } else {
+                        row.classList.remove('selected-row');
+                    }
+                });
+            });
+        },
+        focusActiveRow() {
+            this.$nextTick(() => {
+                const activeRow = this.$refs.tableBody.querySelector('.selected-row');
+                if (activeRow) {
+                    activeRow.focus();
+                }
+            });
+        },
 		handleKeyDown(event, index) {
 			if (event.key === 'ArrowUp' && index > 0) {
 				this.focusNextRow(index - 1)
@@ -261,13 +278,22 @@ export default {
 		},
 		deleteInputValue(filterName) {
 			this.filters[filterName] = ''
+			this.activeRowIndex = 0
+			this.$emit('filters-updated', this.filters)
 		},
 		clearIfNotEmpty(filterRef) {
 			for (let key in this.filters) {
 				if (key !== filterRef && this.filters[key] !== '') {
 					this.filters[key] = ''
+					this.activeRowIndex = 0
+					this.$emit('filters-updated', this.filters)
 				}
 			}
+		},
+		blurIfEmpty() {
+			this.searchQuery = ''
+			this.activeRowIndex = 0
+			this.$emit('filters-updated', this.filters)
 		},
 		search() {
 			const searchValue = this.searchQuery.trim().toLowerCase()
@@ -286,6 +312,10 @@ export default {
 				setTimeout(() => {
 					nextRow.scrollIntoView({ behavior: 'smooth', block: 'center' })
 				}, 700)
+			}
+
+			if (this.filteredItems.length === 0) {
+				this.$emit('filtered-items-empty')
 			}
 		},
 		updateCost() {
@@ -327,6 +357,10 @@ export default {
 			this.shoppingCartStore.purchase()
 			this.closeShoppingCart()
 		},
+		searchAndHandleRowClick(filterName) {
+			this.search()
+			this.handleRowClick(this.filteredItems[0]?.image, 0)
+		},
 	},
 	computed: {
 		filteredItems() {
@@ -339,6 +373,13 @@ export default {
 				)
 			} else {
 				return []
+			}
+		},
+	},
+	watch: {
+		filteredItems(newFilteredItems) {
+			if (newFilteredItems.length === 0) {
+				this.$emit('filtered-items-empty')
 			}
 		},
 	},
@@ -525,6 +566,7 @@ td {
 
 table {
 	width: 100%;
+	user-select: none;
 }
 
 thead {
