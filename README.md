@@ -1,14 +1,10 @@
-# stanley
+# ExtremeTools
 
-This template should help get you started developing with Vue 3 in Vite.
+Online tool shop, which offers a catalog of over 4,000 products, consists of two main sections: the customer-facing site and the admin panel. The entire store is built on the integration between the frontend and a Laravel-based backend API.
 
-## Recommended IDE Setup
+Customer site: Users can search for products using an advanced search feature, manage their cart, manage theirs accounts and generate orders as PDF documents. The user interface is designed for seamless product discovery and a smooth checkout process.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Admin panel: Administrators have the capability to create and manage customer accounts, process and monitor orders, track user login activity, and manage pricing for different customers. Additionally, admins can add new products to the catalog and edit product images, ensuring the store's offerings remain up-to-date.
 
 ## Project Setup
 
