@@ -17,10 +17,6 @@ Admin panel: Administrators have the capability to create and manage customer ac
 ![alt text](/public/overviewImages/2.png)
 ![alt text](/public/overviewImages/3.png)
 ![alt text](/public/overviewImages/4.png)
-![alt text](/public/overviewImages/5.png)
-
-### SweetAlerts
-![alt text](/public/overviewImages/6.png)
 ![alt text](/public/overviewImages/7.png)
 
 ### Admin panel
@@ -30,5 +26,10 @@ Admin panel: Administrators have the capability to create and manage customer ac
 ![alt text](/public/overviewImages/admin4.png)
 ![alt text](/public/overviewImages/admin5.png)
 ![alt text](/public/overviewImages/admin6.png)
+
+### SweetAlerts
+![alt text](/public/overviewImages/5.png)
+![alt text](/public/overviewImages/6.png)
+
 
 </details>
