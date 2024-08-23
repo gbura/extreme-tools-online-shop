@@ -318,7 +318,7 @@ export default {
 				this.$emit('filtered-items-empty')
 			}
 		},
-		updateCost() {
+		async updateCost() {
 			this.filteredItems.forEach(item => {
 				if (!isNaN(item.quantity) && item.quantity > 0 && !isNaN(item.price)) {
 					item.quantity = Number(item.quantity)
@@ -331,7 +331,13 @@ export default {
 					}
 				}
 			})
-			localStorage.setItem(`items_${this.authStore.userId}`, JSON.stringify(this.shoppingCartStore.items))
+			// localStorage.setItem(`items_${this.authStore.userId}`, JSON.stringify(this.shoppingCartStore.items))
+			await instanceAxios.post('ad/cart', {
+				userId: this.authStore.userId,
+				body: {
+					items: JSON.stringify(this.shoppingCartStore.items)
+				}
+			})
 		},
 		showShoppingCart() {
 			this.isOpenShoppingCart = true
@@ -339,10 +345,11 @@ export default {
 		closeShoppingCart() {
 			this.isOpenShoppingCart = false
 		},
-		updateItemsFromLocalStorage() {
-			const localStorageItems = JSON.parse(localStorage.getItem(`items_${this.authStore.userId}`))
-			if (localStorageItems) {
-				this.shoppingCartStore.items = localStorageItems
+		async updateItemsFromLocalStorage() {
+			// const localStorageItems = JSON.parse(localStorage.getItem(`items_${this.authStore.userId}`))
+			const res = await instanceAxios.get('ad/cartItems')
+			if (res) {
+				this.shoppingCartStore.items = res
 			}
 		},
 		purchase() {
