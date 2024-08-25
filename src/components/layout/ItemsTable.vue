@@ -183,7 +183,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.updateItemsFromLocalStorage()
+		this.shoppingCartStore.fetchItems()
 		this.getTableItems()
 			.then(() => {
 				this.activeRowIndex = 0
@@ -217,27 +217,27 @@ export default {
 			}
 		},
 		handleRowClick(productImage, index) {
-            this.activeRowIndex = index;
-            this.$emit('row-click', productImage);
-            this.$nextTick(() => {
-                const rows = this.$refs.tableBody.querySelectorAll('tr');
-                rows.forEach((row, i) => {
-                    if (i === index) {
-                        row.classList.add('selected-row');
-                    } else {
-                        row.classList.remove('selected-row');
-                    }
-                });
-            });
-        },
-        focusActiveRow() {
-            this.$nextTick(() => {
-                const activeRow = this.$refs.tableBody.querySelector('.selected-row');
-                if (activeRow) {
-                    activeRow.focus();
-                }
-            });
-        },
+			this.activeRowIndex = index
+			this.$emit('row-click', productImage)
+			this.$nextTick(() => {
+				const rows = this.$refs.tableBody.querySelectorAll('tr')
+				rows.forEach((row, i) => {
+					if (i === index) {
+						row.classList.add('selected-row')
+					} else {
+						row.classList.remove('selected-row')
+					}
+				})
+			})
+		},
+		focusActiveRow() {
+			this.$nextTick(() => {
+				const activeRow = this.$refs.tableBody.querySelector('.selected-row')
+				if (activeRow) {
+					activeRow.focus()
+				}
+			})
+		},
 		handleKeyDown(event, index) {
 			if (event.key === 'ArrowUp' && index > 0) {
 				this.focusNextRow(index - 1)
@@ -331,26 +331,13 @@ export default {
 					}
 				}
 			})
-			// localStorage.setItem(`items_${this.authStore.userId}`, JSON.stringify(this.shoppingCartStore.items))
-			await instanceAxios.post('ad/cart', {
-				userId: this.authStore.userId,
-				body: {
-					items: JSON.stringify(this.shoppingCartStore.items)
-				}
-			})
+			localStorage.setItem(`items_${this.authStore.userId}`, JSON.stringify(this.shoppingCartStore.items))
 		},
 		showShoppingCart() {
 			this.isOpenShoppingCart = true
 		},
 		closeShoppingCart() {
 			this.isOpenShoppingCart = false
-		},
-		async updateItemsFromLocalStorage() {
-			// const localStorageItems = JSON.parse(localStorage.getItem(`items_${this.authStore.userId}`))
-			const res = await instanceAxios.get('ad/cartItems')
-			if (res) {
-				this.shoppingCartStore.items = res
-			}
 		},
 		purchase() {
 			if (this.shoppingCartStore.items.length === 0) {
