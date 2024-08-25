@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import instanceAxios from '@/axios'
 import Swal from 'sweetalert2'
 import { useAuthStore } from '@/stores/auth.js'
+import { debounce } from '@/utils/debounce'
 
 export const useShoppingCartStore = defineStore('shoppingCartStore', {
 	state: () => ({
@@ -16,33 +17,71 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 		},
 	},
 	actions: {
-		fetchItems() {
+		async fetchItems() {
 			const authStore = useAuthStore()
 			this.userId = authStore.userId
-			this.items = JSON.parse(localStorage.getItem(`items_${authStore.userId}`)) || []
+			const res = await instanceAxios.get('ad/cartItems')
+			if (res) {
+				this.items = res.data.data
+			} else {
+				this.items = []
+			}
 		},
-		addItem(item) {
+
+		async addItem(item) {
 			const existingItemIndex = this.items.findIndex(existingItem => existingItem.code === item.code)
+
 			if (existingItemIndex !== -1) {
-				this.items[existingItemIndex].quantity += item.quantity
+				const existingItem = this.items[existingItemIndex]
+				existingItem.quantity = item.quantity
 			} else {
 				this.items.push(item)
 			}
 
+			await this.postItems()
 			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
-		removeItem(code) {
+
+		async postItems() {
+			const userId = this.userId
+			const itemsData = this.items.map(item => ({
+				code: item.code,
+				ean: item.ean,
+				partId: item.id.toString(),
+				name: item.name,
+				price: item.price,
+				quantity: item.quantity.toString(),
+			}))
+
+			await instanceAxios.post('ad/cart', {
+				userId: userId,
+				items: itemsData.length > 0 ? itemsData : [],
+			})
+
+			const res = await instanceAxios.get('ad/cartItems')
+			this.items = res.data.data
+		},
+
+		async removeItem(code) {
 			this.items = this.items.filter(item => item.code !== code)
+
+			await this.postItems()
+			await instanceAxios.get('ad/cartItems')
 			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
-		removeAllItems() {
+
+		async removeAllItems() {
 			this.items.forEach(item => {
 				item.quantity = ''
 			})
 			this.items = []
 			localStorage.removeItem(`items_${this.userId}`)
+
+			await this.postItems()
+			await instanceAxios.get('ad/cartItems')
 		},
-		purchase() {
+
+		async purchase() {
 			const orderItems = this.items
 				.map(item => ({
 					ean: item.ean,
@@ -80,21 +119,29 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 				})
 		},
 
-		increaseItems(itemCode) {
+		async increaseItems(itemCode) {
 			const itemToUpdate = this.items.find(item => item.code === itemCode)
 			if (itemToUpdate) {
-				itemToUpdate.quantity++
+				itemToUpdate.quantity = parseInt(itemToUpdate.quantity, 10) + 1
+
+				await this.postItems()
+				await instanceAxios.get('ad/cartItems')
+				localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 			}
-			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
-		reduceItems(itemCode) {
+
+		async reduceItems(itemCode) {
 			const itemToUpdate = this.items.find(item => item.code === itemCode)
 			if (itemToUpdate && itemToUpdate.quantity > 1) {
-				itemToUpdate.quantity--
+				itemToUpdate.quantity = parseInt(itemToUpdate.quantity, 10) - 1
+
+				await this.postItems()
+				await instanceAxios.get('ad/cartItems')
+				localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 			}
-			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
-		generatePdf() {
+
+		async generatePdf() {
 			const orderItems = this.items
 				.map(item => ({
 					ean: item.ean,
@@ -111,7 +158,6 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 				comment: comment,
 				orderItems: orderItems,
 			}
-			console.log(orderData)
 			instanceAxios
 				.post('ad/generatePdf', orderData, { responseType: 'blob' })
 				.then(res => {
