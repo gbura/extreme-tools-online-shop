@@ -38,7 +38,6 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 				this.items.push(item)
 			}
 
-			await this.postItems()
 			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
 
@@ -57,16 +56,12 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 				userId: userId,
 				items: itemsData.length > 0 ? itemsData : [],
 			})
-
-			const res = await instanceAxios.get('ad/cartItems')
-			this.items = res.data.data
 		},
 
 		async removeItem(code) {
 			this.items = this.items.filter(item => item.code !== code)
 
 			await this.postItems()
-			await instanceAxios.get('ad/cartItems')
 			localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 		},
 
@@ -78,7 +73,6 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 			localStorage.removeItem(`items_${this.userId}`)
 
 			await this.postItems()
-			await instanceAxios.get('ad/cartItems')
 		},
 
 		async purchase() {
@@ -125,7 +119,6 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 				itemToUpdate.quantity = parseInt(itemToUpdate.quantity, 10) + 1
 
 				await this.postItems()
-				await instanceAxios.get('ad/cartItems')
 				localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 			}
 		},
@@ -136,7 +129,6 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 				itemToUpdate.quantity = parseInt(itemToUpdate.quantity, 10) - 1
 
 				await this.postItems()
-				await instanceAxios.get('ad/cartItems')
 				localStorage.setItem(`items_${this.userId}`, JSON.stringify(this.items))
 			}
 		},
