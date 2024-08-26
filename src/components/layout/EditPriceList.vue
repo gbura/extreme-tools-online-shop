@@ -13,7 +13,7 @@
 				<tbody ref="tableBody">
 					<tr v-for="item in items" :key="item.id">
 						<td>{{ item.ean }}</td>
-						<td>{{ item.name }}</td>
+						<td class="item-name">{{ item.name }}</td>
 						<td>{{ item.code }}</td>
 						<td>
 							<input type="number" class="quantity" v-model="item.price" min="1" />
@@ -198,6 +198,10 @@ thead th {
 }
 .price-header {
 	width: 10%;
+}
+.item-name {
+	text-align: left;
+	padding-left: 2rem;
 }
 input {
 	width: 100%;

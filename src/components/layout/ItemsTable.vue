@@ -332,6 +332,7 @@ export default {
 				}
 			})
 			localStorage.setItem(`items_${this.authStore.userId}`, JSON.stringify(this.shoppingCartStore.items))
+			this.shoppingCartStore.postItems()
 		},
 		showShoppingCart() {
 			this.isOpenShoppingCart = true
