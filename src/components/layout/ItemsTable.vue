@@ -211,10 +211,21 @@ export default {
 				})
 				if (res.data && res.data.data) {
 					this.items = res.data.data.parts
+					this.updateQuantitiesFromCart()
 				}
 			} catch (error) {
 				console.error('Błąd podczas pobierania danych:', error)
 			}
+		},
+		updateQuantitiesFromCart() {
+			this.items.forEach(item => {
+				const cartItem = this.shoppingCartStore.items.find(cartItem => cartItem.code === item.code)
+				if (cartItem) {
+					item.quantity = cartItem.quantity
+				} else {
+					item.quantity = ''
+				}
+			})
 		},
 		handleRowClick(productImage, index) {
 			this.activeRowIndex = index

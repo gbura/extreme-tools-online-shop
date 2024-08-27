@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import instanceAxios from '@/axios'
 import Swal from 'sweetalert2'
 import { useAuthStore } from '@/stores/auth.js'
-import { debounce } from '@/utils/debounce'
 
 export const useShoppingCartStore = defineStore('shoppingCartStore', {
 	state: () => ({
